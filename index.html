@@ -3,183 +3,388 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urdu Story Toons - AI Image to Video</title>
+    <title>Urdu Story Toons - AI Studio Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+        * {
             margin: 0;
-        }
-        .container {
-            max-width: 900px;
-            margin: auto;
-        }
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-        .header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-        }
-        .card h2 {
-            color: #333;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
-            padding-left: 15px;
-        }
-        .upload-area {
-            border: 2px dashed #667eea;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: 0.3s;
-        }
-        .upload-area:hover {
-            background: #f0f0ff;
-        }
-        .preview-img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 15px;
-            margin: 15px 0;
-        }
-        textarea, input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            margin-bottom: 15px;
+            padding: 0;
             box-sizing: border-box;
         }
-        button {
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, rgba(0, 0, 0, 0.95) 100%);
+            z-index: -2;
+        }
+
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* Navbar */
+        .navbar {
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 10, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 800;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .youtube-nav {
+            background: #ff0000;
+            padding: 8px 20px;
             border-radius: 25px;
+            font-weight: 600;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
             font-size: 18px;
+            color: #a0a0a0;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .card-subtitle {
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed rgba(102, 126, 234, 0.5);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .preview-img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+
+        /* Inputs */
+        textarea, select {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 20px;
+            resize: vertical;
+        }
+
+        textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             width: 100%;
-            font-weight: bold;
+            transition: 0.3s;
         }
-        button:disabled {
+
+        .btn-primary:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-        .result {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .result video {
-            max-width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-        .loading {
-            text-align: center;
-            margin-top: 20px;
-            color: #667eea;
-            font-weight: bold;
-            display: none;
-        }
-        .youtube-btn {
-            background: #ff0000;
-            display: inline-block;
-            text-decoration: none;
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 12px 30px;
-            border-radius: 25px;
+            border-radius: 50px;
             color: white;
-            font-weight: bold;
-            text-align: center;
+            cursor: pointer;
         }
-        footer {
+
+        /* Loading Animation */
+        .loading {
+            display: none;
             text-align: center;
-            color: white;
             margin-top: 30px;
         }
-        .flex-btns {
-            display: flex;
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Result */
+        .result {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .result video {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animation Presets */
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 10px;
-            margin-top: 10px;
+            margin-bottom: 20px;
         }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #667eea;
-            color: #667eea;
+
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 12px;
         }
-        .btn-outline:hover {
-            background: #667eea;
-            color: white;
+
+        .preset-btn:hover {
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 60px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .card { padding: 25px; }
         }
     </style>
 </head>
 <body>
+    <div class="bg-gradient"></div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                🎨 Urdu Story Toons <span style="font-size:12px">PRO</span>
+            </div>
+            <div class="nav-links">
+                <a href="#">Studio</a>
+                <a href="#">Gallery</a>
+                <a href="#">Pricing</a>
+                <a href="https://youtube.com/@urdustorytoons007?si=cCD7bq9X3Ykm-cAu" class="youtube-nav">▶ YouTube</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-        <div class="header">
-            <h1>🎨 Urdu Story Toons - AI Studio</h1>
-            <p>Upload Image + Prompt = 6-Second Animated Video</p>
+        <div class="hero">
+            <h1>AI Video Studio</h1>
+            <p>Transform your images into cinematic 6-second videos with AI-powered animations</p>
         </div>
 
         <div class="card">
-            <h2>📤 Step 1: Upload Your Image</h2>
+            <h2>📤 Upload Your Image</h2>
+            <div class="card-subtitle">JPG, PNG, WEBP - Max 10MB</div>
+            
             <div class="upload-area" onclick="document.getElementById('imageInput').click()">
-                📸 Click here to upload image<br>
-                (JPG, PNG, GIF - Max 5MB)
+                🖼️ Click or Drag & Drop<br>
+                <small>Upload any image to bring it to life</small>
             </div>
             <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="previewImage(event)">
-            <div id="imagePreview" style="text-align:center"></div>
+            <div id="imagePreview" style="text-align:center; margin-top:20px"></div>
 
-            <h2>📝 Step 2: Write Animation Prompt</h2>
-            <textarea id="prompt" rows="3" placeholder="Describe how the image should move...&#10;&#10;Examples:&#10;- Zoom in slowly with pan from left to right&#10;- Camera moves up while zooming out&#10;- Gentle rotation and zoom effect"></textarea>
+            <h2 style="margin-top:30px">🎭 Animation Style</h2>
+            <div class="presets-grid">
+                <div class="preset-btn" onclick="setPreset('cinematic zoom in')">🎬 Cinematic Zoom</div>
+                <div class="preset-btn" onclick="setPreset('gentle pan left to right')">↔️ Gentle Pan</div>
+                <div class="preset-btn" onclick="setPreset('slow zoom out')">🔍 Zoom Out</div>
+                <div class="preset-btn" onclick="setPreset('dolly zoom effect')">📷 Dolly Zoom</div>
+                <div class="preset-btn" onclick="setPreset('subtle rotation')">🔄 Subtle Rotate</div>
+                <div class="preset-btn" onclick="setPreset('ken burns effect')">🎞️ Ken Burns</div>
+            </div>
 
-            <button onclick="generateAnimatedVideo()" id="generateBtn">🎬 Generate 6-Second Animated Video</button>
-            <div class="loading" id="loading">⏳ Creating animation... Please wait 10-20 seconds</div>
+            <h2>📝 Custom Prompt</h2>
+            <textarea id="prompt" rows="3" placeholder="Describe your camera movement...&#10;&#10;Examples:&#10;- Slow cinematic zoom in with dramatic lighting&#10;- Smooth pan from left to right&#10;- Gentle zoom out revealing the full scene"></textarea>
+
+            <button class="btn-primary" onclick="generateVideo()" id="generateBtn">✨ Generate 6-Second AI Video</button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>🎬 Creating your cinematic video...</p>
+                <small>This takes 15-20 seconds</small>
+            </div>
+
             <div class="result" id="result"></div>
         </div>
 
-        <div style="text-align:center">
-            <a href="https://youtube.com/@urdustorytoons007?si=cCD7bq9X3Ykm-cAu" target="_blank" class="youtube-btn">🎬 Subscribe to Urdu Story Toons</a>
-        </div>
-
         <footer>
-            <p>© 2026 Urdu Story Toons - Upload Image + AI Animation | 6-Second Videos</p>
+            <p>© 2026 Urdu Story Toons - Professional AI Video Studio</p>
+            <p style="margin-top:10px; font-size:12px">Create stunning animated videos from your images with AI</p>
         </footer>
     </div>
 
     <script>
         let uploadedImage = null;
-        let animationInterval = null;
+        let uploadedImageData = null;
+
+        function setPreset(style) {
+            document.getElementById('prompt').value = style;
+        }
 
         function previewImage(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    uploadedImage = e.target.result;
-                    document.getElementById('imagePreview').innerHTML = `
-                        <img src="${uploadedImage}" class="preview-img" alt="Uploaded">
-                        <p>✅ Image uploaded successfully!</p>
-                    `;
+                    uploadedImageData = e.target.result;
+                    uploadedImage = new Image();
+                    uploadedImage.src = uploadedImageData;
+                    uploadedImage.onload = () => {
+                        document.getElementById('imagePreview').innerHTML = `
+                            <img src="${uploadedImageData}" class="preview-img" alt="Uploaded">
+                            <p style="color: #4ade80; margin-top:10px">✅ Image ready for animation!</p>
+                        `;
+                    };
                 };
                 reader.readAsDataURL(file);
             }
         }
 
-        async function generateAnimatedVideo() {
+        async function generateVideo() {
             const prompt = document.getElementById('prompt').value;
             const resultDiv = document.getElementById('result');
             const loading = document.getElementById('loading');
@@ -191,7 +396,7 @@
             }
 
             if (!prompt.trim()) {
-                alert('❌ Please write an animation prompt!');
+                alert('❌ Please select or write an animation style!');
                 return;
             }
 
@@ -200,15 +405,7 @@
             generateBtn.disabled = true;
 
             try {
-                // Load the uploaded image
-                const img = new Image();
-                img.src = uploadedImage;
-                
-                await new Promise((resolve) => {
-                    img.onload = resolve;
-                });
-
-                // Create canvas for video animation
+                const img = uploadedImage;
                 const canvas = document.createElement('canvas');
                 const videoWidth = 1024;
                 const videoHeight = 576;
@@ -216,10 +413,9 @@
                 canvas.height = videoHeight;
                 const ctx = canvas.getContext('2d');
 
-                // Calculate image aspect ratio
+                // Calculate sizing
                 const imgAspect = img.width / img.height;
                 const canvasAspect = videoWidth / videoHeight;
-                
                 let drawWidth, drawHeight, startX, startY;
                 
                 if (imgAspect > canvasAspect) {
@@ -234,8 +430,7 @@
                     startY = (videoHeight - drawHeight) / 2;
                 }
 
-                // Setup video recording
-                const stream = canvas.captureStream(12); // 12 fps for smoother animation
+                const stream = canvas.captureStream(24);
                 const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
                 let chunks = [];
 
@@ -244,12 +439,12 @@
                     const blob = new Blob(chunks, { type: 'video/webm' });
                     const videoUrl = URL.createObjectURL(blob);
                     resultDiv.innerHTML = `
-                        <video src="${videoUrl}" controls autoplay loop style="max-width:100%; border-radius:15px;"></video>
-                        <div class="flex-btns" style="margin-top:15px;">
-                            <button onclick="downloadVideo('${videoUrl}')" style="background:#28a745;">💾 Download Video</button>
-                            <button onclick="resetForm()" class="btn-outline">🔄 Create New</button>
+                        <video src="${videoUrl}" controls autoplay loop style="width:100%; border-radius:20px;"></video>
+                        <div style="display:flex; gap:15px; justify-content:center; margin-top:20px">
+                            <button onclick="downloadVideo('${videoUrl}')" class="btn-primary" style="width:auto; padding:12px 30px">💾 Download Video</button>
+                            <button onclick="resetForm()" class="btn-secondary">🔄 Create New</button>
                         </div>
-                        <p style="margin-top:10px;">✅ 6-Second Animated Video Ready!</p>
+                        <p style="margin-top:15px; color:#4ade80">✅ Your 6-second AI video is ready!</p>
                     `;
                     loading.style.display = 'none';
                     generateBtn.disabled = false;
@@ -257,12 +452,12 @@
 
                 mediaRecorder.start();
                 
-                // Animation parameters based on prompt
-                const duration = 6; // 6 seconds
-                const fps = 12;
+                const duration = 6;
+                const fps = 24;
                 const totalFrames = duration * fps;
                 let frame = 0;
                 let startTime = Date.now();
+                const promptLower = prompt.toLowerCase();
 
                 function animate() {
                     const elapsed = (Date.now() - startTime) / 1000;
@@ -273,42 +468,42 @@
                         return;
                     }
 
-                    // Clear canvas
-                    ctx.fillStyle = 'black';
+                    ctx.fillStyle = '#0a0a0a';
                     ctx.fillRect(0, 0, videoWidth, videoHeight);
                     
-                    // Different animation styles based on prompt keywords
                     let scale = 1;
                     let offsetX = 0;
                     let offsetY = 0;
                     
-                    const promptLower = prompt.toLowerCase();
-                    
-                    if (promptLower.includes('zoom in')) {
-                        scale = 1 + progress * 0.15;
+                    // Advanced camera movements
+                    if (promptLower.includes('zoom in') || promptLower.includes('cinematic zoom')) {
+                        scale = 1 + progress * 0.2;
                         offsetX = (videoWidth - drawWidth * scale) / 2;
                         offsetY = (videoHeight - drawHeight * scale) / 2;
-                    } 
+                    }
                     else if (promptLower.includes('zoom out')) {
                         scale = 1 + (1 - progress) * 0.15;
                         offsetX = (videoWidth - drawWidth * scale) / 2;
                         offsetY = (videoHeight - drawHeight * scale) / 2;
                     }
                     else if (promptLower.includes('pan left')) {
-                        scale = 1;
                         const maxPan = drawWidth - videoWidth;
                         offsetX = -maxPan * progress;
                         offsetY = (videoHeight - drawHeight) / 2;
                     }
                     else if (promptLower.includes('pan right')) {
-                        scale = 1;
                         const maxPan = drawWidth - videoWidth;
                         offsetX = -maxPan * (1 - progress);
                         offsetY = (videoHeight - drawHeight) / 2;
                     }
+                    else if (promptLower.includes('ken burns')) {
+                        scale = 1 + progress * 0.12;
+                        const panX = Math.sin(progress * Math.PI) * 50;
+                        offsetX = (videoWidth - drawWidth * scale) / 2 + panX;
+                        offsetY = (videoHeight - drawHeight * scale) / 2;
+                    }
                     else if (promptLower.includes('rotate')) {
-                        scale = 1;
-                        const angle = progress * Math.PI * 2;
+                        const angle = Math.sin(progress * Math.PI * 2) * 0.05;
                         ctx.save();
                         ctx.translate(videoWidth/2, videoHeight/2);
                         ctx.rotate(angle);
@@ -318,27 +513,26 @@
                         setTimeout(animate, 1000 / fps);
                         return;
                     }
+                    else if (promptLower.includes('dolly zoom')) {
+                        scale = 1 + Math.sin(progress * Math.PI) * 0.1;
+                        offsetX = (videoWidth - drawWidth * scale) / 2;
+                        offsetY = (videoHeight - drawHeight * scale) / 2;
+                    }
                     else {
-                        // Default: gentle zoom + subtle pan
+                        // Default: subtle zoom + gentle movement
                         scale = 1 + progress * 0.08;
-                        const panAmount = (drawWidth * scale - videoWidth) * 0.3;
-                        offsetX = (videoWidth - drawWidth * scale) / 2 - panAmount * Math.sin(progress * Math.PI);
+                        const movement = Math.sin(progress * Math.PI * 2) * 20;
+                        offsetX = (videoWidth - drawWidth * scale) / 2 + movement;
                         offsetY = (videoHeight - drawHeight * scale) / 2;
                     }
                     
                     ctx.drawImage(img, offsetX, offsetY, drawWidth * scale, drawHeight * scale);
                     
-                    // Add text overlay (prompt)
-                    ctx.font = 'bold 20px Arial';
-                    ctx.fillStyle = 'white';
-                    ctx.shadowColor = 'black';
-                    ctx.shadowBlur = 5;
-                    ctx.fillText(prompt.substring(0, 40) + (prompt.length > 40 ? '...' : ''), 30, videoHeight - 30);
-                    
-                    // Add Urdu Story Toons watermark
-                    ctx.font = '14px Arial';
-                    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-                    ctx.fillText('Urdu Story Toons', videoWidth - 150, videoHeight - 15);
+                    // Add elegant watermark
+                    ctx.font = 'bold 18px Inter';
+                    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                    ctx.shadowBlur = 0;
+                    ctx.fillText('Urdu Story Toons', videoWidth - 160, videoHeight - 15);
                     
                     frame++;
                     setTimeout(animate, 1000 / fps);
@@ -356,12 +550,13 @@
         function downloadVideo(url) {
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'urdustorytoons-animation.webm';
+            a.download = 'urdustorytoons-ai-video.webm';
             a.click();
         }
 
         function resetForm() {
             uploadedImage = null;
+            uploadedImageData = null;
             document.getElementById('imagePreview').innerHTML = '';
             document.getElementById('prompt').value = '';
             document.getElementById('result').innerHTML = '';
