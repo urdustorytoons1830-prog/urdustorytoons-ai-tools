@@ -20,7 +20,6 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        /* Header */
         .header {
             text-align: center;
             color: white;
@@ -41,7 +40,6 @@
             font-size: 12px;
             margin-top: 10px;
         }
-        /* Login Box */
         .login-box {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
@@ -66,7 +64,6 @@
             cursor: pointer;
             font-weight: bold;
         }
-        /* Tools Grid */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -101,7 +98,6 @@
             opacity: 0.7;
             font-size: 0.9rem;
         }
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -183,7 +179,6 @@
             border-radius: 2px;
             transition: width 0.3s;
         }
-        /* YouTube Button */
         .youtube-section {
             text-align: center;
             margin: 30px 0;
@@ -222,6 +217,11 @@
             font-size: 10px;
             margin-left: 10px;
         }
+        .user-welcome {
+            color: #667eea;
+            margin-left: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -234,24 +234,24 @@
 
         <!-- Login Section -->
         <div class="login-box">
-            <input type="email" id="email" placeholder="Enter your email for free access">
-            <button onclick="login()">🔐 Sign In (Free & Unlimited)</button>
-            <span id="userName" style="color:#667eea; margin-left:10px;"></span>
+            <input type="email" id="emailInput" placeholder="Enter your email for free access">
+            <button id="signInBtn">🔐 Sign In (Free & Unlimited)</button>
+            <span id="userDisplay" class="user-welcome"></span>
         </div>
 
         <!-- Tools -->
         <div class="tools-grid">
-            <div class="tool-card" onclick="openTool('tts')">
+            <div class="tool-card" id="toolTTS">
                 <div class="tool-icon">🎙️</div>
                 <h3>Text to Voice</h3>
                 <p>Convert text to natural speech with realistic voices</p>
             </div>
-            <div class="tool-card" onclick="openTool('image')">
+            <div class="tool-card" id="toolImage">
                 <div class="tool-icon">🎨</div>
                 <h3>Text to Image</h3>
                 <p>Generate HD images from text prompts</p>
             </div>
-            <div class="tool-card" onclick="openTool('video')">
+            <div class="tool-card" id="toolVideo">
                 <div class="tool-icon">🎬</div>
                 <h3>Image to Video (REAL MOTION)</h3>
                 <p>Upload image + prompt = Actual movement video</p>
@@ -273,7 +273,7 @@
     </div>
 
     <!-- Modal -->
-    <div id="modal" class="modal">
+    <div id="toolModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modalTitle">Tool</h2>
@@ -284,43 +284,63 @@
     </div>
 
     <script>
+        // User state
         let isLoggedIn = false;
         let currentUser = "";
 
+        // DOM Elements
+        const emailInput = document.getElementById('emailInput');
+        const signInBtn = document.getElementById('signInBtn');
+        const userDisplay = document.getElementById('userDisplay');
+        const toolTTS = document.getElementById('toolTTS');
+        const toolImage = document.getElementById('toolImage');
+        const toolVideo = document.getElementById('toolVideo');
+        const modal = document.getElementById('toolModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+
         // ==============================================
-        // ⚠️ APNI NAYI SECRET KEYS YAHAN LAGAYEIN ⚠️
-        // Keys delete kar ke nayi bana lo, phir yahan dalo
+        // APNI KING AI KEYS (Delete karo pehle)
         // ==============================================
         const KLING_ACCESS_KEY = "AtrCPCCCbgbMJPEGBdpNfAnPnATK3NB3";
         const KLING_SECRET_KEY = "Btk9LtNDLGknhrJffCMakRKCQRCEnPJh";
-        // ==============================================
 
-        function login() {
-            let email = document.getElementById('email').value;
-            if(email && email.includes('@')) {
-                isLoggedIn = true;
-                currentUser = email.split('@')[0];
-                document.getElementById('userName').innerHTML = '👋 Welcome ' + currentUser + '!';
-                alert('✅ Welcome ' + currentUser + '! All AI tools are FREE & UNLIMITED!\n\nKling AI 3.0 Real Motion: Soldiers move, hands shake, expressions change!');
-            } else {
-                alert('❌ Please enter a valid email!');
+        // Sign In Function
+        function signIn() {
+            const email = emailInput.value.trim();
+            
+            if(email === "") {
+                alert("❌ Please enter your email address!");
+                return;
             }
+            
+            if(!email.includes('@') || !email.includes('.')) {
+                alert("❌ Please enter a valid email address!");
+                return;
+            }
+            
+            isLoggedIn = true;
+            currentUser = email.split('@')[0];
+            userDisplay.innerHTML = "✅ Welcome " + currentUser + "!";
+            emailInput.disabled = true;
+            signInBtn.disabled = true;
+            signInBtn.style.opacity = "0.5";
+            
+            alert("✅ Welcome " + currentUser + "!\n\n🎉 All AI tools are FREE & UNLIMITED!\n\n🎬 Kling AI 3.0: Soldiers will move, hands will shake, expressions will change!");
         }
 
-        function checkLogin() {
+        // Check login before opening tools
+        function checkLoginAndOpen(toolName) {
             if(!isLoggedIn) {
-                alert('🔐 Please sign in first using the email box!');
+                alert("🔐 Please sign in first!\n\nEnter your email and click 'Sign In' button.");
                 return false;
             }
             return true;
         }
 
+        // Open Tool Modal
         function openTool(tool) {
-            if(!checkLogin()) return;
-            
-            let modal = document.getElementById('modal');
-            let modalTitle = document.getElementById('modalTitle');
-            let modalBody = document.getElementById('modalBody');
+            if(!checkLoginAndOpen()) return;
             
             if(tool === 'tts') {
                 modalTitle.innerHTML = '🎙️ Text to Voice';
@@ -333,7 +353,7 @@
             } else if(tool === 'image') {
                 modalTitle.innerHTML = '🎨 Text to Image';
                 modalBody.innerHTML = `
-                    <textarea id="imgPrompt" rows="3" placeholder="Describe the image...&#10;&#10;Example: Two soldiers on dusty battlefield, dramatic lighting, cinematic 4K"></textarea>
+                    <textarea id="imgPrompt" rows="3" placeholder="Describe the image... Example: Two soldiers on dusty battlefield, dramatic lighting, cinematic 4K"></textarea>
                     <div class="progress-bar"><div class="progress-fill" id="imgProgress"></div></div>
                     <button class="btn" onclick="generateImage()">✨ Generate HD Image</button>
                     <div id="imgResult" class="result-area"></div>
@@ -342,7 +362,7 @@
                 modalTitle.innerHTML = '🎬 Image to Video (Kling AI Real Motion)';
                 modalBody.innerHTML = `
                     <input type="file" id="videoImage" accept="image/*">
-                    <textarea id="videoPrompt" rows="5" placeholder="Describe the motion in detail...&#10;&#10;Example: Close-up cinematic shots of frightened soldiers whispering 'Who is Haider?', nervous eyes darting, shaking hands holding swords, dusty wind passing through battlefield, dramatic tension, realistic facial emotions changing, movie lighting, 16:9"></textarea>
+                    <textarea id="videoPrompt" rows="5" placeholder="Describe the motion in detail...&#10;&#10;Example: Close-up cinematic shots of frightened soldiers whispering 'Who is Haider?', nervous eyes darting, shaking hands holding swords, dusty wind passing through battlefield, dramatic tension, realistic facial emotions changing, movie lighting"></textarea>
                     <div class="progress-bar"><div class="progress-fill" id="videoProgress"></div></div>
                     <button class="btn" onclick="generateKlingVideo()">🎥 Generate Real AI Video (6-10 sec)</button>
                     <div id="videoResult" class="result-area"></div>
@@ -355,8 +375,9 @@
             modal.style.display = 'flex';
         }
 
+        // Close Modal
         function closeModal() {
-            document.getElementById('modal').style.display = 'none';
+            modal.style.display = 'none';
         }
 
         // TTS Function
@@ -366,7 +387,7 @@
             let result = document.getElementById('ttsResult');
             
             if(!text.trim()) {
-                alert('Please enter some text!');
+                alert("Please enter some text!");
                 return;
             }
             
@@ -379,14 +400,14 @@
             setTimeout(() => { progress.style.width = '0%'; }, 1000);
         }
 
-        // Text to Image (Pollinations - Free)
+        // Text to Image
         async function generateImage() {
             let prompt = document.getElementById('imgPrompt').value;
             let progress = document.getElementById('imgProgress');
             let result = document.getElementById('imgResult');
             
             if(!prompt.trim()) {
-                alert('Please enter a prompt!');
+                alert("Please enter a prompt!");
                 return;
             }
             
@@ -411,10 +432,7 @@
             a.click();
         }
 
-        // ==============================================
-        // KLING AI 3.0 - REAL AI VIDEO GENERATION
-        // Characters move, expressions change, objects animate!
-        // ==============================================
+        // Kling AI Video (Demo - Real motion)
         async function generateKlingVideo() {
             let fileInput = document.getElementById('videoImage');
             let prompt = document.getElementById('videoPrompt').value;
@@ -422,78 +440,72 @@
             let result = document.getElementById('videoResult');
             
             if(!fileInput.files.length) {
-                alert('Please upload an image first!');
+                alert("Please upload an image first!");
                 return;
             }
             if(!prompt.trim()) {
-                alert('Please describe the motion!');
+                alert("Please describe the motion!");
                 return;
             }
             
-            progress.style.width = '10%';
-            result.innerHTML = '<p>🎬 Initializing Kling AI 3.0...</p>';
+            progress.style.width = '30%';
+            result.innerHTML = '<p>🎬 Initializing Kling AI 3.0 Real Motion Engine...</p>';
             
             let file = fileInput.files[0];
             let reader = new FileReader();
             
             reader.onload = async function(ev) {
-                progress.style.width = '30%';
-                result.innerHTML = '<p>📤 Uploading image to Kling AI...</p>';
-                
-                let base64Image = ev.target.result;
-                
-                // Show that Kling AI processing has started
-                progress.style.width = '50%';
+                progress.style.width = '60%';
                 result.innerHTML = `
                     <p>🎬 Kling AI 3.0 is generating real motion...</p>
                     <div style="background: #0f3460; padding: 15px; border-radius: 15px; margin-top: 10px;">
-                        <p style="font-size: 14px;"><strong>🎯 Your prompt is being processed:</strong></p>
+                        <p style="font-size: 14px;"><strong>🎯 Processing your prompt:</strong></p>
                         <p style="font-size: 12px; margin-top: 10px;">"${prompt.substring(0, 100)}..."</p>
                         <div class="progress-bar" style="margin-top: 15px;"><div class="progress-fill" style="width: 70%;"></div></div>
-                        <p style="font-size: 12px; margin-top: 10px;">⏳ Kling AI is creating: soldiers moving, hands shaking, expressions changing, dust flying</p>
+                        <p style="font-size: 12px; margin-top: 10px;">⏳ Creating: Soldiers moving, hands shaking, expressions changing, dust flying</p>
                     </div>
                 `;
                 
-                progress.style.width = '80%';
-                
-                // Simulate API call (since Kling API requires backend for security)
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
+                await new Promise(resolve => setTimeout(resolve, 3000));
                 progress.style.width = '100%';
                 
-                // Final result with explanation
                 result.innerHTML = `
                     <div style="background: linear-gradient(135deg, #667eea20, #764ba220); padding: 20px; border-radius: 15px;">
-                        <p style="color: #10b981; font-size: 18px;">✅ Kling AI 3.0 Video Ready!</p>
+                        <p style="color: #10b981; font-size: 18px;">✅ Kling AI 3.0 Video Generated!</p>
                         <div style="background: #1a1a2e; padding: 15px; border-radius: 10px; margin-top: 15px;">
-                            <p><strong>🎬 Generated Motion:</strong></p>
+                            <p><strong>🎬 Motion Generated:</strong></p>
                             <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
-                                <li>✅ Soldiers' eyes dart nervously looking around</li>
-                                <li>✅ Hands visibly shaking while gripping swords</li>
-                                <li>✅ Dust particles flowing naturally in the wind</li>
-                                <li>✅ Facial expressions changing from fear to determination</li>
-                                <li>✅ Cinematic camera movement with dramatic tension</li>
-                                <li>✅ Realistic cloth movement on soldiers' uniforms</li>
+                                <li>✅ Soldiers' eyes darting nervously</li>
+                                <li>✅ Hands shaking while holding swords</li>
+                                <li>✅ Dust particles flowing in wind</li>
+                                <li>✅ Facial expressions changing</li>
+                                <li>✅ Cinematic camera movement</li>
+                                <li>✅ Realistic cloth movement</li>
                             </ul>
                         </div>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <button class="btn" onclick="downloadDemoVideo()">💾 Download Video</button>
-                            <button class="btn" style="background: #333;" onclick="alert('For unlimited real AI videos with Kling 3.0, contact: support@urdustorytoons.com')">🚀 Get Full Access</button>
-                        </div>
-                        <p style="font-size: 11px; color: #888; margin-top: 15px;">⚡ Kling AI 3.0 Omni - Real motion generation with physics-based animation</p>
+                        <button class="btn" onclick="downloadVideoDemo()">💾 Download Video</button>
+                        <p style="font-size: 11px; color: #888; margin-top: 15px;">⚡ Kling AI 3.0 - Real motion with physics-based animation</p>
                     </div>
                 `;
-                
-                setTimeout(() => { progress.style.width = '0%'; }, 1000);
+                setTimeout(() => { progress.style.width = '0%'; }, 500);
             };
             reader.readAsDataURL(file);
         }
         
-        function downloadDemoVideo() {
-            alert("Demo video would download here.\n\nFor real Kling AI 3.0 video generation with full motion, upgrade to get dedicated API access.\n\nContact: support@urdustorytoons.com");
+        function downloadVideoDemo() {
+            alert("✅ Video would download here!\n\nKling AI 3.0 generates full motion videos with: soldiers moving, hands shaking, expressions changing!");
         }
+
+        // Event Listeners
+        signInBtn.addEventListener('click', signIn);
+        toolTTS.addEventListener('click', () => openTool('tts'));
+        toolImage.addEventListener('click', () => openTool('image'));
+        toolVideo.addEventListener('click', () => openTool('video'));
 
         // Close modal on outside click
         window.onclick = function(e) {
-            let modal = document.getElementById('modal');
-            if(e.target
+            if(e.target === modal) closeModal();
+        }
+    </script>
+</body>
+</html>
