@@ -4,158 +4,173 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urdu Story Toons - AI Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-        :root {
-            --bg: #ffffff;
-            --surface: #f5f7fa;
-            --card: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --primary: #6366f1;
-            --secondary: #8b5cf6;
-        }
-        body.dark {
-            --bg: #0f172a;
-            --surface: #1e293b;
-            --card: #1e293b;
-            --text: #f1f5f9;
-            --text-light: #94a3b8;
-            --border: #334155;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         }
         body {
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s;
+            background: #0f0f1a;
+            color: #ffffff;
         }
+        /* Navbar */
         .navbar {
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 15px;
+            border-bottom: 1px solid #2a2a3e;
             position: sticky;
             top: 0;
             z-index: 100;
         }
         .logo {
-            font-size: 1.5rem;
+            font-size: 24px;
             font-weight: 800;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .nav-links {
+        .nav-buttons {
             display: flex;
-            gap: 1.5rem;
-            align-items: center;
+            gap: 12px;
             flex-wrap: wrap;
+            align-items: center;
         }
-        .nav-links a {
-            color: var(--text);
-            text-decoration: none;
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 30px;
             cursor: pointer;
             font-weight: 500;
+            transition: 0.2s;
         }
-        .nav-links a:hover {
-            color: #6366f1;
-        }
-        .btn {
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            background: var(--surface);
-            color: var(--text);
-            border: 1px solid var(--border);
+        .nav-btn:hover {
+            background: #2a2a3e;
+            color: white;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #3b3b5e;
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 40px 20px;
             min-height: 70vh;
         }
+        /* Cards */
         .hero {
             text-align: center;
-            padding: 3rem;
-            background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.05));
-            border-radius: 30px;
-            margin-bottom: 2rem;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.05));
+            border-radius: 40px;
+            margin-bottom: 40px;
         }
         .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            color: #94a3b8;
+            font-size: 18px;
         }
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            gap: 25px;
+            margin: 30px 0;
         }
         .tool-card {
-            background: var(--card);
-            border-radius: 24px;
-            padding: 2rem;
-            border: 1px solid var(--border);
+            background: #1a1a2e;
+            border-radius: 28px;
+            padding: 35px 20px;
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
+            border: 1px solid #2a2a3e;
         }
         .tool-card:hover {
             transform: translateY(-5px);
             border-color: #6366f1;
+            background: #1e1e35;
         }
-        .tool-card .icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .tool-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
         }
-        .tool-area {
-            background: var(--card);
-            border-radius: 24px;
-            padding: 2rem;
-            border: 1px solid var(--border);
+        /* Tool Area */
+        .tool-panel {
+            background: #1a1a2e;
+            border-radius: 32px;
+            padding: 30px;
+            border: 1px solid #2a2a3e;
+        }
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         textarea, input {
             width: 100%;
-            padding: 1rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            color: var(--text);
-            margin: 1rem 0;
-        }
-        .upload-area {
-            border: 2px dashed var(--border);
+            padding: 14px;
+            background: #0f0f1a;
+            border: 1px solid #2a2a3e;
             border-radius: 20px;
-            padding: 2rem;
+            color: white;
+            font-size: 15px;
+            margin: 12px 0;
+        }
+        .upload-box {
+            border: 2px dashed #3b3b5e;
+            border-radius: 24px;
+            padding: 40px;
             text-align: center;
             cursor: pointer;
+            margin: 15px 0;
         }
-        .result-area {
-            margin-top: 1.5rem;
+        .upload-box:hover {
+            border-color: #6366f1;
+            background: rgba(99,102,241,0.05);
+        }
+        button {
+            transition: 0.2s;
+        }
+        button:active {
+            transform: scale(0.97);
+        }
+        .result-box {
+            margin-top: 25px;
             text-align: center;
         }
         .result-img, .result-video {
             max-width: 100%;
-            border-radius: 16px;
+            border-radius: 20px;
         }
         .modal {
             display: none;
@@ -165,14 +180,15 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
-        .modal-content {
-            background: var(--card);
-            border-radius: 24px;
-            padding: 2rem;
+        .modal-box {
+            background: #1a1a2e;
+            border-radius: 32px;
+            padding: 30px;
             max-width: 350px;
             width: 90%;
         }
@@ -182,7 +198,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             z-index: 2000;
             display: none;
             justify-content: center;
@@ -193,7 +209,7 @@
             width: 50px;
             height: 50px;
             border: 3px solid #6366f1;
-            border-top-color: transparent;
+            border-top: 3px solid transparent;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -202,131 +218,147 @@
         }
         footer {
             text-align: center;
-            padding: 2rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-light);
+            padding: 30px;
+            border-top: 1px solid #2a2a3e;
+            color: #64748b;
         }
         .hidden { display: none; }
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
-        .mt-2 { margin-top: 1rem; }
-        @media (max-width: 768px) {
+        .mt-20 { margin-top: 20px; }
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #1a1a2e;
+            border-radius: 24px;
+            padding: 20px;
+            text-align: center;
+        }
+        .history-item {
+            background: #0f0f1a;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        @media (max-width: 700px) {
             .navbar { flex-direction: column; }
-            .hero h1 { font-size: 1.8rem; }
-            .container { padding: 1rem; }
+            .hero h1 { font-size: 28px; }
         }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <div class="logo"><i class="fas fa-film"></i> Urdu Story Toons</div>
-    <div class="nav-links">
-        <a onclick="showPage('home')">Home</a>
-        <a onclick="showPage('tools')">Tools</a>
-        <a onclick="showPage('dashboard')">Dashboard</a>
-        <a onclick="showPage('about')">About</a>
-        <button class="btn" id="authBtn" onclick="toggleAuth()">Sign In</button>
-        <button class="btn" onclick="toggleTheme()">🌓</button>
+    <div class="logo">🎬 Urdu Story Toons</div>
+    <div class="nav-buttons">
+        <button class="nav-btn" onclick="showPage('home')">Home</button>
+        <button class="nav-btn" onclick="showPage('tools')">Tools</button>
+        <button class="nav-btn" onclick="showPage('dashboard')">Dashboard</button>
+        <button class="nav-btn" onclick="showPage('about')">About</button>
+        <button class="btn-outline" id="authButton" onclick="handleAuthClick()">Sign In</button>
     </div>
 </div>
 
-<div class="container" id="appContainer"></div>
+<div id="appContainer" class="container"></div>
 
 <footer>
-    <p>© 2026 Urdu Story Toons - Free AI Tools</p>
+    <p>© 2026 Urdu Story Toons • Free AI Tools</p>
 </footer>
 
 <div id="authModal" class="modal">
-    <div class="modal-content">
-        <h3>Sign In</h3>
-        <input type="email" id="loginEmail" placeholder="Email">
-        <input type="text" id="loginName" placeholder="Your Name">
-        <button class="btn btn-primary" onclick="loginUser()">Sign In / Sign Up</button>
-        <button class="btn" onclick="closeAuthModal()">Cancel</button>
+    <div class="modal-box">
+        <h3 style="margin-bottom:20px">Sign In / Sign Up</h3>
+        <input type="email" id="loginEmail" placeholder="Email address">
+        <input type="text" id="loginName" placeholder="Your name (optional)">
+        <button class="btn-primary" style="width:100%; margin:10px 0" onclick="handleLogin()">Continue</button>
+        <button class="btn-outline" style="width:100%" onclick="closeAuthModal()">Cancel</button>
     </div>
 </div>
 
-<div id="loadingDiv" class="loading">
+<div id="loadingOverlay" class="loading">
     <div class="spinner"></div>
-    <p id="loadingText" style="margin-top:1rem">Processing...</p>
+    <p style="margin-top:20px" id="loadingMsg">Processing...</p>
 </div>
 
 <script>
-    // Data
-    let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-    let users = JSON.parse(localStorage.getItem('users') || '[]');
-    let history = JSON.parse(localStorage.getItem('history') || '[]');
+    // ---------- STORAGE ----------
+    let currentUser = null;
+    let users = [];
+    let historyList = [];
     let currentPage = 'home';
     let activeTool = null;
-    let uploadedImage = null;
+    let uploadedImageData = null;
 
-    // Helper
-    function saveData() {
-        localStorage.setItem('users', JSON.stringify(users));
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        localStorage.setItem('history', JSON.stringify(history));
+    // Load data
+    function loadData() {
+        try {
+            users = JSON.parse(localStorage.getItem('ust_users') || '[]');
+            historyList = JSON.parse(localStorage.getItem('ust_history') || '[]');
+            const savedUser = localStorage.getItem('ust_currentUser');
+            if(savedUser) currentUser = JSON.parse(savedUser);
+        } catch(e) {}
+        updateAuthButton();
     }
 
-    function toggleTheme() {
-        document.body.classList.toggle('dark');
-        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-    }
-
-    function showLoading(text) {
-        document.getElementById('loadingText').innerText = text;
-        document.getElementById('loadingDiv').style.display = 'flex';
-    }
-    function hideLoading() {
-        document.getElementById('loadingDiv').style.display = 'none';
+    function saveUsers() { localStorage.setItem('ust_users', JSON.stringify(users)); }
+    function saveHistory() { localStorage.setItem('ust_history', JSON.stringify(historyList.slice(0, 100))); }
+    function saveCurrentUser() { 
+        if(currentUser) localStorage.setItem('ust_currentUser', JSON.stringify(currentUser));
+        else localStorage.removeItem('ust_currentUser');
     }
 
     // Auth
-    function toggleAuth() {
+    function updateAuthButton() {
+        const btn = document.getElementById('authButton');
+        if(btn) {
+            if(currentUser) btn.innerText = `👤 ${currentUser.name || currentUser.email.split('@')[0]} | Logout`;
+            else btn.innerText = 'Sign In';
+        }
+    }
+
+    function handleAuthClick() {
         if(currentUser) {
             currentUser = null;
-            localStorage.removeItem('currentUser');
-            updateAuthUI();
+            saveCurrentUser();
+            updateAuthButton();
             showPage('home');
         } else {
             openAuthModal();
         }
     }
 
-    function openAuthModal() {
-        document.getElementById('authModal').style.display = 'flex';
-    }
+    function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
+    function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
 
-    function closeAuthModal() {
-        document.getElementById('authModal').style.display = 'none';
-    }
-
-    function loginUser() {
+    function handleLogin() {
         const email = document.getElementById('loginEmail').value.trim();
         const name = document.getElementById('loginName').value.trim();
-        if(!email) { alert('Enter email'); return; }
+        if(!email) { alert('Please enter email'); return; }
         
         let user = users.find(u => u.email === email);
         if(!user) {
-            user = { email, name: name || email.split('@')[0], joined: new Date().toISOString() };
+            user = { email, name: name || email.split('@')[0], joined: Date.now() };
             users.push(user);
+            saveUsers();
         }
         currentUser = user;
-        saveData();
-        updateAuthUI();
+        saveCurrentUser();
+        updateAuthButton();
         closeAuthModal();
         showPage('dashboard');
     }
 
-    function updateAuthUI() {
-        const btn = document.getElementById('authBtn');
-        if(currentUser) {
-            btn.innerHTML = `👤 ${currentUser.name.substring(0, 12)} | Logout`;
-        } else {
-            btn.innerHTML = 'Sign In';
-        }
+    // Loading
+    function showLoading(msg) {
+        document.getElementById('loadingMsg').innerText = msg || 'Processing...';
+        document.getElementById('loadingOverlay').style.display = 'flex';
     }
+    function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 
-    // Render Pages
+    // Navigation
     function showPage(page) {
         currentPage = page;
         activeTool = null;
@@ -340,39 +372,39 @@
         render();
     }
 
+    // Render Main
     function render() {
         const container = document.getElementById('appContainer');
+        if(!container) return;
+        
         if(currentPage === 'home') container.innerHTML = renderHome();
         else if(currentPage === 'tools') container.innerHTML = renderTools();
         else if(currentPage === 'dashboard') container.innerHTML = renderDashboard();
         else if(currentPage === 'about') container.innerHTML = renderAbout();
-        else if(currentPage === 'tool' && activeTool === 'text2image') container.innerHTML = renderTextToImage();
-        else if(currentPage === 'tool' && activeTool === 'image2video') container.innerHTML = renderImageToVideo();
+        else if(currentPage === 'tool') container.innerHTML = renderTool();
         else container.innerHTML = renderHome();
         
-        // Re-attach tool functions after render
-        if(currentPage === 'tool') {
-            if(activeTool === 'text2image') attachTextToImageEvents();
-            else if(activeTool === 'image2video') attachImageToVideoEvents();
-        }
+        // Attach tool events after render
+        if(currentPage === 'tool' && activeTool === 'text2image') attachTextToImage();
+        if(currentPage === 'tool' && activeTool === 'image2video') attachImageToVideo();
     }
 
     function renderHome() {
         return `
             <div class="hero">
-                <h1>Welcome to <span style="color:#6366f1">Urdu Story Toons</span></h1>
-                <p>Create stunning images and videos using AI - 100% Free</p>
+                <h1>Welcome to <span style="color:#a855f7">Urdu Story Toons</span></h1>
+                <p>AI-powered image and video generation • 100% Free</p>
             </div>
             <div class="tools-grid">
                 <div class="tool-card" onclick="openTool('text2image')">
-                    <div class="icon">🎨</div>
+                    <div class="tool-icon">🎨</div>
                     <h3>Text to Image</h3>
-                    <p>Generate images from text prompts</p>
+                    <p style="color:#94a3b8; margin-top:8px">Generate stunning images from text</p>
                 </div>
                 <div class="tool-card" onclick="openTool('image2video')">
-                    <div class="icon">🎬</div>
+                    <div class="tool-icon">🎬</div>
                     <h3>Image to Video</h3>
-                    <p>Upload image + prompt = animated video</p>
+                    <p style="color:#94a3b8; margin-top:8px">Upload image + prompt = animated video</p>
                 </div>
             </div>
         `;
@@ -380,14 +412,14 @@
 
     function renderTools() {
         return `
-            <h2>AI Tools</h2>
+            <h2 style="margin-bottom:20px">AI Tools Studio</h2>
             <div class="tools-grid">
                 <div class="tool-card" onclick="openTool('text2image')">
-                    <div class="icon">🎨</div>
+                    <div class="tool-icon">🎨</div>
                     <h3>Text to Image</h3>
                 </div>
                 <div class="tool-card" onclick="openTool('image2video')">
-                    <div class="icon">🎬</div>
+                    <div class="tool-icon">🎬</div>
                     <h3>Image to Video</h3>
                 </div>
             </div>
@@ -395,140 +427,127 @@
     }
 
     function renderDashboard() {
-        if(!currentUser) return `<div class="hero"><p>Please sign in</p><button class="btn btn-primary" onclick="openAuthModal()">Sign In</button></div>`;
-        const userHistory = history.filter(h => h.userEmail === currentUser.email);
+        if(!currentUser) {
+            return `<div class="hero"><p>Please sign in to view dashboard</p><button class="btn-primary" onclick="openAuthModal()">Sign In</button></div>`;
+        }
+        const userHistory = historyList.filter(h => h.userEmail === currentUser.email);
+        const imgCount = userHistory.filter(h => h.type === 'image').length;
+        const videoCount = userHistory.filter(h => h.type === 'video').length;
+        
         return `
-            <h2>Dashboard</h2>
-            <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin:1.5rem 0">
-                <div class="tool-card" style="padding:1rem"><h3>📸 ${userHistory.filter(h=>h.type==='image').length}</h3><p>Images</p></div>
-                <div class="tool-card" style="padding:1rem"><h3>🎬 ${userHistory.filter(h=>h.type==='video').length}</h3><p>Videos</p></div>
+            <h2>Your Dashboard</h2>
+            <div class="dashboard-stats">
+                <div class="stat-card"><h3>🎨 ${imgCount}</h3><p>Images Created</p></div>
+                <div class="stat-card"><h3>🎬 ${videoCount}</h3><p>Videos Created</p></div>
             </div>
-            <h3>Recent</h3>
-            ${userHistory.slice(0,5).map(h => `<div style="background:var(--surface); padding:0.8rem; border-radius:16px; margin-bottom:0.5rem"><b>${h.tool}</b><br><small>${h.prompt?.substring(0,50) || ''}</small></div>`).join('') || '<p>No history</p>'}
+            <h3>Recent Activity</h3>
+            <div id="historyListDiv">
+                ${userHistory.slice(0, 8).map(h => `
+                    <div class="history-item">
+                        <strong>${h.tool}</strong><br>
+                        <small>${h.prompt?.substring(0, 60) || 'No prompt'}</small>
+                        <div style="font-size:11px; color:#64748b; margin-top:5px">${new Date(h.date).toLocaleString()}</div>
+                    </div>
+                `).join('') || '<p>No activity yet. Try generating something!</p>'}
+            </div>
         `;
     }
 
     function renderAbout() {
-        return `<div class="hero"><h2>About</h2><p>Free AI platform for Urdu creators</p><p>YouTube: @urdustorytoons007</p></div>`;
-    }
-
-    function renderTextToImage() {
         return `
-            <div class="tool-area">
-                <div class="flex-between"><h2>🎨 Text to Image</h2><button class="btn" onclick="showPage('tools')">← Back</button></div>
-                <textarea id="imgPrompt" rows="3" placeholder="Describe your image... Example: beautiful mountain sunset, cinematic"></textarea>
-                <button class="btn btn-primary" id="generateImageBtn">✨ Generate Image</button>
-                <div class="result-area" id="imgResult"></div>
+            <div class="hero">
+                <h2>About Urdu Story Toons</h2>
+                <p>We bring AI creativity to everyone. Generate images and videos for free.</p>
+                <p style="margin-top:20px">📧 support@urdustorytoons.com</p>
+                <p>▶️ YouTube: @urdustorytoons007</p>
             </div>
         `;
     }
 
-    function renderImageToVideo() {
-        return `
-            <div class="tool-area">
-                <div class="flex-between"><h2>🎬 Image to Video</h2><button class="btn" onclick="showPage('tools')">← Back</button></div>
-                <div class="upload-area" id="uploadArea">
-                    <i class="fas fa-cloud-upload-alt fa-2x"></i><br>Click to upload image
+    function renderTool() {
+        if(activeTool === 'text2image') {
+            return `
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <h2>🎨 Text to Image Generator</h2>
+                        <button class="btn-outline" onclick="showPage('tools')">← Back</button>
+                    </div>
+                    <textarea id="txtPrompt" rows="3" placeholder="Describe your image...&#10;Example: a majestic lion in sunset, cinematic 4K"></textarea>
+                    <button class="btn-primary" id="doGenerateImage" style="width:100%">✨ Generate Image</button>
+                    <div class="result-box" id="txtResult"></div>
                 </div>
-                <input type="file" id="videoImageFile" accept="image/*" style="display:none">
-                <div id="videoPreviewArea"></div>
-                <textarea id="videoPrompt" rows="3" placeholder="Describe motion... Example: slow cinematic zoom in"></textarea>
-                <button class="btn btn-primary" id="generateVideoBtn">🎥 Generate 6-Second Video</button>
-                <div class="result-area" id="videoResult"></div>
-            </div>
-        `;
+            `;
+        } else {
+            return `
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <h2>🎬 Image to Video Generator</h2>
+                        <button class="btn-outline" onclick="showPage('tools')">← Back</button>
+                    </div>
+                    <div class="upload-box" id="videoUploadBox">
+                        📸 Click to upload an image
+                    </div>
+                    <input type="file" id="videoFileInput" accept="image/*" style="display:none">
+                    <div id="videoPreviewDiv"></div>
+                    <textarea id="vidPrompt" rows="3" placeholder="Describe motion...&#10;Example: slow cinematic zoom in with dramatic lighting"></textarea>
+                    <button class="btn-primary" id="doGenerateVideo" style="width:100%">🎥 Generate 6-Second Video</button>
+                    <div class="result-box" id="vidResult"></div>
+                </div>
+            `;
+        }
     }
 
-    // Text to Image Function
-    function attachTextToImageEvents() {
-        const btn = document.getElementById('generateImageBtn');
+    // ---------- TEXT TO IMAGE ----------
+    function attachTextToImage() {
+        const btn = document.getElementById('doGenerateImage');
         if(btn) {
-            btn.onclick = async function() {
-                const prompt = document.getElementById('imgPrompt').value;
-                if(!prompt) { alert('Enter a prompt'); return; }
-                showLoading('Generating image...');
+            btn.onclick = async () => {
+                const prompt = document.getElementById('txtPrompt')?.value;
+                if(!prompt) { alert('Please enter a prompt'); return; }
+                showLoading('Generating your image...');
                 try {
                     const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&nologo=true`;
-                    const resultDiv = document.getElementById('imgResult');
-                    resultDiv.innerHTML = `<img src="${url}" class="result-img" style="max-width:100%; border-radius:16px;"><br><button class="btn" onclick="window.open('${url}','_blank')">Download</button>`;
+                    const resultDiv = document.getElementById('txtResult');
+                    resultDiv.innerHTML = `<img src="${url}" class="result-img" style="max-width:100%; border-radius:20px;"><br><button class="btn-outline" style="margin-top:12px" onclick="window.open('${url}','_blank')">📥 Download</button>`;
                     
-                    history.unshift({ type: 'image', tool: 'Text to Image', prompt, url, userEmail: currentUser.email, date: new Date().toISOString() });
-                    history = history.slice(0, 50);
-                    localStorage.setItem('history', JSON.stringify(history));
+                    historyList.unshift({ type: 'image', tool: 'Text to Image', prompt, url, userEmail: currentUser.email, date: Date.now() });
+                    saveHistory();
                     hideLoading();
                 } catch(e) { hideLoading(); alert('Error: ' + e.message); }
             };
         }
     }
 
-    // Image to Video Functions
-    function attachImageToVideoEvents() {
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('videoImageFile');
-        if(uploadArea) {
-            uploadArea.onclick = () => fileInput.click();
-        }
-        if(fileInput) {
-            fileInput.onchange = function(e) {
+    // ---------- IMAGE TO VIDEO ----------
+    function attachImageToVideo() {
+        const uploadBox = document.getElementById('videoUploadBox');
+        const fileInput = document.getElementById('videoFileInput');
+        if(uploadBox && fileInput) {
+            uploadBox.onclick = () => fileInput.click();
+            fileInput.onchange = (e) => {
                 const file = e.target.files[0];
                 if(file) {
                     const reader = new FileReader();
-                    reader.onload = function(ev) {
-                        uploadedImage = ev.target.result;
-                        document.getElementById('videoPreviewArea').innerHTML = `<img src="${uploadedImage}" style="max-width:100%; border-radius:16px;"><p>✅ Image ready</p>`;
+                    reader.onload = (ev) => {
+                        uploadedImageData = ev.target.result;
+                        document.getElementById('videoPreviewDiv').innerHTML = `<img src="${uploadedImageData}" style="max-width:100%; border-radius:20px; margin-top:10px"><p style="color:#22c55e; margin-top:8px">✅ Image uploaded</p>`;
                     };
                     reader.readAsDataURL(file);
                 }
             };
         }
         
-        const genBtn = document.getElementById('generateVideoBtn');
+        const genBtn = document.getElementById('doGenerateVideo');
         if(genBtn) {
-            genBtn.onclick = async function() {
-                const prompt = document.getElementById('videoPrompt').value;
-                if(!uploadedImage) { alert('Upload image first'); return; }
-                if(!prompt) { alert('Enter motion description'); return; }
-                showLoading('Creating video...');
+            genBtn.onclick = async () => {
+                const prompt = document.getElementById('vidPrompt')?.value;
+                if(!uploadedImageData) { alert('Please upload an image first'); return; }
+                if(!prompt) { alert('Please describe the motion'); return; }
+                showLoading('Creating 6-second video...');
                 
                 try {
                     const img = new Image();
-                    img.src = uploadedImage;
+                    img.src = uploadedImageData;
                     await new Promise(r => { img.onload = r; });
                     
-                    const canvas = document.createElement('canvas');
-                    const w = 1024, h = 576;
-                    canvas.width = w;
-                    canvas.height = h;
-                    const ctx = canvas.getContext('2d');
-                    
-                    let drawW, drawH, startX, startY;
-                    if(img.width / img.height > w / h) {
-                        drawH = h;
-                        drawW = img.width * (h / img.height);
-                        startX = (w - drawW) / 2;
-                        startY = 0;
-                    } else {
-                        drawW = w;
-                        drawH = img.height * (w / img.width);
-                        startX = 0;
-                        startY = (h - drawH) / 2;
-                    }
-                    
-                    const stream = canvas.captureStream(24);
-                    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
-                    let chunks = [];
-                    recorder.ondataavailable = e => chunks.push(e.data);
-                    recorder.onstop = () => {
-                        const blob = new Blob(chunks, { type: 'video/webm' });
-                        const url = URL.createObjectURL(blob);
-                        document.getElementById('videoResult').innerHTML = `
-                            <video src="${url}" controls autoplay loop style="max-width:100%; border-radius:16px;"></video>
-                            <button class="btn" onclick="downloadVideo('${url}')">Download</button>
-                        `;
-                        history.unshift({ type: 'video', tool: 'Image to Video', prompt, url, userEmail: currentUser.email, date: new Date().toISOString() });
-                        localStorage.setItem('history', JSON.stringify(history.slice(0, 50)));
-                        hideLoading();
-                    };
-                    recorder.start();
-                    
-                    const du
+                    const canvas = document.createElement('canvas
