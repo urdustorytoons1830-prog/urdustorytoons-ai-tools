@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>Urdu Story Toons - AI Tools</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urdu Story Toons - AI Tools</title>
     <style>
         * {
             margin: 0;
@@ -11,72 +11,65 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
-        }
-        .navbar {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .nav-btn, .login-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            padding: 8px 20px;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .login-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 20px;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: auto;
-            padding: 40px 20px;
         }
-        .hero {
+        .header {
             text-align: center;
             color: white;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 15px;
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .login-box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-box input {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: none;
+            width: 250px;
+            margin-right: 10px;
+        }
+        .login-box button {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
         }
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
         .tool-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.1);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
             color: white;
         }
         .tool-card:hover {
+            background: rgba(255,255,255,0.2);
             transform: translateY(-5px);
-            background: rgba(255,255,255,0.25);
         }
         .tool-icon {
             font-size: 50px;
@@ -84,6 +77,7 @@
         }
         .tool-card h3 {
             margin-bottom: 10px;
+            font-size: 1.5rem;
         }
         .modal {
             display: none;
@@ -98,14 +92,12 @@
             align-items: center;
         }
         .modal-content {
-            background: #1a1a2e;
-            max-width: 600px;
+            background: #1e1e2e;
+            max-width: 550px;
             width: 90%;
-            border-radius: 20px;
+            border-radius: 25px;
             padding: 25px;
             color: white;
-            max-height: 80vh;
-            overflow-y: auto;
         }
         .modal-header {
             display: flex;
@@ -113,30 +105,32 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        .close-btn {
+        .close {
+            font-size: 28px;
+            cursor: pointer;
             background: none;
             border: none;
             color: white;
-            font-size: 24px;
-            cursor: pointer;
         }
-        textarea, input, select {
+        textarea, input {
             width: 100%;
             padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 10px;
+            margin: 10px 0;
+            border-radius: 12px;
             border: none;
             font-size: 14px;
         }
-        .generate-btn {
+        .btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
             padding: 12px;
-            border-radius: 25px;
+            border-radius: 30px;
             cursor: pointer;
             width: 100%;
             font-size: 16px;
+            font-weight: bold;
+            margin: 5px 0;
         }
         .result-area {
             margin-top: 20px;
@@ -144,285 +138,160 @@
         }
         .result-area img, .result-area video {
             max-width: 100%;
-            border-radius: 10px;
+            border-radius: 15px;
         }
-        .progress-bar {
+        .progress {
             height: 4px;
             background: #333;
             border-radius: 2px;
-            margin: 10px 0;
+            margin: 15px 0;
         }
         .progress-fill {
             width: 0%;
             height: 100%;
             background: linear-gradient(90deg, #667eea, #764ba2);
             border-radius: 2px;
-            transition: width 0.3s;
         }
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
+        .user-badge {
+            color: #667eea;
+            font-weight: bold;
+            margin-left: 10px;
         }
         footer {
             text-align: center;
-            color: white;
-            padding: 30px;
-            margin-top: 50px;
-        }
-        .action-btns {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        .action-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-        }
-        .dashboard-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-        }
-        .history-item {
-            background: rgba(255,255,255,0.1);
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 28px; }
-            .navbar { flex-direction: column; gap: 10px; }
+            color: rgba(255,255,255,0.5);
+            margin-top: 40px;
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="logo">🎬 Urdu Story Toons</div>
-        <div class="nav-buttons">
-            <button class="nav-btn" onclick="showPage('home')">🏠 Home</button>
-            <button class="nav-btn" onclick="showPage('tools')">🛠️ Tools</button>
-            <button class="nav-btn" onclick="showPage('dashboard')">📊 Dashboard</button>
-            <button class="nav-btn" onclick="showPage('about')">ℹ️ About</button>
-            <button class="login-btn" id="loginBtn" onclick="loginUser()">🔐 Sign In</button>
-            <span id="userSpan" style="display:none; color:white;"></span>
-        </div>
-    </div>
-
     <div class="container">
-        <!-- Home Page -->
-        <div id="homePage" class="page active">
-            <div class="hero">
-                <h1>Welcome to Urdu Story Toons AI Studio</h1>
-                <p>Free AI Tools - Text to Voice, Text to Image, Image to Video</p>
+        <div class="header">
+            <h1>🎬 Urdu Story Toons AI Studio</h1>
+            <p>Free AI Tools - No Limits, No Credits</p>
+        </div>
+
+        <div class="login-box">
+            <input type="email" id="email" placeholder="Enter your email">
+            <button onclick="login()">🔐 Sign In (Free)</button>
+            <span id="userName" class="user-badge"></span>
+        </div>
+
+        <div class="tools-grid">
+            <div class="tool-card" onclick="openTool('tts')">
+                <div class="tool-icon">🎙️</div>
+                <h3>Text to Voice</h3>
+                <p>Convert text to natural speech</p>
             </div>
-            <div class="tools-grid">
-                <div class="tool-card" onclick="openTool('tts')">
-                    <div class="tool-icon">🎙️</div>
-                    <h3>Text to Voice</h3>
-                    <p>Convert text to natural speech with realistic voices</p>
-                </div>
-                <div class="tool-card" onclick="openTool('t2i')">
-                    <div class="tool-icon">🎨</div>
-                    <h3>Text to Image</h3>
-                    <p>Generate HD images from text prompts</p>
-                </div>
-                <div class="tool-card" onclick="openTool('i2v')">
-                    <div class="tool-icon">🎬</div>
-                    <h3>Image to Video</h3>
-                    <p>Upload image + prompt = 6-second video</p>
-                </div>
+            <div class="tool-card" onclick="openTool('image')">
+                <div class="tool-icon">🎨</div>
+                <h3>Text to Image</h3>
+                <p>Generate HD images from prompts</p>
+            </div>
+            <div class="tool-card" onclick="openTool('video')">
+                <div class="tool-icon">🎬</div>
+                <h3>Image to Video</h3>
+                <p>Upload image + prompt = 6-sec video</p>
             </div>
         </div>
 
-        <!-- Tools Page -->
-        <div id="toolsPage" class="page">
-            <div class="hero">
-                <h1>✨ AI Tools Studio</h1>
-            </div>
-            <div class="tools-grid">
-                <div class="tool-card" onclick="openTool('tts')">
-                    <div class="tool-icon">🎙️</div>
-                    <h3>Text to Voice</h3>
-                    <p>Convert text to speech</p>
-                </div>
-                <div class="tool-card" onclick="openTool('t2i')">
-                    <div class="tool-icon">🎨</div>
-                    <h3>Text to Image</h3>
-                    <p>Generate AI images</p>
-                </div>
-                <div class="tool-card" onclick="openTool('i2v')">
-                    <div class="tool-icon">🎬</div>
-                    <h3>Image to Video</h3>
-                    <p>Create animations</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dashboard Page -->
-        <div id="dashboardPage" class="page">
-            <div class="hero">
-                <h1>📊 My Dashboard</h1>
-            </div>
-            <div class="dashboard-stats">
-                <div class="stat-card"><h2 id="totalCount">0</h2><p>Total Generations</p></div>
-                <div class="stat-card"><h2>♾️</h2><p>Free Forever</p></div>
-                <div class="stat-card"><h2>🚀</h2><p>Unlimited</p></div>
-            </div>
-            <h3>📜 History</h3>
-            <div id="historyList"></div>
-        </div>
-
-        <!-- About Page -->
-        <div id="aboutPage" class="page">
-            <div class="hero">
-                <h1>📖 About Us</h1>
-                <p>Free AI tools for everyone. No credits, no payments, unlimited usage.</p>
-            </div>
-        </div>
+        <footer>
+            <p>© 2026 Urdu Story Toons | Unlimited Free Access</p>
+        </footer>
     </div>
 
     <!-- Modal -->
-    <div id="toolModal" class="modal">
+    <div id="modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modalTitle">Tool</h2>
-                <button class="close-btn" onclick="closeModal()">✕</button>
+                <button class="close" onclick="closeModal()">&times;</button>
             </div>
             <div id="modalBody"></div>
         </div>
     </div>
 
-    <footer>
-        <p>© 2026 Urdu Story Toons - Free Unlimited AI Tools</p>
-    </footer>
-
     <script>
-        // User data
-        let loggedIn = false;
-        let userName = "";
-        let history = [];
+        let isLoggedIn = false;
+        let currentUser = "";
 
-        // Load saved history
-        try {
-            let saved = localStorage.getItem('ust_history');
-            if (saved) history = JSON.parse(saved);
-        } catch(e) {}
-
-        function updateDashboard() {
-            document.getElementById('totalCount').innerHTML = history.length;
-            let historyDiv = document.getElementById('historyList');
-            if (history.length === 0) {
-                historyDiv.innerHTML = '<p>No history yet. Use some tools!</p>';
+        function login() {
+            let email = document.getElementById('email').value;
+            if(email && email.includes('@')) {
+                isLoggedIn = true;
+                currentUser = email.split('@')[0];
+                document.getElementById('userName').innerHTML = '👋 Hello, ' + currentUser;
+                alert('✅ Welcome ' + currentUser + '! All tools are FREE & UNLIMITED!');
             } else {
-                historyDiv.innerHTML = history.slice().reverse().map(h => 
-                    `<div class="history-item">${h.type}: ${h.prompt.substring(0, 50)} - ${new Date(h.time).toLocaleString()}</div>`
-                ).join('');
+                alert('❌ Please enter a valid email!');
             }
         }
-        updateDashboard();
 
-        function addToHistory(type, prompt) {
-            history.push({ type, prompt, time: Date.now() });
-            localStorage.setItem('ust_history', JSON.stringify(history));
-            updateDashboard();
-        }
-
-        function showPage(page) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(page + 'Page').classList.add('active');
-        }
-
-        function loginUser() {
-            let email = prompt("Enter your email to continue (Free & Unlimited):");
-            if (email && email.includes('@')) {
-                loggedIn = true;
-                userName = email.split('@')[0];
-                document.getElementById('loginBtn').style.display = 'none';
-                let userSpan = document.getElementById('userSpan');
-                userSpan.style.display = 'inline';
-                userSpan.innerHTML = '👤 ' + userName;
-                alert("Welcome " + userName + "! All tools are FREE & UNLIMITED!");
-            } else if(email) {
-                alert("Please enter a valid email!");
+        function checkLogin() {
+            if(!isLoggedIn) {
+                alert('🔐 Please sign in first using the email box above!');
+                return false;
             }
+            return true;
         }
 
         function openTool(tool) {
-            if (!loggedIn) {
-                alert("Please Sign In first! Click 'Sign In' button.");
-                return;
-            }
-
-            let modal = document.getElementById('toolModal');
+            if(!checkLogin()) return;
+            
+            let modal = document.getElementById('modal');
             let modalTitle = document.getElementById('modalTitle');
             let modalBody = document.getElementById('modalBody');
-
-            if (tool === 'tts') {
+            
+            if(tool === 'tts') {
                 modalTitle.innerHTML = '🎙️ Text to Voice';
                 modalBody.innerHTML = `
-                    <textarea id="ttsText" rows="3" placeholder="Enter text to convert to speech..."></textarea>
-                    <div class="progress-bar"><div class="progress-fill" id="ttsProgress"></div></div>
-                    <button class="generate-btn" onclick="generateTTS()">🔊 Generate Voice</button>
+                    <textarea id="ttsText" rows="3" placeholder="Write anything... Example: Assalamualaikum, welcome to Urdu Story Toons"></textarea>
+                    <div class="progress"><div class="progress-fill" id="ttsProgress"></div></div>
+                    <button class="btn" onclick="generateTTS()">🔊 Generate & Play Voice</button>
                     <div id="ttsResult" class="result-area"></div>
                 `;
-            } else if (tool === 't2i') {
+            } else if(tool === 'image') {
                 modalTitle.innerHTML = '🎨 Text to Image';
                 modalBody.innerHTML = `
-                    <textarea id="imgPrompt" rows="3" placeholder="Describe the image... Example: beautiful sunset over mountains"></textarea>
-                    <div class="progress-bar"><div class="progress-fill" id="imgProgress"></div></div>
-                    <button class="generate-btn" onclick="generateImage()">✨ Generate Image</button>
+                    <textarea id="imgPrompt" rows="3" placeholder="Describe image... Example: A beautiful sunset over mountains with birds"></textarea>
+                    <div class="progress"><div class="progress-fill" id="imgProgress"></div></div>
+                    <button class="btn" onclick="generateImage()">✨ Generate HD Image</button>
                     <div id="imgResult" class="result-area"></div>
                 `;
-            } else if (tool === 'i2v') {
+            } else if(tool === 'video') {
                 modalTitle.innerHTML = '🎬 Image to Video';
                 modalBody.innerHTML = `
-                    <input type="file" id="vidImage" accept="image/*">
-                    <textarea id="vidPrompt" rows="3" placeholder="Describe motion... Example: slow zoom in"></textarea>
-                    <div class="progress-bar"><div class="progress-fill" id="vidProgress"></div></div>
-                    <button class="generate-btn" onclick="generateVideo()">🎥 Generate 6-Second Video</button>
-                    <div id="vidResult" class="result-area"></div>
+                    <input type="file" id="videoImage" accept="image/*">
+                    <textarea id="videoPrompt" rows="3" placeholder="Describe motion... Example: slow zoom in"></textarea>
+                    <div class="progress"><div class="progress-fill" id="videoProgress"></div></div>
+                    <button class="btn" onclick="generateVideo()">🎥 Generate 6-Second Video</button>
+                    <div id="videoResult" class="result-area"></div>
                 `;
             }
             modal.style.display = 'flex';
         }
 
         function closeModal() {
-            document.getElementById('toolModal').style.display = 'none';
+            document.getElementById('modal').style.display = 'none';
         }
 
         // TTS Function
         function generateTTS() {
             let text = document.getElementById('ttsText').value;
             let progress = document.getElementById('ttsProgress');
-            let resultDiv = document.getElementById('ttsResult');
+            let result = document.getElementById('ttsResult');
             
-            if (!text.trim()) {
-                alert("Please enter text!");
+            if(!text.trim()) {
+                alert('Please enter some text!');
                 return;
             }
             
             progress.style.width = '100%';
-            let utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 1;
-            utterance.pitch = 1;
-            speechSynthesis.speak(utterance);
-            
-            resultDiv.innerHTML = '<p style="color: #10b981;">✅ Voice playing! Check your speakers.</p>';
-            addToHistory('Text to Voice', text.substring(0, 50));
+            let speech = new SpeechSynthesisUtterance(text);
+            speech.rate = 1;
+            speech.pitch = 1;
+            speechSynthesis.speak(speech);
+            result.innerHTML = '<p style="color:#10b981;">✅ Voice is playing! Check your speakers.</p>';
             setTimeout(() => { progress.style.width = '0%'; }, 1000);
         }
 
@@ -430,62 +299,57 @@
         async function generateImage() {
             let prompt = document.getElementById('imgPrompt').value;
             let progress = document.getElementById('imgProgress');
-            let resultDiv = document.getElementById('imgResult');
+            let result = document.getElementById('imgResult');
             
-            if (!prompt.trim()) {
-                alert("Please enter a prompt!");
+            if(!prompt.trim()) {
+                alert('Please enter a prompt!');
                 return;
             }
             
             progress.style.width = '50%';
-            resultDiv.innerHTML = '<p>⏳ Generating image...</p>';
+            result.innerHTML = '<p>⏳ Generating image... (15 seconds)</p>';
             
             try {
-                let url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&nologo=true`;
+                let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=1024&height=1024&nologo=true';
                 progress.style.width = '100%';
-                resultDiv.innerHTML = `
-                    <img src="${url}" alt="Generated Image">
-                    <div class="action-btns">
-                        <button class="action-btn" onclick="downloadImage('${url}')">💾 Download</button>
-                    </div>
-                `;
-                addToHistory('Text to Image', prompt.substring(0, 50));
+                result.innerHTML = '<img src="' + url + '"><br><button class="btn" onclick="downloadImage(\'' + url + '\')">💾 Download Image</button>';
+                setTimeout(() => { progress.style.width = '0%'; }, 500);
             } catch(e) {
-                resultDiv.innerHTML = '<p style="color:red;">❌ Error! Try again.</p>';
+                result.innerHTML = '<p style="color:red;">❌ Error! Try again.</p>';
+                progress.style.width = '0%';
             }
-            setTimeout(() => { progress.style.width = '0%'; }, 500);
         }
 
         function downloadImage(url) {
             let a = document.createElement('a');
             a.href = url;
-            a.download = 'image.png';
+            a.download = 'urdustorytoons-image.png';
             a.click();
         }
 
         // Image to Video Function
-        async function generateVideo() {
-            let fileInput = document.getElementById('vidImage');
-            let prompt = document.getElementById('vidPrompt').value;
-            let progress = document.getElementById('vidProgress');
-            let resultDiv = document.getElementById('vidResult');
+        function generateVideo() {
+            let fileInput = document.getElementById('videoImage');
+            let prompt = document.getElementById('videoPrompt').value;
+            let progress = document.getElementById('videoProgress');
+            let result = document.getElementById('videoResult');
             
-            if (!fileInput.files.length) {
-                alert("Please upload an image!");
+            if(!fileInput.files.length) {
+                alert('Please upload an image first!');
                 return;
             }
             
             progress.style.width = '30%';
-            resultDiv.innerHTML = '<p>⏳ Creating video...</p>';
+            result.innerHTML = '<p>⏳ Creating 6-second video...</p>';
             
             let file = fileInput.files[0];
             let reader = new FileReader();
             
-            reader.onload = async function(e) {
+            reader.onload = function(ev) {
                 let img = new Image();
-                img.src = e.target.result;
+                img.src = ev.target.result;
                 img.onload = function() {
-                    progress.style.width = '70%';
+                    progress.style.width = '60%';
                     
                     let canvas = document.createElement('canvas');
                     canvas.width = 1024;
@@ -500,43 +364,71 @@
                     recorder.onstop = () => {
                         let blob = new Blob(chunks, { type: 'video/webm' });
                         let videoUrl = URL.createObjectURL(blob);
-                        resultDiv.innerHTML = `
-                            <video src="${videoUrl}" controls autoplay loop style="max-width:100%; border-radius:10px;"></video>
-                            <div class="action-btns">
-                                <button class="action-btn" onclick="downloadVideo('${videoUrl}')">💾 Download</button>
-                            </div>
-                        `;
-                        addToHistory('Image to Video', prompt.substring(0, 50));
+                        result.innerHTML = '<video src="' + videoUrl + '" controls autoplay loop style="max-width:100%; border-radius:15px;"></video><br><button class="btn" onclick="downloadVideo(\'' + videoUrl + '\')">💾 Download Video</button>';
                         progress.style.width = '0%';
                     };
                     
                     recorder.start();
-                    
                     let startTime = Date.now();
                     let duration = 6;
-                    let drawWidth, drawHeight, startX, startY;
+                    
                     let imgW = img.width, imgH = img.height;
                     let canvasW = canvas.width, canvasH = canvas.height;
                     let imgAspect = imgW / imgH;
                     let canvasAspect = canvasW / canvasH;
+                    let drawW, drawH, startX, startY;
                     
-                    if (imgAspect > canvasAspect) {
-                        drawHeight = canvasH;
-                        drawWidth = imgW * (canvasH / imgH);
-                        startX = (canvasW - drawWidth) / 2;
+                    if(imgAspect > canvasAspect) {
+                        drawH = canvasH;
+                        drawW = imgW * (canvasH / imgH);
+                        startX = (canvasW - drawW) / 2;
                         startY = 0;
                     } else {
-                        drawWidth = canvasW;
-                        drawHeight = imgH * (canvasW / imgW);
+                        drawW = canvasW;
+                        drawH = imgH * (canvasW / imgW);
                         startX = 0;
-                        startY = (canvasH - drawHeight) / 2;
+                        startY = (canvasH - drawH) / 2;
                     }
                     
                     function animate() {
                         let elapsed = (Date.now() - startTime) / 1000;
-                        if (elapsed >= duration) {
+                        if(elapsed >= duration) {
                             recorder.stop();
                             return;
                         }
                         
-                        ctx.
+                        ctx.fillStyle = '#000';
+                        ctx.fillRect(0, 0, canvasW, canvasH);
+                        
+                        let scale = 1 + (elapsed / duration) * 0.15;
+                        let offsetX = (canvasW - drawW * scale) / 2;
+                        let offsetY = (canvasH - drawH * scale) / 2;
+                        
+                        ctx.drawImage(img, offsetX, offsetY, drawW * scale, drawH * scale);
+                        ctx.font = '16px Arial';
+                        ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                        ctx.fillText('Urdu Story Toons', canvasW - 150, canvasH - 15);
+                        
+                        requestAnimationFrame(animate);
+                    }
+                    animate();
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function downloadVideo(url) {
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'urdustorytoons-video.webm';
+            a.click();
+        }
+
+        // Click outside to close modal
+        window.onclick = function(e) {
+            let modal = document.getElementById('modal');
+            if(e.target === modal) closeModal();
+        }
+    </script>
+</body>
+</html>
