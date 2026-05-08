@@ -106,9 +106,15 @@
             background: #ff0000;
             display: inline-block;
             text-decoration: none;
-            padding: 10px 25px;
+            padding: 12px 30px;
             border-radius: 25px;
             color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .youtube-btn:hover {
+            background: #cc0000;
+            transform: scale(1.05);
         }
         footer {
             text-align: center;
@@ -150,7 +156,7 @@
         </div>
 
         <div class="youtube-section">
-            <a href="https://youtube.com/@urdustorytoons" target="_blank" class="youtube-btn">🎬 Subscribe on YouTube</a>
+            <a href="https://youtube.com/@urdustorytoons007?si=cCD7bq9X3Ykm-cAu" target="_blank" class="youtube-btn">🎬 Subscribe to Urdu Story Toons</a>
         </div>
 
         <footer>
@@ -219,10 +225,6 @@
                 
                 resultDiv.innerHTML = `<p>📸 Step 1/2: Image generated...</p><img src="${imageUrl}" style="max-width:100%; border-radius:10px;">`;
                 
-                // For video, we'll create an animated slideshow effect
-                // Since free API for video is limited, we create a canvas animation
-                // This creates a 6-second video-like animation from the image
-                
                 resultDiv.innerHTML += `<p>🎬 Step 2/2: Creating 6-second animation...</p>`;
                 
                 // Load the image and create animation
@@ -242,7 +244,7 @@
                 const ctx = canvas.getContext('2d');
                 
                 // Create a video element from canvas frames
-                const stream = canvas.captureStream(6); // 6 fps
+                const stream = canvas.captureStream(6);
                 const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
                 let chunks = [];
                 
@@ -251,7 +253,7 @@
                     const blob = new Blob(chunks, { type: 'video/webm' });
                     const videoUrl = URL.createObjectURL(blob);
                     resultDiv.innerHTML = `<video src="${videoUrl}" controls autoplay loop style="max-width:100%; border-radius:15px;"></video>
-                                           <p>✅ 6-Second Video Ready! Click download button on video to save.</p>
+                                           <p>✅ 6-Second Video Ready!</p>
                                            <button onclick="downloadVideo('${videoUrl}')" style="margin-top:10px; background:#28a745;">💾 Download Video</button>`;
                 };
                 
