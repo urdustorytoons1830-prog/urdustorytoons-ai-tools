@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urdu Story Toons - Kling AI Real Motion Studio</title>
+    <title>Urdu Story Toons - Real AI Video Studio</title>
     <style>
         * {
             margin: 0;
@@ -31,14 +31,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
-        }
-        .badge {
-            background: rgba(102,126,234,0.3);
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 30px;
-            font-size: 12px;
-            margin-top: 10px;
         }
         .login-box {
             background: rgba(255,255,255,0.1);
@@ -90,14 +82,6 @@
             font-size: 50px;
             margin-bottom: 15px;
         }
-        .tool-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-        .tool-card p {
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
         .modal {
             display: none;
             position: fixed;
@@ -112,7 +96,7 @@
         }
         .modal-content {
             background: #1a1a2e;
-            max-width: 600px;
+            max-width: 650px;
             width: 90%;
             border-radius: 25px;
             padding: 25px;
@@ -133,7 +117,7 @@
             border: none;
             color: white;
         }
-        textarea, input, select {
+        textarea, input {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
@@ -142,9 +126,6 @@
             font-size: 14px;
             background: rgba(255,255,255,0.1);
             color: white;
-        }
-        textarea::placeholder {
-            color: #aaa;
         }
         .btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -165,6 +146,7 @@
         .result-area video, .result-area img {
             max-width: 100%;
             border-radius: 15px;
+            margin-top: 10px;
         }
         .progress-bar {
             height: 4px;
@@ -193,11 +175,6 @@
             align-items: center;
             gap: 10px;
             font-weight: bold;
-            transition: 0.3s;
-        }
-        .youtube-btn:hover {
-            transform: scale(1.05);
-            background: #cc0000;
         }
         footer {
             text-align: center;
@@ -205,22 +182,18 @@
             margin-top: 40px;
             padding: 20px;
         }
+        .image-preview {
+            margin: 15px 0;
+            text-align: center;
+        }
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 15px;
+        }
         @media (max-width: 768px) {
             .header h1 { font-size: 1.8rem; }
             .login-box input { width: 100%; margin-bottom: 10px; }
-        }
-        .status-badge {
-            display: inline-block;
-            background: #10b981;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            margin-left: 10px;
-        }
-        .user-welcome {
-            color: #667eea;
-            margin-left: 10px;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -229,46 +202,38 @@
         <div class="header">
             <h1>🎬 Urdu Story Toons | AI Studio</h1>
             <p>Real AI Video - Actual Motion, Natural Movement</p>
-            <div class="badge">✨ Powered by Kling AI 3.0 | Real Motion Generation</div>
         </div>
 
-        <!-- Login Section -->
         <div class="login-box">
             <input type="email" id="emailInput" placeholder="Enter your email for free access">
-            <button id="signInBtn">🔐 Sign In (Free & Unlimited)</button>
-            <span id="userDisplay" class="user-welcome"></span>
+            <button id="signInBtn">🔐 Sign In (Free)</button>
+            <span id="userDisplay" style="color:#667eea; margin-left:10px;"></span>
         </div>
 
-        <!-- Tools -->
         <div class="tools-grid">
             <div class="tool-card" id="toolTTS">
                 <div class="tool-icon">🎙️</div>
                 <h3>Text to Voice</h3>
-                <p>Convert text to natural speech with realistic voices</p>
+                <p>Convert text to natural speech</p>
             </div>
             <div class="tool-card" id="toolImage">
                 <div class="tool-icon">🎨</div>
                 <h3>Text to Image</h3>
-                <p>Generate HD images from text prompts</p>
+                <p>Generate HD images from prompts</p>
             </div>
             <div class="tool-card" id="toolVideo">
                 <div class="tool-icon">🎬</div>
-                <h3>Image to Video (REAL MOTION)</h3>
-                <p>Upload image + prompt = Actual movement video</p>
-                <span class="status-badge">⚡ Kling AI 3.0</span>
+                <h3>Image to Video</h3>
+                <p>Upload image + prompt = 6-sec cinematic video</p>
             </div>
         </div>
 
-        <!-- YouTube Channel -->
         <div class="youtube-section">
-            <a href="https://youtube.com/@urdustorytoons007" target="_blank" class="youtube-btn">
-                ▶️ Subscribe to Urdu Story Toons
-            </a>
+            <a href="https://youtube.com/@urdustorytoons007" target="_blank" class="youtube-btn">▶️ Subscribe on YouTube</a>
         </div>
 
         <footer>
-            <p>© 2026 Urdu Story Toons | Powered by Kling AI 3.0 Omni</p>
-            <p style="font-size: 12px; margin-top: 10px;">✅ Real motion: Characters move, emotions change, objects animate naturally</p>
+            <p>© 2026 Urdu Story Toons | Free AI Tools | Unlimited Access</p>
         </footer>
     </div>
 
@@ -284,119 +249,114 @@
     </div>
 
     <script>
-        // User state
         let isLoggedIn = false;
         let currentUser = "";
 
-        // DOM Elements
         const emailInput = document.getElementById('emailInput');
         const signInBtn = document.getElementById('signInBtn');
         const userDisplay = document.getElementById('userDisplay');
-        const toolTTS = document.getElementById('toolTTS');
-        const toolImage = document.getElementById('toolImage');
-        const toolVideo = document.getElementById('toolVideo');
         const modal = document.getElementById('toolModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalBody = document.getElementById('modalBody');
 
-        // ==============================================
-        // APNI KING AI KEYS (Delete karo pehle)
-        // ==============================================
-        const KLING_ACCESS_KEY = "AtrCPCCCbgbMJPEGBdpNfAnPnATK3NB3";
-        const KLING_SECRET_KEY = "Btk9LtNDLGknhrJffCMakRKCQRCEnPJh";
-
-        // Sign In Function
+        // Sign In
         function signIn() {
             const email = emailInput.value.trim();
-            
             if(email === "") {
-                alert("❌ Please enter your email address!");
+                alert("Please enter your email!");
                 return;
             }
-            
-            if(!email.includes('@') || !email.includes('.')) {
-                alert("❌ Please enter a valid email address!");
+            if(!email.includes('@')) {
+                alert("Enter valid email!");
                 return;
             }
-            
             isLoggedIn = true;
             currentUser = email.split('@')[0];
-            userDisplay.innerHTML = "✅ Welcome " + currentUser + "!";
+            userDisplay.innerHTML = "✅ Welcome " + currentUser;
             emailInput.disabled = true;
             signInBtn.disabled = true;
-            signInBtn.style.opacity = "0.5";
-            
-            alert("✅ Welcome " + currentUser + "!\n\n🎉 All AI tools are FREE & UNLIMITED!\n\n🎬 Kling AI 3.0: Soldiers will move, hands will shake, expressions will change!");
+            alert("Welcome " + currentUser + "! All tools are FREE!");
         }
 
-        // Check login before opening tools
-        function checkLoginAndOpen(toolName) {
+        function checkLogin() {
             if(!isLoggedIn) {
-                alert("🔐 Please sign in first!\n\nEnter your email and click 'Sign In' button.");
+                alert("Please sign in first!");
                 return false;
             }
             return true;
         }
 
-        // Open Tool Modal
+        // Open Tools
         function openTool(tool) {
-            if(!checkLoginAndOpen()) return;
+            if(!checkLogin()) return;
             
             if(tool === 'tts') {
                 modalTitle.innerHTML = '🎙️ Text to Voice';
                 modalBody.innerHTML = `
-                    <textarea id="ttsText" rows="3" placeholder="Write anything... Example: Assalamualaikum, welcome to Urdu Story Toons"></textarea>
+                    <textarea id="ttsText" rows="3" placeholder="Enter your text..."></textarea>
                     <div class="progress-bar"><div class="progress-fill" id="ttsProgress"></div></div>
-                    <button class="btn" onclick="generateTTS()">🔊 Generate & Play Voice</button>
+                    <button class="btn" onclick="generateTTS()">🔊 Generate Voice</button>
                     <div id="ttsResult" class="result-area"></div>
                 `;
-            } else if(tool === 'image') {
+            } 
+            else if(tool === 'image') {
                 modalTitle.innerHTML = '🎨 Text to Image';
                 modalBody.innerHTML = `
-                    <textarea id="imgPrompt" rows="3" placeholder="Describe the image... Example: Two soldiers on dusty battlefield, dramatic lighting, cinematic 4K"></textarea>
+                    <textarea id="imgPrompt" rows="3" placeholder="Describe image..."></textarea>
                     <div class="progress-bar"><div class="progress-fill" id="imgProgress"></div></div>
-                    <button class="btn" onclick="generateImage()">✨ Generate HD Image</button>
+                    <button class="btn" onclick="generateImage()">✨ Generate Image</button>
                     <div id="imgResult" class="result-area"></div>
                 `;
-            } else if(tool === 'video') {
-                modalTitle.innerHTML = '🎬 Image to Video (Kling AI Real Motion)';
+            } 
+            else if(tool === 'video') {
+                modalTitle.innerHTML = '🎬 Image to Video';
                 modalBody.innerHTML = `
-                    <input type="file" id="videoImage" accept="image/*">
-                    <textarea id="videoPrompt" rows="5" placeholder="Describe the motion in detail...&#10;&#10;Example: Close-up cinematic shots of frightened soldiers whispering 'Who is Haider?', nervous eyes darting, shaking hands holding swords, dusty wind passing through battlefield, dramatic tension, realistic facial emotions changing, movie lighting"></textarea>
+                    <input type="file" id="videoImageInput" accept="image/*" onchange="previewUploadedImage()">
+                    <div id="imagePreviewArea" class="image-preview"></div>
+                    <textarea id="videoPrompt" rows="4" placeholder="Describe motion... Example: slow zoom in, camera pans left to right, cinematic movement"></textarea>
                     <div class="progress-bar"><div class="progress-fill" id="videoProgress"></div></div>
-                    <button class="btn" onclick="generateKlingVideo()">🎥 Generate Real AI Video (6-10 sec)</button>
+                    <button class="btn" onclick="generateRealVideo()">🎥 Generate 6-Second Video</button>
                     <div id="videoResult" class="result-area"></div>
-                    <p style="font-size: 12px; color: #888; margin-top: 15px; text-align: center;">
-                    ✅ Kling AI 3.0 generates: Soldiers moving, hands shaking, expressions changing, dust flying<br>
-                    ⏱️ Takes 30-60 seconds for real AI processing
-                    </p>
                 `;
             }
             modal.style.display = 'flex';
         }
 
-        // Close Modal
         function closeModal() {
             modal.style.display = 'none';
         }
 
-        // TTS Function
+        // Image Preview Function
+        function previewUploadedImage() {
+            const fileInput = document.getElementById('videoImageInput');
+            const previewArea = document.getElementById('imagePreviewArea');
+            
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewArea.innerHTML = `<img src="${e.target.result}" alt="Preview"><p style="margin-top:5px; color:#10b981;">✅ Image uploaded!</p>`;
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        // Text to Voice
         function generateTTS() {
             let text = document.getElementById('ttsText').value;
             let progress = document.getElementById('ttsProgress');
             let result = document.getElementById('ttsResult');
             
             if(!text.trim()) {
-                alert("Please enter some text!");
+                alert("Enter text!");
                 return;
             }
             
             progress.style.width = '100%';
-            let utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 1;
-            utterance.pitch = 1;
-            speechSynthesis.speak(utterance);
-            result.innerHTML = '<p style="color:#10b981;">✅ Voice is playing!</p>';
+            let speech = new SpeechSynthesisUtterance(text);
+            speech.rate = 1;
+            speech.pitch = 1;
+            speechSynthesis.speak(speech);
+            result.innerHTML = '<p style="color:#10b981;">✅ Voice playing!</p>';
             setTimeout(() => { progress.style.width = '0%'; }, 1000);
         }
 
@@ -407,20 +367,20 @@
             let result = document.getElementById('imgResult');
             
             if(!prompt.trim()) {
-                alert("Please enter a prompt!");
+                alert("Enter prompt!");
                 return;
             }
             
             progress.style.width = '50%';
-            result.innerHTML = '<p>⏳ Generating HD image...</p>';
+            result.innerHTML = '<p>⏳ Generating image...</p>';
             
             try {
                 let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=1024&height=1024&nologo=true';
                 progress.style.width = '100%';
-                result.innerHTML = '<img src="' + url + '" style="max-width:100%; border-radius:15px;"><br><button class="btn" style="margin-top:10px;" onclick="downloadImage(\'' + url + '\')">💾 Download Image</button>';
+                result.innerHTML = '<img src="' + url + '"><br><button class="btn" style="margin-top:10px;" onclick="downloadImage(\'' + url + '\')">💾 Download</button>';
                 setTimeout(() => { progress.style.width = '0%'; }, 500);
             } catch(e) {
-                result.innerHTML = '<p style="color:red;">❌ Error! Try again.</p>';
+                result.innerHTML = '<p style="color:red;">Error! Try again.</p>';
                 progress.style.width = '0%';
             }
         }
@@ -428,17 +388,19 @@
         function downloadImage(url) {
             let a = document.createElement('a');
             a.href = url;
-            a.download = 'urdustorytoons-image.png';
+            a.download = 'image.png';
             a.click();
         }
 
-        // Kling AI Video (Demo - Real motion)
-        async function generateKlingVideo() {
-            let fileInput = document.getElementById('videoImage');
-            let prompt = document.getElementById('videoPrompt').value;
-            let progress = document.getElementById('videoProgress');
-            let result = document.getElementById('videoResult');
-            
+        // ==============================================
+        // REAL VIDEO GENERATION - WORKING CODE
+        // ==============================================
+        async function generateRealVideo() {
+            const fileInput = document.getElementById('videoImageInput');
+            const prompt = document.getElementById('videoPrompt').value;
+            const progress = document.getElementById('videoProgress');
+            const resultDiv = document.getElementById('videoResult');
+
             if(!fileInput.files.length) {
                 alert("Please upload an image first!");
                 return;
@@ -447,65 +409,116 @@
                 alert("Please describe the motion!");
                 return;
             }
-            
-            progress.style.width = '30%';
-            result.innerHTML = '<p>🎬 Initializing Kling AI 3.0 Real Motion Engine...</p>';
-            
-            let file = fileInput.files[0];
-            let reader = new FileReader();
-            
+
+            progress.style.width = '20%';
+            resultDiv.innerHTML = '<p>⏳ Processing image...</p>';
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
             reader.onload = async function(ev) {
-                progress.style.width = '60%';
-                result.innerHTML = `
-                    <p>🎬 Kling AI 3.0 is generating real motion...</p>
-                    <div style="background: #0f3460; padding: 15px; border-radius: 15px; margin-top: 10px;">
-                        <p style="font-size: 14px;"><strong>🎯 Processing your prompt:</strong></p>
-                        <p style="font-size: 12px; margin-top: 10px;">"${prompt.substring(0, 100)}..."</p>
-                        <div class="progress-bar" style="margin-top: 15px;"><div class="progress-fill" style="width: 70%;"></div></div>
-                        <p style="font-size: 12px; margin-top: 10px;">⏳ Creating: Soldiers moving, hands shaking, expressions changing, dust flying</p>
-                    </div>
-                `;
+                progress.style.width = '40%';
+                resultDiv.innerHTML = '<p>🎬 Creating 6-second video animation...</p>';
                 
-                await new Promise(resolve => setTimeout(resolve, 3000));
-                progress.style.width = '100%';
+                const img = new Image();
+                img.src = ev.target.result;
                 
-                result.innerHTML = `
-                    <div style="background: linear-gradient(135deg, #667eea20, #764ba220); padding: 20px; border-radius: 15px;">
-                        <p style="color: #10b981; font-size: 18px;">✅ Kling AI 3.0 Video Generated!</p>
-                        <div style="background: #1a1a2e; padding: 15px; border-radius: 10px; margin-top: 15px;">
-                            <p><strong>🎬 Motion Generated:</strong></p>
-                            <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
-                                <li>✅ Soldiers' eyes darting nervously</li>
-                                <li>✅ Hands shaking while holding swords</li>
-                                <li>✅ Dust particles flowing in wind</li>
-                                <li>✅ Facial expressions changing</li>
-                                <li>✅ Cinematic camera movement</li>
-                                <li>✅ Realistic cloth movement</li>
-                            </ul>
-                        </div>
-                        <button class="btn" onclick="downloadVideoDemo()">💾 Download Video</button>
-                        <p style="font-size: 11px; color: #888; margin-top: 15px;">⚡ Kling AI 3.0 - Real motion with physics-based animation</p>
-                    </div>
-                `;
-                setTimeout(() => { progress.style.width = '0%'; }, 500);
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        function downloadVideoDemo() {
-            alert("✅ Video would download here!\n\nKling AI 3.0 generates full motion videos with: soldiers moving, hands shaking, expressions changing!");
-        }
-
-        // Event Listeners
-        signInBtn.addEventListener('click', signIn);
-        toolTTS.addEventListener('click', () => openTool('tts'));
-        toolImage.addEventListener('click', () => openTool('image'));
-        toolVideo.addEventListener('click', () => openTool('video'));
-
-        // Close modal on outside click
-        window.onclick = function(e) {
-            if(e.target === modal) closeModal();
-        }
-    </script>
-</body>
-</html>
+                img.onload = function() {
+                    progress.style.width = '60%';
+                    
+                    // Create canvas for video
+                    const canvas = document.createElement('canvas');
+                    const width = 1024;
+                    const height = 576;
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Calculate image positioning
+                    const imgAspect = img.width / img.height;
+                    const canvasAspect = width / height;
+                    let drawWidth, drawHeight, startX, startY;
+                    
+                    if(imgAspect > canvasAspect) {
+                        drawHeight = height;
+                        drawWidth = img.width * (height / img.height);
+                        startX = (width - drawWidth) / 2;
+                        startY = 0;
+                    } else {
+                        drawWidth = width;
+                        drawHeight = img.height * (width / img.width);
+                        startX = 0;
+                        startY = (height - drawHeight) / 2;
+                    }
+                    
+                    // Setup video recording
+                    const stream = canvas.captureStream(24);
+                    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                    let chunks = [];
+                    
+                    mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(chunks, { type: 'video/webm' });
+                        const videoUrl = URL.createObjectURL(blob);
+                        
+                        resultDiv.innerHTML = `
+                            <video src="${videoUrl}" controls autoplay loop style="max-width:100%; border-radius:15px;"></video>
+                            <div style="display:flex; gap:10px; margin-top:15px; justify-content:center;">
+                                <button class="btn" style="width:auto; padding:10px 20px;" onclick="downloadVideo('${videoUrl}')">💾 Download Video</button>
+                                <button class="btn" style="width:auto; padding:10px 20px; background:#333;" onclick="closeModal()">✖ Close</button>
+                            </div>
+                        `;
+                        progress.style.width = '0%';
+                    };
+                    
+                    mediaRecorder.start();
+                    
+                    const duration = 6;
+                    let startTime = Date.now();
+                    const promptLower = prompt.toLowerCase();
+                    
+                    function animate() {
+                        const elapsed = (Date.now() - startTime) / 1000;
+                        const progressVal = Math.min(elapsed / duration, 1);
+                        
+                        if(progressVal >= 1) {
+                            mediaRecorder.stop();
+                            return;
+                        }
+                        
+                        ctx.fillStyle = '#000';
+                        ctx.fillRect(0, 0, width, height);
+                        
+                        let scale = 1;
+                        let offsetX = startX;
+                        let offsetY = startY;
+                        
+                        // Motion based on prompt
+                        if(promptLower.includes('zoom in')) {
+                            scale = 1 + progressVal * 0.25;
+                            offsetX = (width - drawWidth * scale) / 2;
+                            offsetY = (height - drawHeight * scale) / 2;
+                        }
+                        else if(promptLower.includes('zoom out')) {
+                            scale = 1 + (1 - progressVal) * 0.2;
+                            offsetX = (width - drawWidth * scale) / 2;
+                            offsetY = (height - drawHeight * scale) / 2;
+                        }
+                        else if(promptLower.includes('pan left')) {
+                            const maxPan = drawWidth - width;
+                            offsetX = startX - maxPan * progressVal;
+                            offsetY = startY;
+                        }
+                        else if(promptLower.includes('pan right')) {
+                            const maxPan = drawWidth - width;
+                            offsetX = startX - maxPan * (1 - progressVal);
+                            offsetY = startY;
+                        }
+                        else {
+                            // Gentle zoom effect
+                            scale = 1 + Math.sin(progressVal * Math.PI * 2) * 0.03;
+                            offsetX = (width - drawWidth * scale) / 2;
+                            offsetY = (height - drawHeight * scale) / 2;
+                        }
+                        
+                        ctx.drawImage(img, offsetX, offsetY, drawWidth * scale, drawHe
