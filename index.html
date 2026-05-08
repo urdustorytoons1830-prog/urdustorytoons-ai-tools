@@ -22,8 +22,6 @@
             --primary-dark: #5a67d8;
             --secondary: #764ba2;
             --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
             --text-dark: #ffffff;
             --text-light: #1a1a2e;
         }
@@ -43,7 +41,6 @@
             color: var(--text-light);
         }
 
-        /* Glassmorphism Navbar */
         .navbar {
             backdrop-filter: blur(16px);
             position: sticky;
@@ -70,10 +67,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 800;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
@@ -82,14 +80,16 @@
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-links a {
             text-decoration: none;
             transition: 0.3s;
             font-weight: 500;
+            cursor: pointer;
         }
 
         body.dark .nav-links a {
@@ -120,23 +120,27 @@
             border-radius: 30px;
             color: white !important;
             font-weight: 600;
+            cursor: pointer;
         }
 
-        /* Container */
+        .user-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        /* Hero Section */
         .hero {
             text-align: center;
             padding: 4rem 0;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 800;
             background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
             -webkit-background-clip: text;
@@ -151,10 +155,9 @@
             margin: 0 auto;
         }
 
-        /* Tools Grid */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             margin: 3rem 0;
         }
@@ -162,9 +165,10 @@
         .tool-card {
             backdrop-filter: blur(12px);
             border-radius: 28px;
-            padding: 1.8rem;
+            padding: 2rem;
             transition: all 0.3s;
             cursor: pointer;
+            text-align: center;
         }
 
         body.dark .tool-card {
@@ -183,7 +187,7 @@
         }
 
         .tool-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
         }
 
@@ -197,7 +201,6 @@
             font-size: 0.9rem;
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -213,7 +216,7 @@
         }
 
         .modal-content {
-            max-width: 800px;
+            max-width: 700px;
             width: 90%;
             max-height: 85vh;
             overflow-y: auto;
@@ -246,7 +249,6 @@
             color: inherit;
         }
 
-        /* Forms */
         textarea, input, select {
             width: 100%;
             padding: 1rem;
@@ -258,7 +260,7 @@
             margin-bottom: 1rem;
         }
 
-        textarea:focus, input:focus {
+        textarea:focus, input:focus, select:focus {
             outline: none;
             border-color: var(--primary);
         }
@@ -272,6 +274,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
+            width: 100%;
         }
 
         button:hover {
@@ -311,9 +314,14 @@
             gap: 1rem;
             justify-content: center;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
-        /* Dashboard */
+        .action-btns button {
+            width: auto;
+            padding: 0.5rem 1.5rem;
+        }
+
         .dashboard-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -347,6 +355,8 @@
             padding: 1rem;
             border-radius: 16px;
             margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         body.dark .history-item {
@@ -357,7 +367,6 @@
             background: rgba(0, 0, 0, 0.03);
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 2rem;
@@ -365,11 +374,19 @@
             margin-top: 3rem;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
             .tools-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
+            .nav-container { flex-direction: column; gap: 1rem; }
+            .nav-links { justify-content: center; }
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
         }
     </style>
 </head>
@@ -378,31 +395,30 @@
         <div class="nav-container">
             <div class="logo">🎬 UrduStoryToons</div>
             <div class="nav-links">
-                <a href="#" onclick="showPage('home')">Home</a>
-                <a href="#" onclick="showPage('tools')">Tools</a>
-                <a href="#" onclick="showPage('dashboard')">Dashboard</a>
-                <a href="#" onclick="showPage('about')">About</a>
-                <a href="#" onclick="showPage('contact')">Contact</a>
+                <a onclick="showPage('home')">Home</a>
+                <a onclick="showPage('tools')">Tools</a>
+                <a onclick="showPage('dashboard')">Dashboard</a>
+                <a onclick="showPage('about')">About</a>
+                <a onclick="showPage('contact')">Contact</a>
                 <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
-                <a href="#" class="btn-login" id="loginBtn" onclick="loginWithGoogle()">🔐 Sign In</a>
-                <span id="userName" style="display:none"></span>
+                <a class="btn-login" id="loginBtn" onclick="loginWithGoogle()">🔐 Sign In</a>
+                <span id="userNameDisplay" style="display:none" class="user-name"></span>
             </div>
         </div>
     </nav>
 
-    <div class="container" id="appContainer">
+    <div class="container">
         <!-- Home Page -->
-        <div id="homePage">
+        <div id="homePage" class="page active">
             <div class="hero">
                 <h1>Welcome to Urdu Story Toons AI Studio</h1>
                 <p>Free AI Tools - Text to Voice, Text to Image, Image to Video</p>
             </div>
-
             <div class="tools-grid">
                 <div class="tool-card" onclick="openTool('tts')">
                     <div class="tool-icon">🎙️</div>
                     <h3>Text to Voice</h3>
-                    <p>Convert text to natural speech with 100+ voices including ElevenLab quality</p>
+                    <p>Convert text to natural speech with realistic voices</p>
                 </div>
                 <div class="tool-card" onclick="openTool('t2i')">
                     <div class="tool-icon">🎨</div>
@@ -418,8 +434,8 @@
         </div>
 
         <!-- Tools Page -->
-        <div id="toolsPage" style="display:none">
-            <h1 style="margin-bottom:2rem">AI Tools Studio</h1>
+        <div id="toolsPage" class="page">
+            <h1 style="margin-bottom:2rem">✨ AI Tools Studio</h1>
             <div class="tools-grid">
                 <div class="tool-card" onclick="openTool('tts')">
                     <div class="tool-icon">🎙️</div>
@@ -440,40 +456,42 @@
         </div>
 
         <!-- Dashboard Page -->
-        <div id="dashboardPage" style="display:none">
-            <h1 style="margin-bottom:2rem">My Dashboard</h1>
+        <div id="dashboardPage" class="page">
+            <h1 style="margin-bottom:2rem">📊 My Dashboard</h1>
             <div class="dashboard-stats">
                 <div class="stat-card">
                     <h2 id="totalGenerations">0</h2>
                     <p>Total Generations</p>
                 </div>
                 <div class="stat-card">
-                    <h2>Free</h2>
+                    <h2>🚀 Free</h2>
                     <p>Plan</p>
                 </div>
                 <div class="stat-card">
-                    <h2>Unlimited</h2>
+                    <h2>♾️ Unlimited</h2>
                     <p>Usage</p>
                 </div>
             </div>
             <h3>📜 History</h3>
-            <div class="history-list" id="historyList"></div>
+            <div class="history-list" id="historyList">
+                <p style="text-align:center; opacity:0.5;">No history yet. Use some tools!</p>
+            </div>
         </div>
 
         <!-- About Page -->
-        <div id="aboutPage" style="display:none">
-            <h1>About Urdu Story Toons</h1>
+        <div id="aboutPage" class="page">
+            <h1>📖 About Urdu Story Toons</h1>
             <p style="margin-top:1rem">We provide free AI tools for content creators. Our mission is to make AI accessible to everyone.</p>
-            <p style="margin-top:1rem">✨ Features: Text to Voice (100+ voices), Text to Image (HD), Image to Video (6-second animations)</p>
-            <p style="margin-top:1rem">🔒 Free forever - No hidden costs!</p>
+            <p style="margin-top:1rem">✨ Features: Text to Voice, Text to Image (HD), Image to Video (6-second animations)</p>
+            <p style="margin-top:1rem">🔒 Free forever - No hidden costs! Unlimited usage.</p>
         </div>
 
         <!-- Contact Page -->
-        <div id="contactPage" style="display:none">
-            <h1>Contact Us</h1>
-            <p style="margin-top:1rem">Email: support@urdustorytoons.com</p>
-            <p>YouTube: @urdustorytoons007</p>
-            <p>GitHub: urdustorytoons1830-prog</p>
+        <div id="contactPage" class="page">
+            <h1>📞 Contact Us</h1>
+            <p style="margin-top:1rem">📧 Email: support@urdustorytoons.com</p>
+            <p>▶️ YouTube: @urdustorytoons007</p>
+            <p>💻 GitHub: urdustorytoons1830-prog</p>
         </div>
     </div>
 
@@ -489,20 +507,23 @@
     </div>
 
     <footer>
-        <p>© 2026 Urdu Story Toons - Free AI Tools | Unlimited Access</p>
+        <p>© 2026 Urdu Story Toons - Free AI Tools | Unlimited Access | No Credits Needed</p>
     </footer>
 
     <script>
-        // Variables
+        // Global variables
         let currentUser = null;
         let userHistory = [];
-        let currentTool = null;
 
         // Load saved data
         function loadData() {
-            const saved = localStorage.getItem('urdustorytoons_history');
-            if (saved) userHistory = JSON.parse(saved);
-            updateDashboard();
+            try {
+                const saved = localStorage.getItem('urdustorytoons_history');
+                if (saved) userHistory = JSON.parse(saved);
+                updateDashboard();
+            } catch(e) {
+                console.log('No saved data');
+            }
         }
 
         function saveHistory() {
@@ -511,15 +532,21 @@
         }
 
         function updateDashboard() {
-            document.getElementById('totalGenerations').innerHTML = userHistory.length;
+            const totalSpan = document.getElementById('totalGenerations');
+            if (totalSpan) totalSpan.innerHTML = userHistory.length;
+            
             const historyList = document.getElementById('historyList');
             if (historyList) {
-                historyList.innerHTML = userHistory.slice().reverse().slice(0, 20).map(item => `
-                    <div class="history-item">
-                        <span>${item.type}: ${item.prompt.substring(0, 40)}...</span>
-                        <span>${new Date(item.timestamp).toLocaleString()}</span>
-                    </div>
-                `).join('');
+                if (userHistory.length === 0) {
+                    historyList.innerHTML = '<p style="text-align:center; opacity:0.5;">No history yet. Use some tools!</p>';
+                } else {
+                    historyList.innerHTML = userHistory.slice().reverse().slice(0, 20).map(item => `
+                        <div class="history-item">
+                            <span><strong>${item.type}</strong>: ${item.prompt.substring(0, 40)}...</span>
+                            <span style="font-size:12px; opacity:0.6;">${new Date(item.timestamp).toLocaleString()}</span>
+                        </div>
+                    `).join('');
+                }
             }
         }
 
@@ -529,13 +556,11 @@
         }
 
         // Page navigation
-        function showPage(page) {
-            document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
-            document.getElementById('toolsPage').style.display = page === 'tools' ? 'block' : 'none';
-            document.getElementById('dashboardPage').style.display = page === 'dashboard' ? 'block' : 'none';
-            document.getElementById('aboutPage').style.display = page === 'about' ? 'block' : 'none';
-            document.getElementById('contactPage').style.display = page === 'contact' ? 'block' : 'none';
-            if (page === 'dashboard') updateDashboard();
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageName + 'Page').classList.add('active');
         }
 
         // Theme toggle
@@ -549,24 +574,28 @@
             }
         }
 
-        // Login with Google (simulated for free - real implementation would need Firebase)
+        // Login (Simple - Free Unlimited)
         function loginWithGoogle() {
-            const email = prompt("Enter your email to continue (Free Unlimited):");
-            if (email && email.includes('@')) {
-                currentUser = { email, name: email.split('@')[0] };
+            const email = prompt("✉️ Enter your email to continue:\n(Free & Unlimited - No credit card needed)");
+            if (email && email.includes('@') && email.includes('.')) {
+                currentUser = { email: email, name: email.split('@')[0] };
                 document.getElementById('loginBtn').style.display = 'none';
-                const userNameSpan = document.getElementById('userName');
-                userNameSpan.style.display = 'inline';
-                userNameSpan.innerHTML = `👤 ${currentUser.name}`;
-                alert(`Welcome ${currentUser.name}! All tools are FREE & UNLIMITED.`);
-            } else {
-                alert("Please enter a valid email!");
+                const userSpan = document.getElementById('userNameDisplay');
+                userSpan.style.display = 'inline';
+                userSpan.innerHTML = `👤 ${currentUser.name}`;
+                alert(`✅ Welcome ${currentUser.name}!\n\n🎉 All tools are FREE & UNLIMITED!\n🔓 No credits, no payments, forever free.`);
+            } else if (email) {
+                alert("❌ Please enter a valid email address!");
             }
         }
 
-        // Open tool
+        // Open tool modal
         function openTool(tool) {
-            currentTool = tool;
+            if (!currentUser) {
+                alert("🔐 Please sign in first to use the tools!\n\nClick 'Sign In' button above.");
+                return;
+            }
+
             const modal = document.getElementById('toolModal');
             const modalTitle = document.getElementById('modalTitle');
             const modalBody = document.getElementById('modalBody');
@@ -574,16 +603,15 @@
             if (tool === 'tts') {
                 modalTitle.innerHTML = '🎙️ Text to Voice';
                 modalBody.innerHTML = `
-                    <textarea id="ttsText" rows="4" placeholder="Enter your text here..."></textarea>
+                    <textarea id="ttsText" rows="4" placeholder="Enter your text here... (Example: Assalamualaikum, welcome to Urdu Story Toons)"></textarea>
                     <select id="ttsVoice">
-                        <option value="en-US-AriaNeural">Female - Aria</option>
-                        <option value="en-US-GuyNeural">Male - Guy</option>
-                        <option value="en-US-JennyNeural">Female - Jenny</option>
-                        <option value="en-US-DavisNeural">Male - Davis</option>
-                        <option value="en-US-JaneNeural">Female - Jane</option>
-                        <option value="en-US-JasonNeural">Male - Jason</option>
-                        <option value="en-US-SaraNeural">Female - Sara</option>
-                        <option value="en-US-TonyNeural">Male - Tony</option>
+                        <option value="en-US-AriaNeural">Female - Aria (American)</option>
+                        <option value="en-US-GuyNeural">Male - Guy (American)</option>
+                        <option value="en-US-JennyNeural">Female - Jenny (American)</option>
+                        <option value="en-GB-SoniaNeural">Female - Sonia (British)</option>
+                        <option value="hi-IN-SwaraNeural">Female - Swara (Hindi)</option>
+                        <option value="ur-PK-AsadNeural">Male - Asad (Urdu)</option>
+                        <option value="ur-PK-UzmaNeural">Female - Uzma (Urdu)</option>
                     </select>
                     <div class="progress-bar"><div class="progress-fill" id="ttsProgress"></div></div>
                     <button onclick="generateTTS()">🔊 Generate Voice</button>
@@ -591,16 +619,4 @@
                 `;
             } 
             else if (tool === 't2i') {
-                modalTitle.innerHTML = '🎨 Text to Image';
-                modalBody.innerHTML = `
-                    <textarea id="imagePrompt" rows="4" placeholder="Describe the image you want... Example: A beautiful sunset over mountains, digital art"></textarea>
-                    <div class="progress-bar"><div class="progress-fill" id="imageProgress"></div></div>
-                    <button onclick="generateImage()">✨ Generate Image</button>
-                    <div id="imageResult" class="result-area"></div>
-                `;
-            }
-            else if (tool === 'i2v') {
-                modalTitle.innerHTML = '🎬 Image to Video';
-                modalBody.innerHTML = `
-                    <input type="file" id="videoImageInput" accept="image/*">
-                    <textarea id="videoPrompt" rows="4" placeholder="Describe the mo
+                modalTitle.innerHTML = '🎨 Text
