@@ -3,35 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urdu Story Toons - Free AI Image Generator</title>
+    <title>Urdu Story Toons - AI Image & Video Generator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
             margin: 0;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .tab.active {
+            background: white;
+            color: #667eea;
+        }
+        .card {
             background: white;
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
-        h1 {
-            text-align: center;
+        .card h2 {
             color: #333;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
         }
-        textarea {
+        textarea, input {
             width: 100%;
             padding: 15px;
             border: 2px solid #ddd;
             border-radius: 10px;
             font-size: 16px;
-            margin: 15px 0;
+            margin-bottom: 15px;
             box-sizing: border-box;
+            font-family: inherit;
         }
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -42,39 +76,110 @@
             font-size: 18px;
             cursor: pointer;
             width: 100%;
+            font-weight: bold;
         }
         button:hover {
             opacity: 0.9;
+            transform: scale(1.02);
         }
-        img {
-            max-width: 100%;
+        .result {
             margin-top: 20px;
-            border-radius: 10px;
+            text-align: center;
+        }
+        .result img, .result video {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
         }
         .loading {
             text-align: center;
             margin-top: 20px;
             color: #667eea;
+            font-weight: bold;
             display: none;
+        }
+        .youtube-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .youtube-btn {
+            background: #ff0000;
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            color: white;
+        }
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎨 Urdu Story Toons AI Tools</h1>
-        <p style="text-align:center; color:#666;">Text to Image Generator - No API Key Required!</p>
-        
-        <textarea id="prompt" rows="3" placeholder="Describe your image... Example: A beautiful sunset over mountains"></textarea>
-        <button onclick="generateImage()">✨ Generate Image</button>
-        <div class="loading" id="loading">⏳ Generating your image... Please wait</div>
-        <img id="result" style="display:none;">
+        <div class="header">
+            <h1>🎨 Urdu Story Toons AI Tools</h1>
+            <p>Free AI Tools - Text to Image & Image to Video</p>
+        </div>
+
+        <div class="tab-container">
+            <div class="tab active" onclick="switchTab('image')">📸 Text to Image</div>
+            <div class="tab" onclick="switchTab('video')">🎬 Image to Video (6 sec)</div>
+        </div>
+
+        <div class="card">
+            <!-- Text to Image Tab -->
+            <div id="imageTab">
+                <h2>📝 Text to Image</h2>
+                <textarea id="prompt" rows="3" placeholder="Describe your image... Example: A beautiful sunset over mountains"></textarea>
+                <button onclick="generateImage()">✨ Generate Image</button>
+                <div class="loading" id="imgLoading">⏳ Generating image... Please wait</div>
+                <div class="result" id="imgResult"></div>
+            </div>
+
+            <!-- Image to Video Tab (Hidden by default) -->
+            <div id="videoTab" style="display:none;">
+                <h2>🎬 Image to Video (6 Seconds)</h2>
+                <textarea id="videoPrompt" rows="3" placeholder="Describe the scene... Example: A warrior riding horse in desert, cinematic animation"></textarea>
+                <button onclick="generateVideo()">🎥 Generate 6-Second Video</button>
+                <div class="loading" id="videoLoading">⏳ Generating video... This takes 20-30 seconds</div>
+                <div class="result" id="videoResult"></div>
+            </div>
+        </div>
+
+        <div class="youtube-section">
+            <a href="https://youtube.com/@urdustorytoons" target="_blank" class="youtube-btn">🎬 Subscribe on YouTube</a>
+        </div>
+
+        <footer>
+            <p>© 2026 Urdu Story Toons - Free AI Tools | 6-Second Videos</p>
+        </footer>
     </div>
 
     <script>
+        let currentTab = 'image';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach((t, i) => {
+                if ((tab === 'image' && i === 0) || (tab === 'video' && i === 1)) {
+                    t.classList.add('active');
+                } else {
+                    t.classList.remove('active');
+                }
+            });
+            
+            document.getElementById('imageTab').style.display = tab === 'image' ? 'block' : 'none';
+            document.getElementById('videoTab').style.display = tab === 'video' ? 'block' : 'none';
+        }
+
+        // Text to Image Function
         async function generateImage() {
             const prompt = document.getElementById('prompt').value;
-            const img = document.getElementById('result');
-            const loading = document.getElementById('loading');
+            const resultDiv = document.getElementById('imgResult');
+            const loading = document.getElementById('imgLoading');
             
             if (!prompt.trim()) {
                 alert('Please enter a prompt!');
@@ -82,17 +187,125 @@
             }
             
             loading.style.display = 'block';
-            img.style.display = 'none';
+            resultDiv.innerHTML = '';
             
             try {
                 const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&nologo=true`;
-                img.src = url;
-                img.style.display = 'block';
-                loading.style.display = 'none';
+                resultDiv.innerHTML = `<img src="${url}" alt="Generated Image"><p style="margin-top:10px;">✅ Image generated! Switch to Video tab to animate this idea.</p>`;
             } catch (error) {
-                alert('Error: ' + error.message);
+                resultDiv.innerHTML = `<p style="color:red;">❌ Error: ${error.message}</p>`;
+            } finally {
                 loading.style.display = 'none';
             }
+        }
+
+        // Image to Video Function (6 seconds)
+        async function generateVideo() {
+            const prompt = document.getElementById('videoPrompt').value;
+            const resultDiv = document.getElementById('videoResult');
+            const loading = document.getElementById('videoLoading');
+            
+            if (!prompt.trim()) {
+                alert('Please enter a prompt for video!');
+                return;
+            }
+            
+            loading.style.display = 'block';
+            resultDiv.innerHTML = '';
+            
+            try {
+                // First generate an image from the prompt
+                const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ", cinematic, 4k, detailed")}?width=1024&height=576&nologo=true`;
+                
+                resultDiv.innerHTML = `<p>📸 Step 1/2: Image generated...</p><img src="${imageUrl}" style="max-width:100%; border-radius:10px;">`;
+                
+                // For video, we'll create an animated slideshow effect
+                // Since free API for video is limited, we create a canvas animation
+                // This creates a 6-second video-like animation from the image
+                
+                resultDiv.innerHTML += `<p>🎬 Step 2/2: Creating 6-second animation...</p>`;
+                
+                // Load the image and create animation
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.src = imageUrl;
+                
+                await new Promise((resolve) => {
+                    img.onload = resolve;
+                    setTimeout(resolve, 3000);
+                });
+                
+                // Create canvas animation (6 seconds = 6 fps = 36 frames for smooth)
+                const canvas = document.createElement('canvas');
+                canvas.width = 1024;
+                canvas.height = 576;
+                const ctx = canvas.getContext('2d');
+                
+                // Create a video element from canvas frames
+                const stream = canvas.captureStream(6); // 6 fps
+                const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                let chunks = [];
+                
+                mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(chunks, { type: 'video/webm' });
+                    const videoUrl = URL.createObjectURL(blob);
+                    resultDiv.innerHTML = `<video src="${videoUrl}" controls autoplay loop style="max-width:100%; border-radius:15px;"></video>
+                                           <p>✅ 6-Second Video Ready! Click download button on video to save.</p>
+                                           <button onclick="downloadVideo('${videoUrl}')" style="margin-top:10px; background:#28a745;">💾 Download Video</button>`;
+                };
+                
+                mediaRecorder.start();
+                
+                // Animate for 6 seconds (36 frames at 6fps)
+                let startTime = Date.now();
+                let frame = 0;
+                
+                function animateFrame() {
+                    const elapsed = (Date.now() - startTime) / 1000;
+                    if (elapsed >= 6) {
+                        mediaRecorder.stop();
+                        return;
+                    }
+                    
+                    // Clear canvas
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Draw image with slight zoom/pan effect (ken burns)
+                    const scale = 1 + (elapsed / 6) * 0.05;
+                    const width = canvas.width * scale;
+                    const height = canvas.height * scale;
+                    const x = (canvas.width - width) / 2;
+                    const y = (canvas.height - height) / 2;
+                    
+                    ctx.drawImage(img, x, y, width, height);
+                    
+                    // Add text overlay (the prompt)
+                    ctx.font = 'bold 24px Arial';
+                    ctx.fillStyle = 'white';
+                    ctx.shadowColor = 'black';
+                    ctx.shadowBlur = 5;
+                    ctx.fillText(prompt.substring(0, 50), 50, canvas.height - 50);
+                    
+                    frame++;
+                    setTimeout(animateFrame, 1000 / 6);
+                }
+                
+                animateFrame();
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color:red;">❌ Error: ${error.message}. Please try again.</p>`;
+                loading.style.display = 'none';
+            } finally {
+                setTimeout(() => { loading.style.display = 'none'; }, 6000);
+            }
+        }
+        
+        function downloadVideo(url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'urdustorytoons-video.webm';
+            a.click();
         }
     </script>
 </body>
