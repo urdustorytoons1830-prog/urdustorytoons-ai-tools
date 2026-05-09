@@ -1,207 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>Urdu Story Toons</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Urdu Story Toons - Pro AI Studio | Image to Video | Multiple Sizes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --dark: #0a0a0a;
-            --card-bg: rgba(20, 20, 30, 0.7);
-            --glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.08);
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--dark);
-            color: #fff;
-            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a2e, #1a1a3e);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
         }
-
-        /* Animated Background */
-        .bg-orb {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at 20% 30%, rgba(99,102,241,0.15) 0%, #0a0a0a 80%);
-            z-index: -2;
+        .container {
+            max-width: 1000px;
+            margin: auto;
         }
-
-        .noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        /* Navbar */
-        .navbar {
-            backdrop-filter: blur(20px);
-            background: rgba(10, 10, 10, 0.8);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 16px 0;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon { font-size: 32px; }
-        .logo-text {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #6366f1, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .logo-badge {
-            background: linear-gradient(135deg, #6366f1, #ec4899);
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 10px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 28px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .nav-links a:hover { color: #6366f1; }
-
-        .user-panel {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: var(--glass);
-            padding: 6px 20px;
-            border-radius: 50px;
-            border: 1px solid var(--border);
-        }
-        .user-avatar {
-            width: 34px;
-            height: 34px;
-            background: linear-gradient(135deg, #6366f1, #ec4899);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .limit-badge {
-            background: var(--success);
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        .login-nav-btn {
-            background: linear-gradient(135deg, #6366f1, #ec4899);
-            padding: 8px 28px;
-            border-radius: 40px;
-            color: white !important;
-            font-weight: 600;
-        }
-
-        /* Hero */
-        .hero {
+        h1 {
             text-align: center;
-            padding: 80px 20px 60px;
+            margin-bottom: 30px;
+            font-size: 2rem;
         }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(99,102,241,0.15);
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 12px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(99,102,241,0.3);
+        .login-box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 30px;
         }
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #6366f1, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
+        .login-box input {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: none;
+            width: 250px;
+            font-size: 16px;
         }
-        .hero p {
-            font-size: 18px;
-            color: #aaa;
-            max-width: 700px;
-            margin: 0 auto;
+        .login-box button {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
         }
-
-        /* Features Grid */
-        .features-grid {
-            max-width: 1400px;
-            margin: 60px auto;
-            padding: 0 32px;
+        .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
-        .feature-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            padding: 36px 28px;
+        .tool-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
             text-align: center;
-            transition: 0.3s;
             cursor: pointer;
+            transition: 0.3s;
         }
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: #6366f1;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        .tool-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
         }
-        .feature-icon { font-size: 56px; margin-bottom: 20px; }
-        .feature-card h3 { font-size: 24px; margin-bottom: 12px; }
-        .feature-card p { color: #888; font-size: 14px; }
-
+        .tool-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        .tool-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        /* Size selector */
+        .size-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        .size-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid #667eea;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .size-btn.active {
+            background: #667eea;
+        }
         /* Modal */
         .modal {
             display: none;
@@ -210,65 +105,67 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.96);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
         }
         .modal-content {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            max-width: 750px;
+            background: #1a1a2e;
+            max-width: 600px;
             width: 90%;
-            border-radius: 48px;
-            padding: 32px;
-            border: 1px solid rgba(99,102,241,0.3);
-            max-height: 85vh;
+            border-radius: 25px;
+            padding: 25px;
+            max-height: 80vh;
             overflow-y: auto;
         }
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
-        .close-modal {
-            font-size: 32px;
+        .close {
+            font-size: 28px;
             cursor: pointer;
             background: none;
             border: none;
             color: white;
         }
-        .input-field {
+        textarea, input {
             width: 100%;
-            padding: 14px 18px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            color: white;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: none;
             font-size: 14px;
-            margin-bottom: 16px;
         }
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #ec4899);
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
             border: none;
             padding: 14px;
-            border-radius: 50px;
-            color: white;
-            font-weight: 600;
+            border-radius: 30px;
             cursor: pointer;
             width: 100%;
             font-size: 16px;
+            font-weight: bold;
         }
         .result-area {
-            margin-top: 24px;
+            margin-top: 20px;
             text-align: center;
         }
         .result-area video, .result-area img {
             max-width: 100%;
-            border-radius: 24px;
+            border-radius: 15px;
         }
-        .progress-container {
+        .preview-img {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 15px;
+            margin: 10px 0;
+        }
+        .progress-bar {
             height: 4px;
             background: #333;
             border-radius: 2px;
@@ -277,225 +174,370 @@
         .progress-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #6366f1, #ec4899);
+            background: #667eea;
             border-radius: 2px;
-            transition: width 0.3s;
         }
-        .image-preview { margin: 15px 0; text-align: center; }
-        .image-preview img { max-width: 100%; max-height: 180px; border-radius: 20px; }
-
-        /* Size Selector */
-        .size-selector {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 15px 0;
-        }
-        .size-option {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 8px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.2s;
-        }
-        .size-option i { font-size: 14px; }
-        .size-option.active {
-            border-color: #6366f1;
-            background: rgba(99,102,241,0.2);
-        }
-        .size-option:hover {
-            border-color: #6366f1;
-        }
-
-        /* Pricing */
-        .pricing-section {
-            max-width: 1200px;
-            margin: 80px auto;
-            padding: 0 32px;
-        }
-        .section-title { text-align: center; margin-bottom: 50px; }
-        .section-title h2 { font-size: 42px; margin-bottom: 10px; }
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-        }
-        .pricing-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            padding: 32px;
+        .youtube-link {
+            display: inline-block;
+            background: #ff0000;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
             text-align: center;
         }
-        .pricing-card.popular { border: 2px solid #6366f1; background: rgba(99,102,241,0.1); }
-        .price { font-size: 48px; font-weight: 800; margin: 20px 0; }
-        .pricing-card ul { list-style: none; margin: 25px 0; }
-        .pricing-card li { padding: 8px 0; color: #aaa; }
-        .pricing-card li i { color: #10b981; margin-right: 10px; }
-
-        .footer {
+        footer {
             text-align: center;
-            padding: 40px;
-            border-top: 1px solid var(--border);
-            color: #666;
-        }
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 32px; }
-            .features-grid { padding: 0 20px; }
-            .nav-container { flex-direction: column; }
+            color: #888;
+            margin-top: 30px;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="bg-orb"></div>
-    <div class="noise"></div>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">🎬</span>
-                <span class="logo-text">UrduStoryToons</span>
-                <span class="logo-badge">PRO</span>
-            </div>
-            <div class="nav-links">
-                <a onclick="showPage('home')">Home</a>
-                <a onclick="showPage('studio')">Studio</a>
-                <a onclick="showPage('pricing')">Pricing</a>
-                <a onclick="showPage('about')">About</a>
-                <div id="userPanel" class="user-panel" style="display:none">
-                    <div class="user-avatar"><i class="fas fa-user"></i></div>
-                    <span id="userName"></span>
-                    <span id="limitBadge" class="limit-badge"></span>
-                </div>
-                <a id="loginNavBtn" onclick="showLoginModal()" class="login-nav-btn">Sign In</a>
-            </div>
-        </div>
-    </nav>
+<div class="container">
+    <h1>🎬 Urdu Story Toons AI Studio</h1>
 
-    <div id="homePage">
-        <div class="hero">
-            <div class="hero-badge">✨ PRO AI STUDIO ✨</div>
-            <h1>Turn Images Into<br>Cinematic Videos</h1>
-            <p>Upload image, choose size (9:16, 16:9, 1:1), write prompt, and generate amazing videos</p>
+    <!-- Login Section -->
+    <div class="login-box" id="loginBox">
+        <input type="email" id="emailInput" placeholder="Enter your email">
+        <button id="signInBtn">🔐 Sign In (Free)</button>
+        <span id="welcomeMsg" style="margin-left: 10px; color: #10b981;"></span>
+    </div>
+
+    <!-- Tools -->
+    <div class="tools-grid">
+        <div class="tool-card" id="ttsCard">
+            <div class="tool-icon">🎙️</div>
+            <h3>Text to Voice</h3>
+            <p>30+ realistic voices</p>
         </div>
-        <div class="features-grid">
-            <div class="feature-card" onclick="openTool('tts')">
-                <div class="feature-icon">🎙️</div>
-                <h3>Text to Voice</h3>
-                <p>30+ realistic voices</p>
-            </div>
-            <div class="feature-card" onclick="openTool('image')">
-                <div class="feature-icon">🎨</div>
-                <h3>Text to Image</h3>
-                <p>4K HD quality with multiple sizes</p>
-            </div>
-            <div class="feature-card" onclick="openTool('video')">
-                <div class="feature-icon">🎬</div>
-                <h3>Image to Video</h3>
-                <p>9:16, 16:9, 1:1 sizes | Real motion</p>
-            </div>
+        <div class="tool-card" id="imageCard">
+            <div class="tool-icon">🎨</div>
+            <h3>Text to Image</h3>
+            <p>4K HD with size options</p>
+        </div>
+        <div class="tool-card" id="videoCard">
+            <div class="tool-icon">🎬</div>
+            <h3>Image to Video</h3>
+            <p>9:16, 16:9, 1:1 sizes</p>
         </div>
     </div>
 
-    <div id="studioPage" style="display:none">
-        <div class="hero" style="padding: 60px 20px">
-            <h1 style="font-size: 42px">🎬 AI Studio</h1>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card" onclick="openTool('tts')"><div class="feature-icon">🎙️</div><h3>Text to Voice</h3></div>
-            <div class="feature-card" onclick="openTool('image')"><div class="feature-icon">🎨</div><h3>Text to Image</h3></div>
-            <div class="feature-card" onclick="openTool('video')"><div class="feature-icon">🎬</div><h3>Image to Video</h3></div>
-        </div>
+    <!-- YouTube -->
+    <div style="text-align: center;">
+        <a href="https://youtube.com/@urdustorytoons007" target="_blank" class="youtube-link">▶️ Subscribe on YouTube</a>
     </div>
 
-    <div id="pricingPage" style="display:none">
-        <div class="pricing-section">
-            <div class="section-title"><h2>Choose Your Plan</h2><p>Free users get 10 videos daily</p></div>
-            <div class="pricing-grid">
-                <div class="pricing-card"><h3>🎁 Free</h3><div class="price">$0</div><ul><li><i class="fas fa-check"></i>10 videos/day</li><li><i class="fas fa-check"></i>30+ voices</li><li><i class="fas fa-check"></i>4K images</li></ul><button class="btn-primary" onclick="alert('Free plan active!')">Current</button></div>
-                <div class="pricing-card popular"><h3>⭐ Monthly</h3><div class="price">$10<small>/mo</small></div><ul><li><i class="fas fa-check"></i>Unlimited videos</li><li><i class="fas fa-check"></i>Priority processing</li><li><i class="fas fa-check"></i>4K output</li></ul><button class="btn-primary" onclick="upgradePlan('monthly')">Upgrade</button></div>
-                <div class="pricing-card"><h3>🔥 6 Months</h3><div class="price">$30<small>/6mo</small></div><ul><li><i class="fas fa-check"></i>Save $30</li><li><i class="fas fa-check"></i>Unlimited</li></ul><button class="btn-primary" onclick="upgradePlan('semester')">Save 50%</button></div>
-                <div class="pricing-card"><h3>👑 Yearly</h3><div class="price">$70<small>/year</small></div><ul><li><i class="fas fa-check"></i>Save $50</li><li><i class="fas fa-check"></i>Premium support</li></ul><button class="btn-primary" onclick="upgradePlan('yearly')">Best Value</button></div>
+    <footer>
+        <p>© 2026 Urdu Story Toons | Sizes: 9:16 (Shorts) | 16:9 (YouTube) | 1:1 (Instagram)</p>
+    </footer>
+</div>
+
+<!-- Modal -->
+<div id="toolModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">Tool</h2>
+            <button class="close" id="closeModalBtn">&times;</button>
+        </div>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<script>
+    // ========== LOGIN SYSTEM ==========
+    let loggedIn = false;
+    let userName = "";
+    
+    const emailInput = document.getElementById('emailInput');
+    const signInBtn = document.getElementById('signInBtn');
+    const welcomeMsg = document.getElementById('welcomeMsg');
+    const ttsCard = document.getElementById('ttsCard');
+    const imageCard = document.getElementById('imageCard');
+    const videoCard = document.getElementById('videoCard');
+    const modal = document.getElementById('toolModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    
+    // Check saved user
+    let savedUser = localStorage.getItem('ust_user_simple');
+    if(savedUser) {
+        loggedIn = true;
+        userName = savedUser;
+        emailInput.style.display = 'none';
+        signInBtn.style.display = 'none';
+        welcomeMsg.innerHTML = '✅ Welcome ' + userName;
+    }
+    
+    // Sign in function
+    signInBtn.onclick = function() {
+        let email = emailInput.value.trim();
+        if(email === "") {
+            alert("Please enter your email!");
+            return;
+        }
+        if(!email.includes('@')) {
+            alert("Enter valid email!");
+            return;
+        }
+        loggedIn = true;
+        userName = email.split('@')[0];
+        localStorage.setItem('ust_user_simple', userName);
+        emailInput.style.display = 'none';
+        signInBtn.style.display = 'none';
+        welcomeMsg.innerHTML = '✅ Welcome ' + userName;
+        alert("Welcome " + userName + "! All tools FREE!");
+    };
+    
+    function checkLogin() {
+        if(!loggedIn) {
+            alert("Please sign in first!");
+            return false;
+        }
+        return true;
+    }
+    
+    function closeModalFn() {
+        modal.style.display = 'none';
+    }
+    closeModalBtn.onclick = closeModalFn;
+    window.onclick = function(e) {
+        if(e.target === modal) closeModalFn();
+    };
+    
+    // ========== TEXT TO VOICE ==========
+    ttsCard.onclick = function() {
+        if(!checkLogin()) return;
+        document.getElementById('modalTitle').innerHTML = '🎙️ Text to Voice';
+        document.getElementById('modalBody').innerHTML = `
+            <textarea id="ttsText" rows="3" placeholder="Enter your text here..."></textarea>
+            <select id="voiceSelect" style="width:100%; padding:12px; margin:10px 0; border-radius:12px;">
+                <option>👩 Sarah (Female)</option>
+                <option>👩 Emma (Female)</option>
+                <option>👩 Olivia (Female)</option>
+                <option>👨 Michael (Male)</option>
+                <option>👨 David (Male)</option>
+                <option>👨 James (Male)</option>
+            </select>
+            <div class="progress-bar"><div class="progress-fill" id="ttsP"></div></div>
+            <button class="btn" onclick="generateTTS()">🔊 Generate Voice</button>
+            <div id="ttsResult" class="result-area"></div>
+        `;
+        modal.style.display = 'flex';
+    };
+    
+    function generateTTS() {
+        let text = document.getElementById('ttsText').value;
+        if(!text.trim()) { alert("Enter text!"); return; }
+        let prog = document.getElementById('ttsP');
+        prog.style.width = '100%';
+        let utterance = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utterance);
+        document.getElementById('ttsResult').innerHTML = '<p style="color:#10b981;">✅ Voice playing!</p>';
+        setTimeout(() => { prog.style.width = '0%'; }, 1000);
+    }
+    
+    // ========== TEXT TO IMAGE WITH SIZE ==========
+    let selectedImageSize = "1024x1024";
+    let imageSizeName = "1:1 (Instagram)";
+    
+    imageCard.onclick = function() {
+        if(!checkLogin()) return;
+        document.getElementById('modalTitle').innerHTML = '🎨 Text to Image';
+        document.getElementById('modalBody').innerHTML = `
+            <div class="size-row">
+                <div class="size-btn" onclick="setImageSize('1024x1024','1:1 (Instagram)',this)"><i class="fas fa-square"></i> 1:1 Instagram</div>
+                <div class="size-btn" onclick="setImageSize('1792x1024','16:9 (YouTube)',this)"><i class="fas fa-tv"></i> 16:9 YouTube</div>
+                <div class="size-btn" onclick="setImageSize('1024x1792','9:16 (Shorts)',this)"><i class="fas fa-mobile-alt"></i> 9:16 Shorts</div>
             </div>
-        </div>
-    </div>
-
-    <div id="aboutPage" style="display:none">
-        <div class="hero" style="padding: 80px 20px"><h1 style="font-size: 42px">About Us</h1><p style="max-width:700px; margin:20px auto">Professional AI tools for content creators. Real motion video generation with multiple aspect ratios.</p></div>
-    </div>
-
-    <div id="toolModal" class="modal"><div class="modal-content"><div class="modal-header"><h2 id="modalTitle">Tool</h2><button class="close-modal" onclick="closeModal()">&times;</button></div><div id="modalBody"></div></div></div>
-    <div id="loginModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>🔐 Sign In</h2><button class="close-modal" onclick="closeLoginModal()">&times;</button></div><div style="padding:20px"><input type="email" id="loginEmail" class="input-field" placeholder="Enter your email"><button class="btn-primary" onclick="signIn()">Sign In (Free)</button><p style="margin-top:15px; color:#888; font-size:12px">✅ Sign in once - saved! 10 free videos daily!</p></div></div></div>
-
-    <div class="footer"><p>© 2026 Urdu Story Toons | Multi-Size Support: 9:16 (Shorts) | 16:9 (YouTube) | 1:1 (Instagram)</p></div>
-
-    <script>
-        // ========== USER SYSTEM ==========
-        let currentUser = null;
-        let userPlan = "free";
-        let dailyCount = 0;
-        let lastDate = "";
-
-        function loadUser() {
-            let saved = localStorage.getItem('ust_pro');
-            if(saved) {
-                let data = JSON.parse(saved);
-                currentUser = data.email;
-                userPlan = data.plan || "free";
-                dailyCount = data.count || 0;
-                lastDate = data.date || "";
-                let today = new Date().toDateString();
-                if(lastDate !== today) { dailyCount = 0; saveUser(); }
-                updateUI();
+            <textarea id="imgPrompt" rows="3" placeholder="Describe the image... Example: warrior on horse, sunset, cinematic"></textarea>
+            <div class="progress-bar"><div class="progress-fill" id="imgP"></div></div>
+            <button class="btn" onclick="generateImage()">✨ Generate ${imageSizeName}</button>
+            <div id="imgResult" class="result-area"></div>
+        `;
+        document.getElementById('modalBody').innerHTML += `<p style="font-size:12px; color:#888; margin-top:10px;">Selected: ${imageSizeName}</p>`;
+        modal.style.display = 'flex';
+    };
+    
+    function setImageSize(size, name, el) {
+        selectedImageSize = size;
+        imageSizeName = name;
+        document.querySelectorAll('#modalBody .size-btn').forEach(btn => btn.classList.remove('active'));
+        el.classList.add('active');
+    }
+    
+    async function generateImage() {
+        let prompt = document.getElementById('imgPrompt').value;
+        if(!prompt.trim()) { alert("Enter prompt!"); return; }
+        let prog = document.getElementById('imgP');
+        let res = document.getElementById('imgResult');
+        prog.style.width = '50%';
+        res.innerHTML = '<p>⏳ Generating ' + imageSizeName + ' image...</p>';
+        try {
+            let wh = selectedImageSize.split('x');
+            let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=' + wh[0] + '&height=' + wh[1] + '&nologo=true';
+            prog.style.width = '100%';
+            res.innerHTML = '<img src="' + url + '"><br><button onclick="downloadImage(\'' + url + '\')" style="margin-top:10px; padding:10px 20px; background:#10b981; border:none; border-radius:25px; color:white; cursor:pointer;">💾 Download</button>';
+            setTimeout(() => { prog.style.width = '0%'; }, 500);
+        } catch(e) {
+            res.innerHTML = '<p style="color:red;">Error! Try again.</p>';
+            prog.style.width = '0%';
+        }
+    }
+    
+    function downloadImage(url) {
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = 'image.png';
+        a.click();
+    }
+    
+    // ========== IMAGE TO VIDEO WITH SIZE ==========
+    let selectedVideoWidth = 1080;
+    let selectedVideoHeight = 1920;
+    let videoSizeName = "9:16 (YouTube Shorts)";
+    let uploadedVideoImage = null;
+    
+    videoCard.onclick = function() {
+        if(!checkLogin()) return;
+        document.getElementById('modalTitle').innerHTML = '🎬 Image to Video';
+        document.getElementById('modalBody').innerHTML = `
+            <div class="size-row">
+                <div class="size-btn" onclick="setVideoSize(1080,1920,'9:16 (YouTube Shorts)',this)"><i class="fas fa-mobile-alt"></i> 9:16 Shorts</div>
+                <div class="size-btn" onclick="setVideoSize(1920,1080,'16:9 (YouTube Video)',this)"><i class="fas fa-tv"></i> 16:9 YouTube</div>
+                <div class="size-btn" onclick="setVideoSize(1080,1080,'1:1 (Instagram)',this)"><i class="fas fa-square"></i> 1:1 Instagram</div>
+            </div>
+            <input type="file" id="vidFile" accept="image/*" onchange="previewVideoImage()">
+            <div id="previewDiv" style="text-align:center; margin:10px 0;"></div>
+            <textarea id="vidPrompt" rows="3" placeholder="Motion: zoom in, zoom out, pan left, pan right, orbit"></textarea>
+            <div class="progress-bar"><div class="progress-fill" id="vidP"></div></div>
+            <button class="btn" onclick="generateVideo()">🎥 Generate ${videoSizeName} Video</button>
+            <div id="vidResult" class="result-area"></div>
+            <p style="font-size:12px; color:#888; margin-top:10px;">Selected: ${videoSizeName}</p>
+        `;
+        modal.style.display = 'flex';
+    };
+    
+    function setVideoSize(w, h, name, el) {
+        selectedVideoWidth = w;
+        selectedVideoHeight = h;
+        videoSizeName = name;
+        document.querySelectorAll('#modalBody .size-btn').forEach(btn => btn.classList.remove('active'));
+        el.classList.add('active');
+    }
+    
+    function previewVideoImage() {
+        let file = document.getElementById('vidFile').files[0];
+        if(file) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedVideoImage = e.target.result;
+                document.getElementById('previewDiv').innerHTML = '<img src="' + uploadedVideoImage + '" class="preview-img"><p style="color:#10b981;">✅ Image ready for ' + videoSizeName + '</p>';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    
+    async function generateVideo() {
+        let prompt = document.getElementById('vidPrompt').value;
+        let prog = document.getElementById('vidP');
+        let resDiv = document.getElementById('vidResult');
+        
+        if(!uploadedVideoImage) { alert("Upload image first!"); return; }
+        
+        prog.style.width = '20%';
+        resDiv.innerHTML = '<p>⏳ Loading image...</p>';
+        
+        let img = new Image();
+        img.src = uploadedVideoImage;
+        await new Promise(r => { img.onload = r; });
+        
+        prog.style.width = '40%';
+        resDiv.innerHTML = '<p>🎬 Creating ' + videoSizeName + ' video...</p>';
+        
+        let canvas = document.createElement('canvas');
+        canvas.width = selectedVideoWidth;
+        canvas.height = selectedVideoHeight;
+        let ctx = canvas.getContext('2d');
+        
+        // Fit image to canvas
+        let dw, dh, sx, sy;
+        let imgRatio = img.width / img.height;
+        let canRatio = selectedVideoWidth / selectedVideoHeight;
+        
+        if(imgRatio > canRatio) {
+            dh = selectedVideoHeight;
+            dw = img.width * (selectedVideoHeight / img.height);
+            sx = (selectedVideoWidth - dw) / 2;
+            sy = 0;
+        } else {
+            dw = selectedVideoWidth;
+            dh = img.height * (selectedVideoWidth / img.width);
+            sx = 0;
+            sy = (selectedVideoHeight - dh) / 2;
+        }
+        
+        let stream = canvas.captureStream(24);
+        let recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+        let chunks = [];
+        
+        recorder.ondataavailable = e => chunks.push(e.data);
+        recorder.onstop = () => {
+            let blob = new Blob(chunks, { type: 'video/webm' });
+            let url = URL.createObjectURL(blob);
+            resDiv.innerHTML = '<video src="' + url + '" controls autoplay loop style="max-width:100%; border-radius:15px;"></video><br><button onclick="downloadVideo(\'' + url + '\')" style="margin-top:10px; padding:10px 20px; background:#10b981; border:none; border-radius:25px; color:white; cursor:pointer;">💾 Download Video (' + videoSizeName + ')</button>';
+            prog.style.width = '0%';
+        };
+        
+        recorder.start();
+        let startTime = Date.now();
+        let p = prompt.toLowerCase();
+        
+        function animate() {
+            let elapsed = (Date.now() - startTime) / 1000;
+            let progVal = Math.min(elapsed / 6, 1);
+            if(progVal >= 1) {
+                recorder.stop();
+                return;
             }
-        }
-        function saveUser() {
-            if(currentUser) localStorage.setItem('ust_pro', JSON.stringify({email: currentUser, plan: userPlan, count: dailyCount, date: new Date().toDateString()}));
-        }
-        function updateUI() {
-            if(currentUser) {
-                document.getElementById('userPanel').style.display = 'flex';
-                document.getElementById('userName').innerHTML = currentUser.split('@')[0];
-                document.getElementById('loginNavBtn').style.display = 'none';
-                let remaining = userPlan === 'free' ? (10 - dailyCount) : '∞';
-                document.getElementById('limitBadge').innerHTML = userPlan === 'free' ? `🎬 ${remaining} left` : `👑 Unlimited`;
+            
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, selectedVideoWidth, selectedVideoHeight);
+            
+            let scale = 1;
+            let x = sx, y = sy;
+            
+            if(p.includes('zoom in')) {
+                scale = 1 + progVal * 0.25;
+                x = (selectedVideoWidth - dw * scale) / 2;
+                y = (selectedVideoHeight - dh * scale) / 2;
             }
-        }
-        function signIn() {
-            let email = document.getElementById('loginEmail').value.trim();
-            if(!email || !email.includes('@')) { alert("Valid email!"); return; }
-            currentUser = email; userPlan = "free"; dailyCount = 0; saveUser(); updateUI(); closeLoginModal();
-            alert("✅ Welcome! 10 FREE videos daily with real motion!");
-        }
-        function showLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
-        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
-        function checkLimit() {
-            if(!currentUser) { showLoginModal(); return false; }
-            if(userPlan === 'free' && dailyCount >= 10) { alert("Daily limit reached! Upgrade for unlimited."); showPage('pricing'); return false; }
-            return true;
-        }
-        function addUsage() { if(userPlan === 'free') { dailyCount++; saveUser(); updateUI(); } }
-        function upgradePlan(plan) {
-            if(!currentUser) { alert("Sign in first!"); showLoginModal(); return; }
-            let amount = plan === 'monthly' ? 10 : (plan === 'semester' ? 30 : 70);
-            if(confirm(`Upgrade for $${amount}? Payment via JazzCash/Bank Transfer`)) { alert(`✅ Upgraded! Unlimited videos activated.`); userPlan = plan; saveUser(); updateUI(); }
-        }
-        function showPage(page) {
-            document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
-            document.getElementById('studioPage').style.display = page === 'studio' ? 'block' : 'none';
-            document.getElementById('pricingPage').style.display = page === 'pricing' ? 'block' : 'none';
-            document.getElementById('aboutPage').style.display = page === 'about' ? 'block' : 'none';
-        }
-        function closeModal() { document.getElementById('toolModal').style.display = 'none'; }
-
-        // ========== TEXT TO VOICE ==========
-        function openTTS() {
-            if(!checkLogin()) return;
-            document.getElementById('modalTitle').innerHTML = '🎙️ Text to Voice (30 Voices)';
-            let voices = '<select id="voiceSelect" class="input-field">';
-            let female = ['Sarah','Emma','Olivia','Sophia','Isabella','Mi
+            else if(p.includes('zoom out')) {
+                scale = 1 + (1 - progVal) * 0.2;
+                x = (selectedVideoWidth - dw * scale) / 2;
+                y = (selectedVideoHeight - dh * scale) / 2;
+            }
+            else if(p.includes('pan left')) {
+                let maxPan = dw - selectedVideoWidth;
+                x = sx - maxPan * progVal;
+            }
+            else if(p.includes('pan right')) {
+                let maxPan = dw - selectedVideoWidth;
+                x = sx - maxPan * (1 - progVal);
+            }
+            else if(p.includes('orbit')) {
+                scale = 1 + Math.sin(progVal * Math.PI) * 0.08;
+                x = (selectedVideoWidth - dw * scale) / 2 + Math.sin(progVal * Math.PI * 2) * 40;
+                y = (selectedVideoHeight - dh * scale) / 2;
+            }
+            else {
+                scale = 1 + Math.sin(progVal * Math.PI * 2) * 0.02;
+                x = (selectedVideoWidth - dw * scale) / 2;
+                y = (selectedVideoHeight - dh * scale) / 2;
+            }
+            
+            ctx.drawImage(img, x, y, dw * scale, dh * scale);
+            ctx.font = '12px Arial';
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.fillText('Urdu Story Too
