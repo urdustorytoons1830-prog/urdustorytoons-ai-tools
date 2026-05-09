@@ -3,303 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urdu Story Toons - Professional AI Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Urdu Story Toons - AI Studio</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0f0f0f;
-            color: #fff;
-            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a2e, #1a1a3e);
+            min-height: 100vh;
+            padding: 20px;
         }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at 20% 30%, rgba(102, 126, 234, 0.15) 0%, #0f0f0f 80%);
-            z-index: -2;
+        .container {
+            max-width: 1000px;
+            margin: auto;
         }
-
-        .noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: -1;
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
         }
-
-        /* Glass Navbar */
-        .navbar {
-            backdrop-filter: blur(20px);
-            background: rgba(15, 15, 15, 0.8);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 16px 0;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .logo span {
-            font-size: 0.8rem;
-            background: rgba(102,126,234,0.3);
-            padding: 2px 8px;
-            border-radius: 20px;
-            margin-left: 8px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            transition: 0.3s;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .login-box {
             background: rgba(255,255,255,0.1);
-            padding: 8px 20px;
-            border-radius: 40px;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Hero Section */
-        .hero {
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
-            padding: 80px 20px;
+            margin-bottom: 30px;
         }
-
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 18px;
-            color: #aaa;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .counter {
-            display: inline-block;
-            background: rgba(102,126,234,0.2);
-            border: 1px solid rgba(102,126,234,0.3);
-            padding: 8px 20px;
-            border-radius: 40px;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        /* Tools Grid */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto 60px;
-            padding: 0 32px;
-        }
-
-        .tool-card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 32px;
-            padding: 32px;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
-        }
-
-        .tool-card:hover::before {
-            left: 100%;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(102,126,234,0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .tool-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        .tool-card h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .tool-card p {
-            color: #888;
-            font-size: 14px;
-        }
-
-        .badge-pro {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        /* Pricing Section */
-        .pricing-section {
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 32px;
-        }
-
-        .pricing-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .pricing-title h2 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .pricing-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 32px;
-            padding: 32px;
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-5px);
-            border-color: #667eea;
-        }
-
-        .pricing-card.popular {
-            border: 2px solid #667eea;
-            background: rgba(102,126,234,0.1);
-        }
-
-        .pricing-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .price {
-            font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-
-        .price small {
-            font-size: 14px;
-            font-weight: 400;
-        }
-
-        .pricing-card ul {
-            list-style: none;
-            margin: 25px 0;
-        }
-
-        .pricing-card li {
-            padding: 8px 0;
-            color: #aaa;
-        }
-
-        .pricing-card li i {
-            color: #10b981;
+        .login-box input {
+            padding: 10px;
+            border-radius: 25px;
+            border: none;
+            width: 250px;
             margin-right: 10px;
         }
-
-        .pricing-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .login-box button {
+            padding: 10px 20px;
+            border-radius: 25px;
             border: none;
-            padding: 12px 30px;
-            border-radius: 40px;
+            background: #667eea;
             color: white;
-            font-weight: 600;
             cursor: pointer;
-            width: 100%;
+            font-weight: bold;
         }
-
-        /* Modal */
+        .tools {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .tool {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            color: white;
+        }
+        .tool:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .tool-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
         .modal {
             display: none;
             position: fixed;
@@ -308,320 +77,473 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
+            z-index: 1000;
             justify-content: center;
             align-items: center;
         }
-
         .modal-content {
-            background: #1a1a2e;
-            max-width: 700px;
+            background: #1e1e2e;
+            max-width: 600px;
             width: 90%;
-            border-radius: 32px;
-            padding: 32px;
-            max-height: 85vh;
-            overflow-y: auto;
-            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            color: white;
         }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
-
         .close {
-            font-size: 28px;
+            font-size: 25px;
             cursor: pointer;
             background: none;
             border: none;
             color: white;
         }
-
-        textarea, input, select {
+        textarea, input {
             width: 100%;
-            padding: 14px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            color: white;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        textarea:focus, input:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
             border: none;
-            padding: 14px;
-            border-radius: 40px;
+        }
+        button {
+            background: #667eea;
             color: white;
-            font-weight: 600;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
             cursor: pointer;
             width: 100%;
-            font-size: 16px;
+            font-weight: bold;
         }
-
-        .result-area {
-            margin-top: 20px;
+        .preview {
             text-align: center;
+            margin: 10px 0;
         }
-
-        .result-area video, .result-area img {
+        .preview img {
             max-width: 100%;
-            border-radius: 20px;
+            max-height: 150px;
+            border-radius: 10px;
         }
-
-        .progress-bar {
-            height: 4px;
+        video {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .progress {
+            height: 3px;
             background: #333;
-            border-radius: 2px;
-            margin: 15px 0;
+            margin: 10px 0;
         }
-
         .progress-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 2px;
-            transition: width 0.3s;
+            background: #667eea;
         }
-
-        .remaining-badge {
-            background: #10b981;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-left: 15px;
+        .result {
+            margin-top: 15px;
+            text-align: center;
         }
-
+        .youtube {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .youtube a {
+            background: #ff0000;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+        }
         footer {
             text-align: center;
-            padding: 40px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            color: #666;
+            color: #888;
+            margin-top: 30px;
         }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 32px; }
-            .nav-container { flex-direction: column; gap: 15px; }
-            .tools-grid { padding: 0 20px; }
+        .status {
+            color: #10b981;
+            margin-left: 10px;
+        }
+        .remaining {
+            background: #10b981;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .user-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 30px;
+            margin-left: 15px;
         }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
-    <div class="noise"></div>
+    <div class="container">
+        <h1>🎬 Urdu Story Toons AI Studio</h1>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">🎬 UrduStoryToons <span>PRO</span></div>
-            <div class="nav-links">
-                <a href="#" onclick="showPage('home')">Home</a>
-                <a href="#" onclick="showPage('tools')">Tools</a>
-                <a href="#" onclick="showPage('pricing')">Pricing</a>
-                <a href="#" onclick="showPage('about')">About</a>
-                <div id="userDisplay" class="user-info" style="display:none">
-                    <div class="user-avatar"><i class="fas fa-user"></i></div>
-                    <span id="userName"></span>
-                    <span id="freeCount" class="remaining-badge"></span>
-                </div>
-                <a href="#" id="loginNavBtn" onclick="showLogin()" style="background:rgba(102,126,234,0.2); padding:8px 20px; border-radius:40px;">Sign In</a>
-            </div>
+        <div class="login-box" id="loginBox">
+            <input type="email" id="userEmail" placeholder="Enter your email">
+            <button id="loginBtn">Sign In (Free)</button>
+            <span id="loginStatus" class="status"></span>
+            <span id="remainingBadge" class="remaining"></span>
         </div>
-    </nav>
 
-    <!-- Home Page -->
-    <div id="homePage">
-        <div class="hero">
-            <h1>Create Cinematic AI Videos<br>With Real Movement</h1>
-            <p>Upload any image, write a prompt, and watch AI bring it to life with actual motion</p>
-            <div class="counter">🎬 10 FREE videos daily | 🚀 4K Quality | ✨ Real AI Motion</div>
-        </div>
-        <div class="tools-grid">
-            <div class="tool-card" onclick="openTool('tts')">
+        <div class="tools">
+            <div class="tool" id="ttsTool">
                 <div class="tool-icon">🎙️</div>
                 <h3>Text to Voice</h3>
-                <p>30+ realistic voices - 10 female, 20 male</p>
+                <p>30+ voices</p>
             </div>
-            <div class="tool-card" onclick="openTool('image')">
+            <div class="tool" id="imgTool">
                 <div class="tool-icon">🎨</div>
                 <h3>Text to Image</h3>
-                <p>Generate stunning HD images from prompts</p>
+                <p>HD quality</p>
             </div>
-            <div class="tool-card" onclick="openTool('video')">
+            <div class="tool" id="vidTool">
                 <div class="tool-icon">🎬</div>
                 <h3>Image to Video</h3>
-                <p>Real AI motion - soldiers move, hands shake!</p>
-                <div class="badge-pro">REAL MOVEMENT</div>
+                <p>Real motion</p>
             </div>
         </div>
+
+        <div class="youtube">
+            <a href="https://youtube.com/@urdustorytoons007" target="_blank">▶️ Subscribe on YouTube</a>
+        </div>
+
+        <footer>
+            <p>© 2026 Urdu Story Toons | 10 Free Videos Daily | Real AI Motion</p>
+        </footer>
     </div>
 
-    <!-- Tools Page -->
-    <div id="toolsPage" style="display:none">
-        <div class="hero" style="padding:40px 20px">
-            <h1 style="font-size:36px">AI Tools Studio</h1>
-        </div>
-        <div class="tools-grid">
-            <div class="tool-card" onclick="openTool('tts')">
-                <div class="tool-icon">🎙️</div>
-                <h3>Text to Voice</h3>
-                <p>30+ realistic voices</p>
-            </div>
-            <div class="tool-card" onclick="openTool('image')">
-                <div class="tool-icon">🎨</div>
-                <h3>Text to Image</h3>
-                <p>HD quality generation</p>
-            </div>
-            <div class="tool-card" onclick="openTool('video')">
-                <div class="tool-icon">🎬</div>
-                <h3>Image to Video</h3>
-                <p>Real AI motion video</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pricing Page -->
-    <div id="pricingPage" style="display:none">
-        <div class="pricing-section">
-            <div class="pricing-title">
-                <h2>Choose Your Plan</h2>
-                <p>Free users get 10 videos daily. Upgrade for unlimited!</p>
-            </div>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>🎁 Free</h3>
-                    <div class="price">$0<small>/forever</small></div>
-                    <ul>
-                        <li><i class="fas fa-check"></i> 10 videos/day</li>
-                        <li><i class="fas fa-check"></i> 30+ voices</li>
-                        <li><i class="fas fa-check"></i> HD images</li>
-                        <li><i class="fas fa-check"></i> Real AI motion</li>
-                    </ul>
-                    <button class="pricing-btn" onclick="alert('Free plan active! Login to use.')">Current Plan</button>
-                </div>
-                <div class="pricing-card popular">
-                    <h3>⭐ Monthly</h3>
-                    <div class="price">$10<small>/month</small></div>
-                    <ul>
-                        <li><i class="fas fa-check"></i> Unlimited videos</li>
-                        <li><i class="fas fa-check"></i> Priority processing</li>
-                        <li><i class="fas fa-check"></i> 4K output</li>
-                        <li><i class="fas fa-check"></i> Commercial use</li>
-                    </ul>
-                    <button class="pricing-btn" onclick="upgradePlan('monthly')">Upgrade Now</button>
-                </div>
-                <div class="pricing-card">
-                    <h3>🔥 6 Months</h3>
-                    <div class="price">$30<small>/6 months</small></div>
-                    <ul>
-                        <li><i class="fas fa-check"></i> Save $30</li>
-                        <li><i class="fas fa-check"></i> Unlimited videos</li>
-                        <li><i class="fas fa-check"></i> Priority support</li>
-                        <li><i class="fas fa-check"></i> All features</li>
-                    </ul>
-                    <button class="pricing-btn" onclick="upgradePlan('semester')">Save 50%</button>
-                </div>
-                <div class="pricing-card">
-                    <h3>👑 Yearly</h3>
-                    <div class="price">$70<small>/year</small></div>
-                    <ul>
-                        <li><i class="fas fa-check"></i> Save $50</li>
-                        <li><i class="fas fa-check"></i> Unlimited + Priority</li>
-                        <li><i class="fas fa-check"></i> Premium support</li>
-                        <li><i class="fas fa-check"></i> Early access features</li>
-                    </ul>
-                    <button class="pricing-btn" onclick="upgradePlan('yearly')">Best Value</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- About Page -->
-    <div id="aboutPage" style="display:none">
-        <div class="hero" style="padding:60px 20px">
-            <h1 style="font-size:36px">About Urdu Story Toons</h1>
-            <p style="max-width:700px">We provide professional AI tools for content creators. Our mission is to make advanced AI accessible to everyone.</p>
-            <p style="margin-top:20px">✨ Powered by Kling AI 3.0 - Real motion generation</p>
-            <p>🎬 30+ realistic voices | 4K HD images | Real AI video movement</p>
-        </div>
-    </div>
-
-    <!-- Tool Modal -->
-    <div id="toolModal" class="modal">
+    <!-- Modal -->
+    <div id="modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modalTitle">Tool</h2>
-                <button class="close" onclick="closeModal()">&times;</button>
+                <button class="close" onclick="closeModal()">✕</button>
             </div>
             <div id="modalBody"></div>
         </div>
     </div>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>🔐 Sign In</h2>
-                <button class="close" onclick="closeLoginModal()">&times;</button>
-            </div>
-            <div style="text-align:center; padding:20px">
-                <input type="email" id="loginEmail" placeholder="Enter your email" style="width:100%">
-                <button class="btn-primary" onclick="signIn()" style="margin-top:15px">Sign In (Free)</button>
-                <p style="margin-top:15px; color:#888; font-size:12px">✅ Sign in once - automatically saved!<br>🎁 10 free videos daily!</p>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2026 Urdu Story Toons | Powered by Kling AI 3.0 | Real Motion Technology</p>
-    </footer>
-
     <script>
-        // User Data
-        let currentUser = null;
+        // ========== USER SYSTEM ==========
+        let loggedIn = false;
+        let userEmail = "";
         let userPlan = "free";
-        let dailyUsage = 0;
-        let lastDate = null;
+        let dailyCount = 0;
+        let lastDate = "";
 
-        // Load saved user data
-        function loadUserData() {
-            const saved = localStorage.getItem('ust_user');
+        function saveUser() {
+            localStorage.setItem('ust_user', JSON.stringify({
+                email: userEmail,
+                plan: userPlan,
+                count: dailyCount,
+                date: lastDate
+            }));
+        }
+
+        function loadUser() {
+            let saved = localStorage.getItem('ust_user');
             if(saved) {
-                const data = JSON.parse(saved);
-                currentUser = data.email;
-                userPlan = data.plan || "free";
-                dailyUsage = data.usage || 0;
+                let data = JSON.parse(saved);
+                userEmail = data.email;
+                userPlan = data.plan;
+                dailyCount = data.count;
                 lastDate = data.date;
-                
-                const today = new Date().toDateString();
+                let today = new Date().toDateString();
                 if(lastDate !== today) {
-                    dailyUsage = 0;
-                    saveUserData();
+                    dailyCount = 0;
+                    lastDate = today;
+                    saveUser();
                 }
+                loggedIn = true;
                 updateUI();
             }
         }
 
-        function saveUserData() {
-            if(currentUser) {
-                localStorage.setItem('ust_user', JSON.stringify({
-                    email: currentUser,
-                    plan: userPlan,
-                    usage: dailyUsage,
-                    date: new Date().toDateString()
-                }));
+        function updateUI() {
+            if(loggedIn) {
+                document.getElementById('loginBox').innerHTML = `
+                    <span class="user-info">👤 ${userEmail.split('@')[0]}</span>
+                    <span class="remaining">🎬 ${userPlan === 'free' ? (10 - dailyCount) + ' left today' : 'Unlimited'}</span>
+                    <button onclick="logout()" style="background:#333; width:auto; padding:8px 15px;">Logout</button>
+                `;
             }
         }
 
-        function updateUI() {
-            if(currentUser) {
-                document.getElementById('userDisplay').style
+        function logout() {
+            loggedIn = false;
+            userEmail = "";
+            localStorage.removeItem('ust_user');
+            location.reload();
+        }
+
+        function signIn() {
+            let email = document.getElementById('userEmail').value.trim();
+            if(!email || !email.includes('@')) {
+                alert("Enter valid email!");
+                return;
+            }
+            loggedIn = true;
+            userEmail = email;
+            userPlan = "free";
+            dailyCount = 0;
+            lastDate = new Date().toDateString();
+            saveUser();
+            updateUI();
+            alert("✅ Welcome! You get 10 FREE videos daily!");
+        }
+
+        function checkLimit() {
+            if(userPlan === 'free' && dailyCount >= 10) {
+                alert("❌ Daily limit reached! 10 free videos done.\nUpgrade for unlimited - $10/month");
+                return false;
+            }
+            return true;
+        }
+
+        function addUsage() {
+            if(userPlan === 'free') {
+                dailyCount++;
+                saveUser();
+                updateUI();
+            }
+        }
+
+        // ========== MODAL ==========
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // ========== TEXT TO VOICE ==========
+        document.getElementById('ttsTool').onclick = function() {
+            if(!loggedIn) { alert("Sign in first!"); return; }
+            document.getElementById('modalTitle').innerHTML = '🎙️ Text to Voice (30 Voices)';
+            let voicesHtml = '<select id="voiceSelect">';
+            let female = ['Sarah','Emma','Olivia','Sophia','Isabella','Mia','Amelia','Harper','Evelyn','Abigail'];
+            let male = ['Michael','David','James','John','Robert','William','Richard','Thomas','Christopher','Daniel','Matthew','Andrew','Joshua','Kevin','Brian','George','Edward','Ronald','Frank','Raymond'];
+            for(let v of female) voicesHtml += `<option>👩 ${v}</option>`;
+            for(let v of male) voicesHtml += `<option>👨 ${v}</option>`;
+            voicesHtml += '</select>';
+            document.getElementById('modalBody').innerHTML = `
+                <textarea id="ttsText" rows="3" placeholder="Enter text..."></textarea>
+                ${voicesHtml}
+                <div class="progress"><div class="progress-fill" id="ttsProgress"></div></div>
+                <button onclick="generateTTS()">🔊 Generate</button>
+                <div id="ttsResult" class="result"></div>
+            `;
+            document.getElementById('modal').style.display = 'flex';
+        };
+
+        function generateTTS() {
+            let text = document.getElementById('ttsText').value;
+            if(!text.trim()) { alert("Enter text!"); return; }
+            let prog = document.getElementById('ttsProgress');
+            prog.style.width = '100%';
+            let speech = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(speech);
+            document.getElementById('ttsResult').innerHTML = '<p style="color:#10b981;">✅ Playing!</p>';
+            setTimeout(() => { prog.style.width = '0%'; }, 1000);
+        }
+
+        // ========== TEXT TO IMAGE ==========
+        document.getElementById('imgTool').onclick = function() {
+            if(!loggedIn) { alert("Sign in first!"); return; }
+            document.getElementById('modalTitle').innerHTML = '🎨 Text to Image';
+            document.getElementById('modalBody').innerHTML = `
+                <textarea id="imgPrompt" rows="3" placeholder="Describe image... Example: warrior on white horse, cinematic, 4K"></textarea>
+                <div class="progress"><div class="progress-fill" id="imgProgress"></div></div>
+                <button onclick="generateImage()">✨ Generate</button>
+                <div id="imgResult" class="result"></div>
+            `;
+            document.getElementById('modal').style.display = 'flex';
+        };
+
+        async function generateImage() {
+            let prompt = document.getElementById('imgPrompt').value;
+            if(!prompt.trim()) { alert("Enter prompt!"); return; }
+            let prog = document.getElementById('imgProgress');
+            let res = document.getElementById('imgResult');
+            prog.style.width = '50%';
+            res.innerHTML = '<p>⏳ Generating...</p>';
+            try {
+                let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt + ", high quality, 4K") + '?width=1024&height=1024';
+                prog.style.width = '100%';
+                res.innerHTML = '<img src="' + url + '" style="max-width:100%; border-radius:10px;"><br><button onclick="downloadImg(\'' + url + '\')" style="margin-top:10px;">💾 Download</button>';
+                setTimeout(() => { prog.style.width = '0%'; }, 500);
+            } catch(e) {
+                res.innerHTML = '<p style="color:red;">Error!</p>';
+                prog.style.width = '0%';
+            }
+        }
+
+        function downloadImg(url) {
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'image.png';
+            a.click();
+        }
+
+        // ========== IMAGE TO VIDEO (WORKING) ==========
+        let uploadedImg = null;
+
+        document.getElementById('vidTool').onclick = function() {
+            if(!loggedIn) { alert("Sign in first!"); return; }
+            if(!checkLimit()) return;
+            document.getElementById('modalTitle').innerHTML = '🎬 Image to Video (Real Motion)';
+            document.getElementById('modalBody').innerHTML = `
+                <input type="file" id="videoFile" accept="image/*" onchange="previewVideo()">
+                <div id="previewDiv" class="preview"></div>
+                <textarea id="motionPrompt" rows="3" placeholder="Describe motion: zoom in, zoom out, pan left, pan right, orbit"></textarea>
+                <div class="progress"><div class="progress-fill" id="videoProgress"></div></div>
+                <button onclick="createWorkingVideo()">🎥 Generate Video</button>
+                <div id="videoResult" class="result"></div>
+                <p style="font-size:12px; color:#888; margin-top:10px;">✅ Real motion effects: zoom, pan, orbit!</p>
+            `;
+            document.getElementById('modal').style.display = 'flex';
+        };
+
+        function previewVideo() {
+            let file = document.getElementById('videoFile').files[0];
+            if(file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImg = e.target.result;
+                    document.getElementById('previewDiv').innerHTML = '<img src="' + uploadedImg + '"><p style="color:#10b981;">✅ Image ready!</p>';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function createWorkingVideo() {
+            let prompt = document.getElementById('motionPrompt').value;
+            let prog = document.getElementById('videoProgress');
+            let resDiv = document.getElementById('videoResult');
+
+            if(!uploadedImg) { alert("Upload image first!"); return; }
+
+            prog.style.width = '20%';
+            resDiv.innerHTML = '<p>⏳ Loading...</p>';
+
+            let img = new Image();
+            img.src = uploadedImg;
+            await new Promise(r => { img.onload = r; });
+
+            prog.style.width = '40%';
+            resDiv.innerHTML = '<p>🎬 Creating 6-second video...</p>';
+
+            let canvas = document.createElement('canvas');
+            canvas.width = 1024;
+            canvas.height = 576;
+            let ctx = canvas.getContext('2d');
+
+            // Fit image
+            let sw, sh, sx, sy;
+            if(img.width/img.height > 1024/576) {
+                sh = 576;
+                sw = img.width * (576 / img.height);
+                sx = (1024 - sw) / 2;
+                sy = 0;
+            } else {
+                sw = 1024;
+                sh = img.height * (1024 / img.width);
+                sx = 0;
+                sy = (576 - sh) / 2;
+            }
+
+            let stream = canvas.captureStream(24);
+            let recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+            let chunks = [];
+
+            recorder.ondataavailable = e => chunks.push(e.data);
+            recorder.onstop = () => {
+                addUsage();
+                let blob = new Blob(chunks, { type: 'video/webm' });
+                let url = URL.createObjectURL(blob);
+                resDiv.innerHTML = `
+                    <video src="${url}" controls autoplay loop style="max-width:100%; border-radius:10px;"></video>
+                    <div style="margin-top:10px;">
+                        <button onclick="downloadVideo('${url}')" style="background:#10b981;">💾 Download Video</button>
+                    </div>
+                `;
+                prog.style.width = '0%';
+            };
+
+            recorder.start();
+            let start = Date.now();
+            let p = prompt.toLowerCase();
+
+            function animate() {
+                let elapsed = (Date.now() - start) / 1000;
+                let progress = Math.min(elapsed / 6, 1);
+                if(progress >= 1) {
+                    recorder.stop();
+                    return;
+                }
+
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, 1024, 576);
+
+                let scale = 1;
+                let x = sx, y = sy;
+
+                if(p.includes('zoom in')) {
+                    scale = 1 + progress * 0.25;
+                    x = (1024 - sw * scale) / 2;
+                    y = (576 - sh * scale) / 2;
+                }
+                else if(p.includes('zoom out')) {
+                    scale = 1 + (1 - progress) * 0.2;
+                    x = (1024 - sw * scale) / 2;
+                    y = (576 - sh * scale) / 2;
+                }
+                else if(p.includes('pan left')) {
+                    let maxPan = sw - 1024;
+                    x = sx - maxPan * progress;
+                }
+                else if(p.includes('pan right')) {
+                    let maxPan = sw - 1024;
+                    x = sx - maxPan * (1 - progress);
+                }
+                else if(p.includes('orbit')) {
+                    scale = 1 + Math.sin(progress * Math.PI) * 0.08;
+                    x = (1024 - sw * scale) / 2 + Math.sin(progress * Math.PI * 2) * 50;
+                    y = (576 - sh * scale) / 2;
+                }
+                else {
+                    scale = 1 + Math.sin(progress * Math.PI * 2) * 0.02;
+                    x = (1024 - sw * scale) / 2;
+                    y = (576 - sh * scale) / 2;
+                }
+
+                ctx.drawImage(img, x, y, sw * scale, sh * scale);
+                ctx.font = '14px Arial';
+                ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                ctx.fillText('Urdu Story Toons', 1024 - 140, 560);
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function downloadVideo(url) {
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'video.webm';
+            a.click();
+        }
+
+        // ========== INIT ==========
+        document.getElementById('loginBtn').onclick = signIn;
+        loadUser();
+    </script>
+</body>
+</html>
