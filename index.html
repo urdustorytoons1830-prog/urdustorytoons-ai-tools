@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Urdu Story Toons - Qwen AI Studio | Real Motion Video</title>
-    <!-- Fonts & Icons -->
+    <title>Urdu Story Toons - Qwen AI Pro Studio | Real Motion Video</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- GSAP for animations -->
+    <!-- GSAP for advanced animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -20,9 +20,12 @@
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --secondary: #ec4899;
-            --dark: #0f0f0f;
-            --card-bg: rgba(20, 20, 30, 0.8);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --dark: #0a0a0a;
+            --card-bg: rgba(20, 20, 30, 0.7);
             --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         body {
@@ -32,49 +35,53 @@
             overflow-x: hidden;
         }
 
-        /* Animated Background */
-        .animated-bg {
+        /* Premium Animated Background */
+        .bg-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: radial-gradient(ellipse at 30% 40%, rgba(99, 102, 241, 0.15) 0%, #0f0f0f 80%);
+            overflow: hidden;
         }
 
-        .animated-bg::before {
-            content: '';
+        .gradient-orb {
             position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
-            animation: rotate 30s linear infinite;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .orb-1 { background: #6366f1; top: -200px; left: -200px; animation-delay: 0s; }
+        .orb-2 { background: #ec4899; bottom: -200px; right: -200px; animation-delay: 5s; }
+        .orb-3 { background: #f59e0b; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 10s; width: 700px; height: 700px; opacity: 0.15; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
-        .noise {
+        .noise-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: -1;
         }
 
         /* Glassmorphism Navbar */
-        .glassy-nav {
+        .navbar {
             backdrop-filter: blur(20px);
-            background: rgba(15, 15, 15, 0.7);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(10, 10, 10, 0.8);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -95,27 +102,27 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .logo-icon {
-            font-size: 32px;
+            font-size: 36px;
         }
 
         .logo-text {
             font-size: 24px;
             font-weight: 800;
-            background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+            background: linear-gradient(135deg, #fff, #6366f1, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .logo-badge {
-            background: rgba(99, 102, 241, 0.2);
+            background: linear-gradient(135deg, #6366f1, #ec4899);
             padding: 4px 12px;
             border-radius: 30px;
             font-size: 10px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            font-weight: 600;
         }
 
         .nav-links {
@@ -136,19 +143,19 @@
             color: #6366f1;
         }
 
-        .user-area {
+        .user-panel {
             display: flex;
             align-items: center;
             gap: 15px;
             background: var(--glass);
             padding: 6px 20px;
             border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
         }
 
         .user-avatar {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             background: linear-gradient(135deg, #6366f1, #ec4899);
             border-radius: 50%;
             display: flex;
@@ -156,62 +163,91 @@
             justify-content: center;
         }
 
-        .login-btn {
+        .limit-badge {
+            background: var(--success);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .login-btn-nav {
             background: linear-gradient(135deg, #6366f1, #ec4899);
-            padding: 8px 24px;
+            padding: 8px 28px;
             border-radius: 40px;
             color: white !important;
             font-weight: 600;
         }
 
         /* Hero Section */
-        .hero {
+        .hero-section {
             text-align: center;
-            padding: 80px 20px 60px;
+            padding: 100px 20px 80px;
         }
 
         .hero-badge {
             display: inline-block;
             background: rgba(99, 102, 241, 0.15);
-            padding: 6px 16px;
+            padding: 6px 18px;
             border-radius: 50px;
             font-size: 12px;
             margin-bottom: 20px;
             border: 1px solid rgba(99, 102, 241, 0.3);
         }
 
-        .hero h1 {
-            font-size: 64px;
+        .hero-section h1 {
+            font-size: 70px;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #6366f1, #ec4899);
+            background: linear-gradient(135deg, #fff, #6366f1, #ec4899, #f59e0b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
+            letter-spacing: -0.02em;
         }
 
-        .hero p {
+        .hero-section p {
             font-size: 18px;
             color: #aaa;
             max-width: 700px;
             margin: 0 auto;
         }
 
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         /* Features Grid */
-        .features {
+        .features-grid {
             max-width: 1400px;
             margin: 60px auto;
             padding: 0 32px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
         }
 
         .feature-card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
             border-radius: 32px;
-            padding: 32px;
+            padding: 36px 28px;
             text-align: center;
             transition: all 0.3s;
             cursor: pointer;
@@ -230,7 +266,7 @@
 
         .feature-card h3 {
             font-size: 24px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .feature-card p {
@@ -238,60 +274,79 @@
             font-size: 14px;
         }
 
-        /* Modal Premium */
-        .modal-premium {
+        .feature-tag {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-top: 15px;
+        }
+
+        /* Modal */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.96);
             backdrop-filter: blur(20px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
         }
 
-        .modal-content-premium {
+        .modal-content {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             max-width: 750px;
             width: 90%;
-            border-radius: 40px;
+            border-radius: 48px;
             padding: 32px;
             border: 1px solid rgba(99, 102, 241, 0.3);
             max-height: 85vh;
             overflow-y: auto;
         }
 
-        .modal-header-premium {
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
         }
 
-        .close-premium {
+        .close-modal {
             font-size: 32px;
             cursor: pointer;
             background: none;
             border: none;
             color: white;
+            transition: 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #6366f1;
         }
 
         /* Form Elements */
-        .input-premium {
+        .input-field {
             width: 100%;
             padding: 14px 18px;
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
             border-radius: 20px;
             color: white;
             font-size: 14px;
             margin-bottom: 16px;
         }
 
-        .btn-premium {
+        .input-field:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .btn-primary {
             background: linear-gradient(135deg, #6366f1, #ec4899);
             border: none;
             padding: 14px;
@@ -304,7 +359,7 @@
             transition: 0.3s;
         }
 
-        .btn-premium:hover {
+        .btn-primary:hover {
             transform: scale(1.02);
             opacity: 0.95;
         }
@@ -320,14 +375,14 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .progress-bar-premium {
+        .progress-container {
             height: 4px;
             background: #333;
             border-radius: 2px;
             margin: 15px 0;
         }
 
-        .progress-fill-premium {
+        .progress-fill {
             width: 0%;
             height: 100%;
             background: linear-gradient(90deg, #6366f1, #ec4899);
@@ -346,7 +401,7 @@
             border-radius: 20px;
         }
 
-        /* Pricing Section */
+        /* Pricing */
         .pricing-section {
             max-width: 1200px;
             margin: 80px auto;
@@ -359,7 +414,7 @@
         }
 
         .section-title h2 {
-            font-size: 40px;
+            font-size: 42px;
             margin-bottom: 10px;
         }
 
@@ -369,22 +424,22 @@
             gap: 25px;
         }
 
-        .pricing-card-premium {
+        .pricing-card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
             border-radius: 32px;
             padding: 32px;
             text-align: center;
             transition: 0.3s;
         }
 
-        .pricing-card-premium:hover {
+        .pricing-card:hover {
             border-color: #6366f1;
             transform: translateY(-5px);
         }
 
-        .pricing-card-premium.popular {
+        .pricing-card.popular {
             border: 2px solid #6366f1;
             background: rgba(99, 102, 241, 0.1);
         }
@@ -400,17 +455,17 @@
             font-weight: 400;
         }
 
-        .pricing-card-premium ul {
+        .pricing-card ul {
             list-style: none;
             margin: 25px 0;
         }
 
-        .pricing-card-premium li {
+        .pricing-card li {
             padding: 8px 0;
             color: #aaa;
         }
 
-        .pricing-card-premium li i {
+        .pricing-card li i {
             color: #10b981;
             margin-right: 10px;
         }
@@ -419,86 +474,100 @@
         .footer {
             text-align: center;
             padding: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--border);
             color: #666;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 36px; }
+            .hero-section h1 { font-size: 36px; }
+            .features-grid { padding: 0 20px; }
             .nav-container { flex-direction: column; }
-            .features { padding: 0 20px; }
+            .stats-row { gap: 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="animated-bg"></div>
-    <div class="noise"></div>
+    <div class="bg-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
 
     <!-- Navbar -->
-    <nav class="glassy-nav">
+    <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <span class="logo-icon">🎬</span>
                 <span class="logo-text">UrduStoryToons</span>
-                <span class="logo-badge">QWEN AI STUDIO</span>
+                <span class="logo-badge">QWEN AI PRO</span>
             </div>
             <div class="nav-links">
                 <a href="#" onclick="showPage('home')">Home</a>
-                <a href="#" onclick="showPage('tools')">Studio</a>
+                <a href="#" onclick="showPage('studio')">Studio</a>
                 <a href="#" onclick="showPage('pricing')">Pricing</a>
                 <a href="#" onclick="showPage('about')">About</a>
-                <div id="userDisplay" class="user-area" style="display:none">
+                <div id="userPanel" class="user-panel" style="display:none">
                     <div class="user-avatar"><i class="fas fa-user"></i></div>
                     <span id="userName"></span>
-                    <span id="remainingBadge" style="background:#10b981; padding:2px 8px; border-radius:20px; font-size:11px;"></span>
+                    <span id="limitBadge" class="limit-badge"></span>
                 </div>
-                <a href="#" id="loginNavBtn" onclick="showLoginModal()" class="login-btn">Sign In</a>
+                <a href="#" id="loginNavBtn" onclick="showLoginModal()" class="login-btn-nav">Sign In</a>
             </div>
         </div>
     </nav>
 
     <!-- Home Page -->
     <div id="homePage">
-        <div class="hero">
-            <div class="hero-badge">✨ Qwen AI Technology | Real Motion Video ✨</div>
+        <div class="hero-section">
+            <div class="hero-badge">✨ QWEN AI 3.0 REAL MOTION TECHNOLOGY ✨</div>
             <h1>Turn Images Into<br>Cinematic Motion Videos</h1>
-            <p>Upload any image, write a prompt, and watch AI bring it to life with real movement</p>
+            <p>Upload any image, write a prompt, and watch AI bring it to life with real movement - soldiers move, hands shake, expressions change!</p>
+            <div class="stats-row">
+                <div class="stat-item"><div class="stat-number">10</div><div>FREE Videos/Day</div></div>
+                <div class="stat-item"><div class="stat-number">30+</div><div>Realistic Voices</div></div>
+                <div class="stat-item"><div class="stat-number">4K</div><div>HD Quality</div></div>
+                <div class="stat-item"><div class="stat-number">⚡</div><div>Real Motion</div></div>
+            </div>
         </div>
-        <div class="features">
+        <div class="features-grid">
             <div class="feature-card" onclick="openTool('tts')">
                 <div class="feature-icon">🎙️</div>
                 <h3>Text to Voice</h3>
-                <p>30+ realistic voices - 10 female, 20 male</p>
+                <p>30+ realistic voices - 10 female, 20 male with emotional expressions</p>
+                <div class="feature-tag">🎧 30 VOICES</div>
             </div>
             <div class="feature-card" onclick="openTool('image')">
                 <div class="feature-icon">🎨</div>
                 <h3>Text to Image</h3>
-                <p>4K HD quality image generation</p>
+                <p>Generate stunning 4K HD images from text prompts with AI</p>
+                <div class="feature-tag">✨ 4K QUALITY</div>
             </div>
             <div class="feature-card" onclick="openTool('video')">
                 <div class="feature-icon">🎬</div>
                 <h3>Image to Video</h3>
-                <p>Real AI motion - Soldiers move, hands shake!</p>
-                <span style="display:inline-block; background:#6366f1; font-size:10px; padding:2px 10px; border-radius:20px; margin-top:10px;">QWEN ENGINE</span>
+                <p>REAL AI MOTION - Soldiers move, hands shake, emotions change, dust flies!</p>
+                <div class="feature-tag">🔥 REAL MOVEMENT</div>
             </div>
         </div>
     </div>
 
-    <!-- Tools Page -->
-    <div id="toolsPage" style="display:none">
-        <div class="hero" style="padding:40px 20px">
-            <h1 style="font-size:40px">🎬 AI Studio</h1>
+    <!-- Studio Page -->
+    <div id="studioPage" style="display:none">
+        <div class="hero-section" style="padding: 60px 20px">
+            <h1 style="font-size: 48px">🎬 AI Studio</h1>
         </div>
-        <div class="features">
+        <div class="features-grid">
             <div class="feature-card" onclick="openTool('tts')">
                 <div class="feature-icon">🎙️</div>
                 <h3>Text to Voice</h3>
-                <p>30+ voices</p>
+                <p>30 voices with emotional tone control</p>
             </div>
             <div class="feature-card" onclick="openTool('image')">
                 <div class="feature-icon">🎨</div>
                 <h3>Text to Image</h3>
-                <p>HD quality</p>
+                <p>4K HD generation</p>
             </div>
             <div class="feature-card" onclick="openTool('video')">
                 <div class="feature-icon">🎬</div>
@@ -513,21 +582,21 @@
         <div class="pricing-section">
             <div class="section-title">
                 <h2>Choose Your Plan</h2>
-                <p>Free users get 10 videos daily. Upgrade for unlimited!</p>
+                <p>Free users get 10 real motion videos daily. Upgrade for unlimited!</p>
             </div>
             <div class="pricing-grid">
-                <div class="pricing-card-premium">
+                <div class="pricing-card">
                     <h3>🎁 Free</h3>
                     <div class="price">$0</div>
                     <ul>
                         <li><i class="fas fa-check"></i> 10 videos/day</li>
                         <li><i class="fas fa-check"></i> 30+ voices</li>
-                        <li><i class="fas fa-check"></i> HD images</li>
+                        <li><i class="fas fa-check"></i> 4K images</li>
                         <li><i class="fas fa-check"></i> Real AI motion</li>
                     </ul>
-                    <button class="btn-premium" onclick="alert('Free plan active!')">Current Plan</button>
+                    <button class="btn-primary" onclick="alert('Free plan active! Sign in to use.')">Current Plan</button>
                 </div>
-                <div class="pricing-card-premium popular">
+                <div class="pricing-card popular">
                     <h3>⭐ Monthly</h3>
                     <div class="price">$10<small>/mo</small></div>
                     <ul>
@@ -536,9 +605,9 @@
                         <li><i class="fas fa-check"></i> 4K output</li>
                         <li><i class="fas fa-check"></i> Commercial use</li>
                     </ul>
-                    <button class="btn-premium" onclick="upgradePlan('monthly')">Upgrade</button>
+                    <button class="btn-primary" onclick="upgradePlan('monthly')">Upgrade</button>
                 </div>
-                <div class="pricing-card-premium">
+                <div class="pricing-card">
                     <h3>🔥 6 Months</h3>
                     <div class="price">$30<small>/6mo</small></div>
                     <ul>
@@ -546,71 +615,13 @@
                         <li><i class="fas fa-check"></i> Unlimited videos</li>
                         <li><i class="fas fa-check"></i> Priority support</li>
                     </ul>
-                    <button class="btn-premium" onclick="upgradePlan('semester')">Save 50%</button>
+                    <button class="btn-primary" onclick="upgradePlan('semester')">Save 50%</button>
                 </div>
-                <div class="pricing-card-premium">
+                <div class="pricing-card">
                     <h3>👑 Yearly</h3>
                     <div class="price">$70<small>/year</small></div>
                     <ul>
                         <li><i class="fas fa-check"></i> Save $50</li>
-                        <li><i class="fas fa-check"></i> Unlimited + Priority</li>
+                        <li><i class="fas fa-check"></i> Unlimited</li>
                         <li><i class="fas fa-check"></i> Premium support</li>
-                    </ul>
-                    <button class="btn-premium" onclick="upgradePlan('yearly')">Best Value</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- About Page -->
-    <div id="aboutPage" style="display:none">
-        <div class="hero" style="padding:60px 20px">
-            <h1 style="font-size:40px">About Urdu Story Toons</h1>
-            <p style="max-width:700px">We provide professional AI tools for content creators. Our mission is to make advanced AI accessible to everyone.</p>
-            <p style="margin-top:20px">✨ Powered by Qwen AI Technology - Real motion generation</p>
-            <p>🎬 30+ realistic voices | 4K HD images | Real AI video movement</p>
-        </div>
-    </div>
-
-    <!-- Tool Modal -->
-    <div id="toolModal" class="modal-premium">
-        <div class="modal-content-premium">
-            <div class="modal-header-premium">
-                <h2 id="modalTitle">Tool</h2>
-                <button class="close-premium" onclick="closeModal()">&times;</button>
-            </div>
-            <div id="modalBody"></div>
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal-premium">
-        <div class="modal-content-premium">
-            <div class="modal-header-premium">
-                <h2>🔐 Welcome to Urdu Story Toons</h2>
-                <button class="close-premium" onclick="closeLoginModal()">&times;</button>
-            </div>
-            <div style="text-align:center; padding:20px">
-                <input type="email" id="loginEmail" class="input-premium" placeholder="Enter your email">
-                <button class="btn-premium" onclick="signIn()">Sign In (Free & Unlimited)</button>
-                <p style="margin-top:15px; color:#888; font-size:12px">✅ Sign in once - saved automatically!<br>🎁 10 free videos daily with real AI motion!</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>© 2026 Urdu Story Toons | Powered by Qwen AI Technology | Real Motion Video Generation</p>
-    </div>
-
-    <script>
-        // ========== USER SYSTEM ==========
-        let currentUser = null;
-        let userPlan = "free";
-        let dailyCount = 0;
-        let lastDate = "";
-
-        function loadUser() {
-            let saved = localStorage.getItem('ust_user_v2');
-            if(saved) {
-                let data = JSON.parse(saved);
-               
+            
