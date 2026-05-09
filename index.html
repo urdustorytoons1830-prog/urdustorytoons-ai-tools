@@ -1,385 +1,11 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Urdu Story Toons</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial;
-            background: linear-gradient(135deg, #0a0a2e, #1a1a3e);
-            margin: 0;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-        .box {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-        input, button {
-            padding: 12px;
-            margin: 5px;
-            border-radius: 25px;
-            border: none;
-        }
-        button {
-            background: #667eea;
-            color: white;
-            cursor: pointer;
-        }
-        .tool {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 15px 0;
-            cursor: pointer;
-        }
-        .tool:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #1a1a2e;
-            width: 90%;
-            max-width: 500px;
-            padding: 20px;
-            border-radius: 20px;
-        }
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 10px;
-        }
-        .close {
-            float: right;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        video, img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-        .preview {
-            margin: 10px 0;
-        }
-        .preview img {
-            max-height: 150px;
-        }
-        .progress {
-            height: 3px;
-            background: #333;
-            margin: 10px 0;
-        }
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: #667eea;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>🎬 Urdu Story Toons</h1>
-
-    <div class="box">
-        <input type="email" id="email" placeholder="Enter your email">
-        <button onclick="doLogin()">Sign In</button>
-        <span id="userSpan"></span>
-    </div>
-
-    <div class="tool" onclick="openTTS()">
-        <h2>🎙️ Text to Voice</h2>
-        <p>Convert text to speech</p>
-    </div>
-
-    <div class="tool" onclick="openImage()">
-        <h2>🎨 Text to Image</h2>
-        <p>Generate HD images</p>
-    </div>
-
-    <div class="tool" onclick="openVideo()">
-        <h2>🎬 Image to Video</h2>
-        <p>Create 6-second videos</p>
-    </div>
-
-    <div style="margin: 30px 0;">
-        <a href="https://youtube.com/@urdustorytoons007" target="_blank" style="background:#ff0000; padding:10px 25px; border-radius:25px; color:white; text-decoration:none;">▶️ YouTube Channel</a>
-    </div>
-
-    <p style="color:#888;">© 2026 Urdu Story Toons | Free & Unlimited</p>
-
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <div id="modalBody"></div>
-        </div>
-    </div>
-
-    <script>
-        let logged = false;
-        let user = "";
-        let uploadedImage = null;
-
-        // Load saved user
-        let saved = localStorage.getItem('ustUser');
-        if(saved) {
-            logged = true;
-            user = saved;
-            document.getElementById('email').style.display = 'none';
-            document.querySelector('.box button').style.display = 'none';
-            document.getElementById('userSpan').innerHTML = '✅ Welcome ' + user;
-        }
-
-        function doLogin() {
-            let email = document.getElementById('email').value.trim();
-            if(email === "") {
-                alert("Enter email!");
-                return;
-            }
-            if(!email.includes('@')) {
-                alert("Valid email required!");
-                return;
-            }
-            logged = true;
-            user = email.split('@')[0];
-            localStorage.setItem('ustUser', user);
-            document.getElementById('email').style.display = 'none';
-            document.querySelector('.box button').style.display = 'none';
-            document.getElementById('userSpan').innerHTML = '✅ Welcome ' + user;
-            alert("Welcome " + user + "! All tools FREE!");
-        }
-
-        function checkLogin() {
-            if(!logged) {
-                alert("Please sign in first!");
-                return false;
-            }
-            return true;
-        }
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-
-        // ========== TEXT TO VOICE ==========
-        function openTTS() {
-            if(!checkLogin()) return;
-            document.getElementById('modalTitle').innerHTML = '🎙️ Text to Voice';
-            document.getElementById('modalBody').innerHTML = `
-                <textarea id="ttsText" rows="3" placeholder="Enter text..."></textarea>
-                <div class="progress"><div class="progress-fill" id="ttsP"></div></div>
-                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="genTTS()">Generate Voice</button>
-                <div id="ttsR" style="margin-top:15px;"></div>
-            `;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        function genTTS() {
-            let text = document.getElementById('ttsText').value;
-            if(!text) { alert("Enter text!"); return; }
-            let prog = document.getElementById('ttsP');
-            prog.style.width = '100%';
-            let speech = new SpeechSynthesisUtterance(text);
-            speechSynthesis.speak(speech);
-            document.getElementById('ttsR').innerHTML = '<p style="color:#10b981;">✅ Playing!</p>';
-            setTimeout(() => { prog.style.width = '0%'; }, 1000);
-        }
-
-        // ========== TEXT TO IMAGE ==========
-        function openImage() {
-            if(!checkLogin()) return;
-            document.getElementById('modalTitle').innerHTML = '🎨 Text to Image';
-            document.getElementById('modalBody').innerHTML = `
-                <textarea id="imgPrompt" rows="3" placeholder="Describe image..."></textarea>
-                <div class="progress"><div class="progress-fill" id="imgP"></div></div>
-                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="genImage()">Generate Image</button>
-                <div id="imgR" style="margin-top:15px;"></div>
-            `;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        async function genImage() {
-            let prompt = document.getElementById('imgPrompt').value;
-            if(!prompt) { alert("Enter prompt!"); return; }
-            let prog = document.getElementById('imgP');
-            prog.style.width = '50%';
-            document.getElementById('imgR').innerHTML = '<p>⏳ Generating...</p>';
-            try {
-                let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt);
-                prog.style.width = '100%';
-                document.getElementById('imgR').innerHTML = '<img src="' + url + '"><br><button style="margin-top:10px; padding:8px 20px;" onclick="downloadImg(\'' + url + '\')">Download</button>';
-                setTimeout(() => { prog.style.width = '0%'; }, 500);
-            } catch(e) {
-                document.getElementById('imgR').innerHTML = '<p style="color:red;">Error!</p>';
-                prog.style.width = '0%';
-            }
-        }
-
-        function downloadImg(url) {
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'image.png';
-            a.click();
-        }
-
-        // ========== IMAGE TO VIDEO ==========
-        function openVideo() {
-            if(!checkLogin()) return;
-            document.getElementById('modalTitle').innerHTML = '🎬 Image to Video';
-            document.getElementById('modalBody').innerHTML = `
-                <input type="file" id="vidFile" accept="image/*" onchange="previewVid()">
-                <div id="previewDiv" class="preview"></div>
-                <textarea id="vidPrompt" rows="3" placeholder="zoom in / zoom out / pan left / pan right"></textarea>
-                <div class="progress"><div class="progress-fill" id="vidP"></div></div>
-                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="makeVideo()">Generate 6-Second Video</button>
-                <div id="vidR" style="margin-top:15px;"></div>
-            `;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        function previewVid() {
-            let file = document.getElementById('vidFile').files[0];
-            if(file) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    uploadedImage = e.target.result;
-                    document.getElementById('previewDiv').innerHTML = '<img src="' + uploadedImage + '"><p>✅ Ready!</p>';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        async function makeVideo() {
-            let prompt = document.getElementById('vidPrompt').value;
-            let prog = document.getElementById('vidP');
-            let resDiv = document.getElementById('vidR');
-
-            if(!uploadedImage) { alert("Upload image first!"); return; }
-
-            prog.style.width = '20%';
-            resDiv.innerHTML = '<p>⏳ Loading...</p>';
-
-            let img = new Image();
-            img.src = uploadedImage;
-            await new Promise(r => { img.onload = r; });
-
-            prog.style.width = '40%';
-            resDiv.innerHTML = '<p>🎬 Creating video...</p>';
-
-            let canvas = document.createElement('canvas');
-            canvas.width = 800;
-            canvas.height = 450;
-            let ctx = canvas.getContext('2d');
-
-            let dw, dh, sx, sy;
-            if(img.width/img.height > 800/450) {
-                dh = 450;
-                dw = img.width * (450 / img.height);
-                sx = (800 - dw) / 2;
-                sy = 0;
-            } else {
-                dw = 800;
-                dh = img.height * (800 / img.width);
-                sx = 0;
-                sy = (450 - dh) / 2;
-            }
-
-            let stream = canvas.captureStream(24);
-            let recorder = new MediaRecorder(stream);
-            let chunks = [];
-
-            recorder.ondataavailable = e => chunks.push(e.data);
-            recorder.onstop = () => {
-                let blob = new Blob(chunks, { type: 'video/webm' });
-                let url = URL.createObjectURL(blob);
-                resDiv.innerHTML = '<video src="' + url + '" controls autoplay loop></video><br><button style="margin-top:10px; padding:8px 20px; background:#10b981; color:white; border:none; border-radius:25px;" onclick="downloadVid(\'' + url + '\')">Download</button>';
-                prog.style.width = '0%';
-            };
-
-            recorder.start();
-            let start = Date.now();
-            let p = prompt.toLowerCase();
-
-            function animate() {
-                let elapsed = (Date.now() - start) / 1000;
-                let progVal = Math.min(elapsed / 6, 1);
-                if(progVal >= 1) {
-                    recorder.stop();
-                    return;
-                }
-
-                ctx.fillStyle = 'black';
-                ctx.fillRect(0, 0, 800, 450);
-
-                let scale = 1;
-                let x = sx, y = sy;
-
-                if(p.includes('zoom in')) {
-                    scale = 1 + progVal * 0.25;
-                    x = (800 - dw * scale) / 2;
-                    y = (450 - dh * scale) / 2;
-                }
-                else if(p.includes('pan left')) {
-                    let maxPan = dw - 800;
-                    x = sx - maxPan * progVal;
-                }
-                else if(p.includes('pan right')) {
-                    let maxPan = dw - 800;
-                    x = sx - maxPan * (1 - progVal);
-                }
-                else {
-                    scale = 1 + Math.sin(progVal * Math.PI * 2) * 0.02;
-                    x = (800 - dw * scale) / 2;
-                    y = (450 - dh * scale) / 2;
-                }
-
-                ctx.drawImage(img, x, y, dw * scale, dh * scale);
-                ctx.font = '12px Arial';
-                ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                ctx.fillText('Urdu Story Toons', 800 - 130, 440);
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        function downloadVid(url) {
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'video.webm';
-            a.click();
-        }
-    </script>
-</body>
-</html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Urdu Story Toons - Qwen AI Pro Studio | Real Motion Video</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <title>Urdu Story Toons - Pro AI Studio | Image to Video | Multiple Sizes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- GSAP for advanced animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -406,49 +32,29 @@
             overflow-x: hidden;
         }
 
-        /* Premium Animated Background */
-        .bg-container {
+        /* Animated Background */
+        .bg-orb {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: radial-gradient(ellipse at 20% 30%, rgba(99,102,241,0.15) 0%, #0a0a0a 80%);
             z-index: -2;
-            overflow: hidden;
         }
 
-        .gradient-orb {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .orb-1 { background: #6366f1; top: -200px; left: -200px; animation-delay: 0s; }
-        .orb-2 { background: #ec4899; bottom: -200px; right: -200px; animation-delay: 5s; }
-        .orb-3 { background: #f59e0b; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 10s; width: 700px; height: 700px; opacity: 0.15; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        .noise-overlay {
+        .noise {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: -1;
         }
 
-        /* Glassmorphism Navbar */
+        /* Navbar */
         .navbar {
             backdrop-filter: blur(20px);
             background: rgba(10, 10, 10, 0.8);
@@ -476,10 +82,7 @@
             gap: 12px;
         }
 
-        .logo-icon {
-            font-size: 36px;
-        }
-
+        .logo-icon { font-size: 32px; }
         .logo-text {
             font-size: 24px;
             font-weight: 800;
@@ -487,13 +90,11 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .logo-badge {
             background: linear-gradient(135deg, #6366f1, #ec4899);
             padding: 4px 12px;
             border-radius: 30px;
             font-size: 10px;
-            font-weight: 600;
         }
 
         .nav-links {
@@ -502,17 +103,14 @@
             align-items: center;
             flex-wrap: wrap;
         }
-
         .nav-links a {
             color: #fff;
             text-decoration: none;
             font-weight: 500;
             transition: 0.3s;
+            cursor: pointer;
         }
-
-        .nav-links a:hover {
-            color: #6366f1;
-        }
+        .nav-links a:hover { color: #6366f1; }
 
         .user-panel {
             display: flex;
@@ -523,7 +121,6 @@
             border-radius: 50px;
             border: 1px solid var(--border);
         }
-
         .user-avatar {
             width: 34px;
             height: 34px;
@@ -533,7 +130,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .limit-badge {
             background: var(--success);
             padding: 4px 12px;
@@ -541,8 +137,7 @@
             font-size: 11px;
             font-weight: 600;
         }
-
-        .login-btn-nav {
+        .login-nav-btn {
             background: linear-gradient(135deg, #6366f1, #ec4899);
             padding: 8px 28px;
             border-radius: 40px;
@@ -550,57 +145,33 @@
             font-weight: 600;
         }
 
-        /* Hero Section */
-        .hero-section {
+        /* Hero */
+        .hero {
             text-align: center;
-            padding: 100px 20px 80px;
+            padding: 80px 20px 60px;
         }
-
         .hero-badge {
             display: inline-block;
-            background: rgba(99, 102, 241, 0.15);
+            background: rgba(99,102,241,0.15);
             padding: 6px 18px;
             border-radius: 50px;
             font-size: 12px;
             margin-bottom: 20px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            border: 1px solid rgba(99,102,241,0.3);
         }
-
-        .hero-section h1 {
-            font-size: 70px;
+        .hero h1 {
+            font-size: 56px;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #6366f1, #ec4899, #f59e0b);
+            background: linear-gradient(135deg, #fff, #6366f1, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
-            letter-spacing: -0.02em;
         }
-
-        .hero-section p {
+        .hero p {
             font-size: 18px;
             color: #aaa;
             max-width: 700px;
             margin: 0 auto;
-        }
-
-        .stats-row {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 50px;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #6366f1, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         /* Features Grid */
@@ -612,7 +183,6 @@
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
         }
-
         .feature-card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
@@ -620,39 +190,17 @@
             border-radius: 32px;
             padding: 36px 28px;
             text-align: center;
-            transition: all 0.3s;
+            transition: 0.3s;
             cursor: pointer;
         }
-
         .feature-card:hover {
             transform: translateY(-10px);
             border-color: #6366f1;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
-
-        .feature-icon {
-            font-size: 56px;
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 12px;
-        }
-
-        .feature-card p {
-            color: #888;
-            font-size: 14px;
-        }
-
-        .feature-tag {
-            display: inline-block;
-            background: rgba(99, 102, 241, 0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            margin-top: 15px;
-        }
+        .feature-icon { font-size: 56px; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 24px; margin-bottom: 12px; }
+        .feature-card p { color: #888; font-size: 14px; }
 
         /* Modal */
         .modal {
@@ -668,55 +216,39 @@
             justify-content: center;
             align-items: center;
         }
-
         .modal-content {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             max-width: 750px;
             width: 90%;
             border-radius: 48px;
             padding: 32px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            border: 1px solid rgba(99,102,241,0.3);
             max-height: 85vh;
             overflow-y: auto;
         }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
         }
-
         .close-modal {
             font-size: 32px;
             cursor: pointer;
             background: none;
             border: none;
             color: white;
-            transition: 0.3s;
         }
-
-        .close-modal:hover {
-            color: #6366f1;
-        }
-
-        /* Form Elements */
         .input-field {
             width: 100%;
             padding: 14px 18px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255,255,255,0.08);
             border: 1px solid var(--border);
             border-radius: 20px;
             color: white;
             font-size: 14px;
             margin-bottom: 16px;
         }
-
-        .input-field:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-
         .btn-primary {
             background: linear-gradient(135deg, #6366f1, #ec4899);
             border: none;
@@ -727,32 +259,21 @@
             cursor: pointer;
             width: 100%;
             font-size: 16px;
-            transition: 0.3s;
         }
-
-        .btn-primary:hover {
-            transform: scale(1.02);
-            opacity: 0.95;
-        }
-
         .result-area {
             margin-top: 24px;
             text-align: center;
         }
-
         .result-area video, .result-area img {
             max-width: 100%;
             border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
-
         .progress-container {
             height: 4px;
             background: #333;
             border-radius: 2px;
             margin: 15px 0;
         }
-
         .progress-fill {
             width: 0%;
             height: 100%;
@@ -760,16 +281,34 @@
             border-radius: 2px;
             transition: width 0.3s;
         }
+        .image-preview { margin: 15px 0; text-align: center; }
+        .image-preview img { max-width: 100%; max-height: 180px; border-radius: 20px; }
 
-        .image-preview {
+        /* Size Selector */
+        .size-selector {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
             margin: 15px 0;
-            text-align: center;
         }
-
-        .image-preview img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 20px;
+        .size-option {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .size-option i { font-size: 14px; }
+        .size-option.active {
+            border-color: #6366f1;
+            background: rgba(99,102,241,0.2);
+        }
+        .size-option:hover {
+            border-color: #6366f1;
         }
 
         /* Pricing */
@@ -778,23 +317,13 @@
             margin: 80px auto;
             padding: 0 32px;
         }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-title h2 {
-            font-size: 42px;
-            margin-bottom: 10px;
-        }
-
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 42px; margin-bottom: 10px; }
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 25px;
         }
-
         .pricing-card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
@@ -802,1503 +331,171 @@
             border-radius: 32px;
             padding: 32px;
             text-align: center;
-            transition: 0.3s;
         }
+        .pricing-card.popular { border: 2px solid #6366f1; background: rgba(99,102,241,0.1); }
+        .price { font-size: 48px; font-weight: 800; margin: 20px 0; }
+        .pricing-card ul { list-style: none; margin: 25px 0; }
+        .pricing-card li { padding: 8px 0; color: #aaa; }
+        .pricing-card li i { color: #10b981; margin-right: 10px; }
 
-        .pricing-card:hover {
-            border-color: #6366f1;
-            transform: translateY(-5px);
-        }
-
-        .pricing-card.popular {
-            border: 2px solid #6366f1;
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .price {
-            font-size: 48px;
-            font-weight: 800;
-            margin: 20px 0;
-        }
-
-        .price small {
-            font-size: 14px;
-            font-weight: 400;
-        }
-
-        .pricing-card ul {
-            list-style: none;
-            margin: 25px 0;
-        }
-
-        .pricing-card li {
-            padding: 8px 0;
-            color: #aaa;
-        }
-
-        .pricing-card li i {
-            color: #10b981;
-            margin-right: 10px;
-        }
-
-        /* Footer */
         .footer {
             text-align: center;
             padding: 40px;
             border-top: 1px solid var(--border);
             color: #666;
         }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero-section h1 { font-size: 36px; }
+            .hero h1 { font-size: 32px; }
             .features-grid { padding: 0 20px; }
             .nav-container { flex-direction: column; }
-            .stats-row { gap: 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-container">
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
-        <div class="gradient-orb orb-3"></div>
-    </div>
-    <div class="noise-overlay"></div>
+    <div class="bg-orb"></div>
+    <div class="noise"></div>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <span class="logo-icon">🎬</span>
                 <span class="logo-text">UrduStoryToons</span>
-                <span class="logo-badge">QWEN AI PRO</span>
+                <span class="logo-badge">PRO</span>
             </div>
             <div class="nav-links">
-                <a href="#" onclick="showPage('home')">Home</a>
-                <a href="#" onclick="showPage('studio')">Studio</a>
-                <a href="#" onclick="showPage('pricing')">Pricing</a>
-                <a href="#" onclick="showPage('about')">About</a>
+                <a onclick="showPage('home')">Home</a>
+                <a onclick="showPage('studio')">Studio</a>
+                <a onclick="showPage('pricing')">Pricing</a>
+                <a onclick="showPage('about')">About</a>
                 <div id="userPanel" class="user-panel" style="display:none">
                     <div class="user-avatar"><i class="fas fa-user"></i></div>
                     <span id="userName"></span>
                     <span id="limitBadge" class="limit-badge"></span>
                 </div>
-                <a href="#" id="loginNavBtn" onclick="showLoginModal()" class="login-btn-nav">Sign In</a>
+                <a id="loginNavBtn" onclick="showLoginModal()" class="login-nav-btn">Sign In</a>
             </div>
         </div>
     </nav>
 
-    <!-- Home Page -->
     <div id="homePage">
-        <div class="hero-section">
-            <div class="hero-badge">✨ QWEN AI 3.0 REAL MOTION TECHNOLOGY ✨</div>
-            <h1>Turn Images Into<br>Cinematic Motion Videos</h1>
-            <p>Upload any image, write a prompt, and watch AI bring it to life with real movement - soldiers move, hands shake, expressions change!</p>
-            <div class="stats-row">
-                <div class="stat-item"><div class="stat-number">10</div><div>FREE Videos/Day</div></div>
-                <div class="stat-item"><div class="stat-number">30+</div><div>Realistic Voices</div></div>
-                <div class="stat-item"><div class="stat-number">4K</div><div>HD Quality</div></div>
-                <div class="stat-item"><div class="stat-number">⚡</div><div>Real Motion</div></div>
-            </div>
+        <div class="hero">
+            <div class="hero-badge">✨ PRO AI STUDIO ✨</div>
+            <h1>Turn Images Into<br>Cinematic Videos</h1>
+            <p>Upload image, choose size (9:16, 16:9, 1:1), write prompt, and generate amazing videos</p>
         </div>
         <div class="features-grid">
             <div class="feature-card" onclick="openTool('tts')">
                 <div class="feature-icon">🎙️</div>
-                <h3>Text to Voice</h3>
-                <p>30+ realistic voices - 10 female, 20 male with emotional expressions</p>
-                <div class="feature-tag">🎧 30 VOICES</div>
-            </div>
-            <div class="feature-card" onclick="openTool('image')">
-                <div class="feature-icon">🎨</div>
-                <h3>Text to Image</h3>
-                <p>Generate stunning 4K HD images from text prompts with AI</p>
-                <div class="feature-tag">✨ 4K QUALITY</div>
-            </div>
-            <div class="feature-card" onclick="openTool('video')">
-                <div class="feature-icon">🎬</div>
-                <h3>Image to Video</h3>
-                <p>REAL AI MOTION - Soldiers move, hands shake, emotions change, dust flies!</p>
-                <div class="feature-tag">🔥 REAL MOVEMENT</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Studio Page -->
-    <div id="studioPage" style="display:none">
-        <div class="hero-section" style="padding: 60px 20px">
-            <h1 style="font-size: 48px">🎬 AI Studio</h1>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card" onclick="openTool('tts')">
-                <div class="feature-icon">🎙️</div>
-                <h3>Text to Voice</h3>
-                <p>30 voices with emotional tone control</p>
-            </div>
-            <div class="feature-card" onclick="openTool('image')">
-                <div class="feature-icon">🎨</div>
-                <h3>Text to Image</h3>
-                <p>4K HD generation</p>
-            </div>
-            <div class="feature-card" onclick="openTool('video')">
-                <div class="feature-icon">🎬</div>
-                <h3>Image to Video</h3>
-                <p>Real AI motion video</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pricing Page -->
-    <div id="pricingPage" style="display:none">
-        <div class="pricing-section">
-            <div class="section-title">
-                <h2>Choose Your Plan</h2>
-                <p>Free users get 10 real motion videos daily. Upgrade for unlimited!</p>
-            </div>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>🎁 Free</h3>
-                    <div class="price">$0</div>
-                    <ul>
-                        <li><i class="fas fa-check"></i> 10 videos/day</li>
-                        <li><i class="fas fa-check"></i> 30+ voices</li>
-                        <li><i class="fas fa-check"></i> 4K images</li>
-                        <li><i class="fas fa-check"></i> Real AI motion</li>
-                    </ul>
-                    <button class="btn-primary" onclick="alert('Free plan active! Sign in to use.')">Current Plan</button>
-                </div>
-                <div class="pricing-card popular">
-                    <h3>⭐ Monthly</h3>
-                    <div class="price">$10<small>/mo</small></div>
-                    <ul>
-                        <li><i class="fas fa-check"></i> Unlimited videos</li>
-                        <li><i class="fas fa-check"></i> Priority processing</li>
-                        <li><i class="fas fa-check"></i> 4K output</li>
-                        <li><i class="fas fa-check"></i> Commercial use</li>
-                    </ul>
-                    <button class="btn-primary" onclick="upgradePlan('monthly')">Upgrade</button>
-                </div>
-                <div class="pricing-card">
-                    <h3>🔥 6 Months</h3>
-                    <div class="price">$30<small>/6mo</small></div>
-                    <ul>
-                        <li><i class="fas fa-check"></i> Save $30</li>
-                        <li><i class="fas fa-check"></i> Unlimited videos</li>
-                        <li><i class="fas fa-check"></i> Priority support</li>
-                    </ul>
-                    <button class="btn-primary" onclick="upgradePlan('semester')">Save 50%</button>
-                </div>
-                <div class="pricing-card">
-                    <h3>👑 Yearly</h3>
-                    <div class="price">$70<small>/year</small></div>
-                    <ul>
-                        <li><i class="fas fa-check"></i> Save $50</li>
-                        <li><i class="fas fa-check"></i> Unlimited</li>
-                        <li><i class="fas fa-check"></i> Premium support</li>
-            
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urdu Story Toons - AI Studio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a2e 0%, #1a1a3e 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        /* Header */
-        h1 {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-        }
-        /* Login Box */
-        .login-box {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .login-box input {
-            padding: 12px 20px;
-            border-radius: 30px;
-            border: none;
-            width: 280px;
-            font-size: 16px;
-        }
-        .login-box button {
-            padding: 12px 25px;
-            border-radius: 30px;
-            border: none;
-            background: #667eea;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .user-info {
-            display: inline-block;
-            background: #10b981;
-            padding: 8px 20px;
-            border-radius: 30px;
-            margin-left: 15px;
-        }
-        /* Tools Grid */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        .tool-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            color: white;
-        }
-        .tool-card:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-5px);
-        }
-        .tool-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-        .tool-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #1a1a2e;
-            max-width: 600px;
-            width: 90%;
-            border-radius: 25px;
-            padding: 25px;
-            color: white;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .close {
-            font-size: 28px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: white;
-        }
-        textarea, input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 12px;
-            border: none;
-            font-size: 14px;
-        }
-        .btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 30px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .result-area {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .result-area video, .result-area img {
-            max-width: 100%;
-            border-radius: 15px;
-        }
-        .progress-bar {
-            height: 4px;
-            background: #333;
-            border-radius: 2px;
-            margin: 15px 0;
-        }
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 2px;
-            transition: width 0.3s;
-        }
-        .preview-img {
-            max-width: 100%;
-            max-height: 150px;
-            border-radius: 15px;
-            margin-top: 10px;
-        }
-        .youtube-btn {
-            display: inline-block;
-            background: #ff0000;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-        footer {
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-            padding: 30px;
-            margin-top: 30px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎬 Urdu Story Toons AI Studio</h1>
-
-        <!-- Login Section -->
-        <div class="login-box" id="loginBox">
-            <input type="email" id="emailInput" placeholder="Enter your email">
-            <button id="signInBtn">🔐 Sign In (Free)</button>
-            <span id="welcomeMsg" class="user-info" style="display:none"></span>
-        </div>
-
-        <!-- Tools -->
-        <div class="tools-grid">
-            <div class="tool-card" id="ttsCard">
-                <div class="tool-icon">🎙️</div>
                 <h3>Text to Voice</h3>
                 <p>30+ realistic voices</p>
             </div>
-            <div class="tool-card" id="imageCard">
-                <div class="tool-icon">🎨</div>
+            <div class="feature-card" onclick="openTool('image')">
+                <div class="feature-icon">🎨</div>
                 <h3>Text to Image</h3>
-                <p>Generate HD images</p>
+                <p>4K HD quality with multiple sizes</p>
             </div>
-            <div class="tool-card" id="videoCard">
-                <div class="tool-icon">🎬</div>
+            <div class="feature-card" onclick="openTool('video')">
+                <div class="feature-icon">🎬</div>
                 <h3>Image to Video</h3>
-                <p>Real motion effects</p>
+                <p>9:16, 16:9, 1:1 sizes | Real motion</p>
             </div>
         </div>
-
-        <!-- YouTube Link -->
-        <div style="text-align: center;">
-            <a href="https://youtube.com/@urdustorytoons007" target="_blank" class="youtube-btn">▶️ Subscribe on YouTube</a>
-        </div>
-
-        <footer>
-            <p>© 2026 Urdu Story Toons | Free AI Tools | Unlimited Access</p>
-        </footer>
     </div>
 
-    <!-- Modal -->
-    <div id="toolModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Tool</h2>
-                <button class="close" onclick="closeModal()">&times;</button>
+    <div id="studioPage" style="display:none">
+        <div class="hero" style="padding: 60px 20px">
+            <h1 style="font-size: 42px">🎬 AI Studio</h1>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card" onclick="openTool('tts')"><div class="feature-icon">🎙️</div><h3>Text to Voice</h3></div>
+            <div class="feature-card" onclick="openTool('image')"><div class="feature-icon">🎨</div><h3>Text to Image</h3></div>
+            <div class="feature-card" onclick="openTool('video')"><div class="feature-icon">🎬</div><h3>Image to Video</h3></div>
+        </div>
+    </div>
+
+    <div id="pricingPage" style="display:none">
+        <div class="pricing-section">
+            <div class="section-title"><h2>Choose Your Plan</h2><p>Free users get 10 videos daily</p></div>
+            <div class="pricing-grid">
+                <div class="pricing-card"><h3>🎁 Free</h3><div class="price">$0</div><ul><li><i class="fas fa-check"></i>10 videos/day</li><li><i class="fas fa-check"></i>30+ voices</li><li><i class="fas fa-check"></i>4K images</li></ul><button class="btn-primary" onclick="alert('Free plan active!')">Current</button></div>
+                <div class="pricing-card popular"><h3>⭐ Monthly</h3><div class="price">$10<small>/mo</small></div><ul><li><i class="fas fa-check"></i>Unlimited videos</li><li><i class="fas fa-check"></i>Priority processing</li><li><i class="fas fa-check"></i>4K output</li></ul><button class="btn-primary" onclick="upgradePlan('monthly')">Upgrade</button></div>
+                <div class="pricing-card"><h3>🔥 6 Months</h3><div class="price">$30<small>/6mo</small></div><ul><li><i class="fas fa-check"></i>Save $30</li><li><i class="fas fa-check"></i>Unlimited</li></ul><button class="btn-primary" onclick="upgradePlan('semester')">Save 50%</button></div>
+                <div class="pricing-card"><h3>👑 Yearly</h3><div class="price">$70<small>/year</small></div><ul><li><i class="fas fa-check"></i>Save $50</li><li><i class="fas fa-check"></i>Premium support</li></ul><button class="btn-primary" onclick="upgradePlan('yearly')">Best Value</button></div>
             </div>
-            <div id="modalBody"></div>
         </div>
     </div>
+
+    <div id="aboutPage" style="display:none">
+        <div class="hero" style="padding: 80px 20px"><h1 style="font-size: 42px">About Us</h1><p style="max-width:700px; margin:20px auto">Professional AI tools for content creators. Real motion video generation with multiple aspect ratios.</p></div>
+    </div>
+
+    <div id="toolModal" class="modal"><div class="modal-content"><div class="modal-header"><h2 id="modalTitle">Tool</h2><button class="close-modal" onclick="closeModal()">&times;</button></div><div id="modalBody"></div></div></div>
+    <div id="loginModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>🔐 Sign In</h2><button class="close-modal" onclick="closeLoginModal()">&times;</button></div><div style="padding:20px"><input type="email" id="loginEmail" class="input-field" placeholder="Enter your email"><button class="btn-primary" onclick="signIn()">Sign In (Free)</button><p style="margin-top:15px; color:#888; font-size:12px">✅ Sign in once - saved! 10 free videos daily!</p></div></div></div>
+
+    <div class="footer"><p>© 2026 Urdu Story Toons | Multi-Size Support: 9:16 (Shorts) | 16:9 (YouTube) | 1:1 (Instagram)</p></div>
 
     <script>
-        // ========== LOGIN SYSTEM ==========
-        let loggedIn = false;
-        let userName = "";
+        // ========== USER SYSTEM ==========
+        let currentUser = null;
+        let userPlan = "free";
+        let dailyCount = 0;
+        let lastDate = "";
 
-        const emailInput = document.getElementById('emailInput');
-        const signInBtn = document.getElementById('signInBtn');
-        const welcomeMsg = document.getElementById('welcomeMsg');
-        const ttsCard = document.getElementById('ttsCard');
-        const imageCard = document.getElementById('imageCard');
-        const videoCard = document.getElementById('videoCard');
-
-        // Check if already logged in
-        let savedUser = localStorage.getItem('ust_user');
-        if(savedUser) {
-            loggedIn = true;
-            userName = savedUser;
-            emailInput.style.display = 'none';
-            signInBtn.style.display = 'none';
-            welcomeMsg.style.display = 'inline-block';
-            welcomeMsg.innerHTML = '✅ Welcome ' + userName;
+        function loadUser() {
+            let saved = localStorage.getItem('ust_pro');
+            if(saved) {
+                let data = JSON.parse(saved);
+                currentUser = data.email;
+                userPlan = data.plan || "free";
+                dailyCount = data.count || 0;
+                lastDate = data.date || "";
+                let today = new Date().toDateString();
+                if(lastDate !== today) { dailyCount = 0; saveUser(); }
+                updateUI();
+            }
         }
-
+        function saveUser() {
+            if(currentUser) localStorage.setItem('ust_pro', JSON.stringify({email: currentUser, plan: userPlan, count: dailyCount, date: new Date().toDateString()}));
+        }
+        function updateUI() {
+            if(currentUser) {
+                document.getElementById('userPanel').style.display = 'flex';
+                document.getElementById('userName').innerHTML = currentUser.split('@')[0];
+                document.getElementById('loginNavBtn').style.display = 'none';
+                let remaining = userPlan === 'free' ? (10 - dailyCount) : '∞';
+                document.getElementById('limitBadge').innerHTML = userPlan === 'free' ? `🎬 ${remaining} left` : `👑 Unlimited`;
+            }
+        }
         function signIn() {
-            let email = emailInput.value.trim();
-            if(email === "") {
-                alert("Please enter your email!");
-                return;
-            }
-            if(!email.includes('@')) {
-                alert("Please enter a valid email!");
-                return;
-            }
-            loggedIn = true;
-            userName = email.split('@')[0];
-            localStorage.setItem('ust_user', userName);
-            emailInput.style.display = 'none';
-            signInBtn.style.display = 'none';
-            welcomeMsg.style.display = 'inline-block';
-            welcomeMsg.innerHTML = '✅ Welcome ' + userName;
-            alert("Welcome " + userName + "! All tools are FREE!");
+            let email = document.getElementById('loginEmail').value.trim();
+            if(!email || !email.includes('@')) { alert("Valid email!"); return; }
+            currentUser = email; userPlan = "free"; dailyCount = 0; saveUser(); updateUI(); closeLoginModal();
+            alert("✅ Welcome! 10 FREE videos daily with real motion!");
         }
-
-        signInBtn.onclick = signIn;
-
-        function checkLogin() {
-            if(!loggedIn) {
-                alert("Please sign in first!");
-                return false;
-            }
+        function showLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+        function checkLimit() {
+            if(!currentUser) { showLoginModal(); return false; }
+            if(userPlan === 'free' && dailyCount >= 10) { alert("Daily limit reached! Upgrade for unlimited."); showPage('pricing'); return false; }
             return true;
         }
-
-        function closeModal() {
-            document.getElementById('toolModal').style.display = 'none';
+        function addUsage() { if(userPlan === 'free') { dailyCount++; saveUser(); updateUI(); } }
+        function upgradePlan(plan) {
+            if(!currentUser) { alert("Sign in first!"); showLoginModal(); return; }
+            let amount = plan === 'monthly' ? 10 : (plan === 'semester' ? 30 : 70);
+            if(confirm(`Upgrade for $${amount}? Payment via JazzCash/Bank Transfer`)) { alert(`✅ Upgraded! Unlimited videos activated.`); userPlan = plan; saveUser(); updateUI(); }
         }
+        function showPage(page) {
+            document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
+            document.getElementById('studioPage').style.display = page === 'studio' ? 'block' : 'none';
+            document.getElementById('pricingPage').style.display = page === 'pricing' ? 'block' : 'none';
+            document.getElementById('aboutPage').style.display = page === 'about' ? 'block' : 'none';
+        }
+        function closeModal() { document.getElementById('toolModal').style.display = 'none'; }
 
         // ========== TEXT TO VOICE ==========
-        ttsCard.onclick = function() {
+        function openTTS() {
             if(!checkLogin()) return;
-            document.getElementById('modalTitle').innerHTML = '🎙️ Text to Voice';
-            document.getElementById('modalBody').innerHTML = `
-                <textarea id="ttsText" rows="3" placeholder="Enter your text here..."></textarea>
-                <select id="voiceSelect">
-                    <option>👩 Sarah (Female)</option>
-                    <option>👩 Emma (Female)</option>
-                    <option>👩 Olivia (Female)</option>
-                    <option>👩 Sophia (Female)</option>
-                    <option>👨 Michael (Male)</option>
-                    <option>👨 David (Male)</option>
-                    <option>👨 James (Male)</option>
-                    <option>👨 John (Male)</option>
-                    <option>👨 Robert (Male)</option>
-                </select>
-                <div class="progress-bar"><div class="progress-fill" id="ttsProgress"></div></div>
-                <button class="btn" onclick="generateTTS()">🔊 Generate Voice</button>
-                <div id="ttsResult" class="result-area"></div>
-            `;
-            document.getElementById('toolModal').style.display = 'flex';
-        };
-
-        function generateTTS() {
-            let text = document.getElementById('ttsText').value;
-            if(!text.trim()) { alert("Enter text!"); return; }
-            let prog = document.getElementById('ttsProgress');
-            prog.style.width = '100%';
-            let utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 1;
-            utterance.pitch = 1;
-            speechSynthesis.speak(utterance);
-            document.getElementById('ttsResult').innerHTML = '<p style="color:#10b981;">✅ Voice playing!</p>';
-            setTimeout(() => { prog.style.width = '0%'; }, 1000);
-        }
-
-        // ========== TEXT TO IMAGE ==========
-        imageCard.onclick = function() {
-            if(!checkLogin()) return;
-            document.getElementById('modalTitle').innerHTML = '🎨 Text to Image';
-            document.getElementById('modalBody').innerHTML = `
-                <textarea id="imgPrompt" rows="3" placeholder="Describe the image... Example: warrior on horse, sunset, cinematic"></textarea>
-                <div class="progress-bar"><div class="progress-fill" id="imgProgress"></div></div>
-                <button class="btn" onclick="generateImage()">✨ Generate Image</button>
-                <div id="imgResult" class="result-area"></div>
-            `;
-            document.getElementById('toolModal').style.display = 'flex';
-        };
-
-        async function generateImage() {
-            let prompt = document.getElementById('imgPrompt').value;
-            if(!prompt.trim()) { alert("Enter prompt!"); return; }
-            let prog = document.getElementById('imgProgress');
-            let res = document.getElementById('imgResult');
-            prog.style.width = '50%';
-            res.innerHTML = '<p>⏳ Generating image...</p>';
-            try {
-                let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=1024&height=1024&nologo=true';
-                prog.style.width = '100%';
-                res.innerHTML = '<img src="' + url + '"><br><button class="btn" style="margin-top:10px;" onclick="downloadImage(\'' + url + '\')">💾 Download</button>';
-                setTimeout(() => { prog.style.width = '0%'; }, 500);
-            } catch(e) {
-                res.innerHTML = '<p style="color:red;">Error! Try again.</p>';
-                prog.style.width = '0%';
-            }
-        }
-
-        function downloadImage(url) {
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'image.png';
-            a.click();
-        }
-
-        // ========== IMAGE TO VIDEO ==========
-        let uploadedImage = null;
-
-        videoCard.onclick = function() {
-            if(!checkLogin()) return;
-            document.getElementById('modalTitle').innerHTML = '🎬 Image to Video';
-            document.getElementById('modalBody').innerHTML = `
-                <input type="file" id="videoFile" accept="image/*" onchange="previewImageForVideo()">
-                <div id="previewArea" style="text-align:center;"></div>
-                <textarea id="videoPrompt" rows="3" placeholder="Describe motion: zoom in, zoom out, pan left, pan right, orbit"></textarea>
-                <div class="progress-bar"><div class="progress-fill" id="videoProgress"></div></div>
-                <button class="btn" onclick="generateVideo()">🎥 Generate 6-Second Video</button>
-                <div id="videoResult" class="result-area"></div>
-            `;
-            document.getElementById('toolModal').style.display = 'flex';
-        };
-
-        function previewImageForVideo() {
-            let file = document.getElementById('videoFile').files[0];
-            if(file) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    uploadedImage = e.target.result;
-                    document.getElementById('previewArea').innerHTML = '<img src="' + uploadedImage + '" class="preview-img"><p style="color:#10b981;">✅ Image ready!</p>';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        async function generateVideo() {
-            let prompt = document.getElementById('videoPrompt').value;
-            let progress = document.getElementById('videoProgress');
-            let resultDiv = document.getElementById('videoResult');
-
-            if(!uploadedImage) {
-                alert("Please upload an image first!");
-                return;
-            }
-
-            progress.style.width = '20%';
-            resultDiv.innerHTML = '<p>⏳ Loading image...</p>';
-
-            let img = new Image();
-            img.src = uploadedImage;
-            await new Promise(r => { img.onload = r; });
-
-            progress.style.width = '40%';
-            resultDiv.innerHTML = '<p>🎬 Creating 6-second video...</p>';
-
-            let canvas = document.createElement('canvas');
-            canvas.width = 1024;
-            canvas.height = 576;
-            let ctx = canvas.getContext('2d');
-
-            // Fit image
-            let dw, dh, sx, sy;
-            if(img.width/img.height > 1024/576) {
-                dh = 576;
-                dw = img.width * (576 / img.height);
-                sx = (1024 - dw) / 2;
-                sy = 0;
-            } else {
-                dw = 1024;
-                dh = img.height * (1024 / img.width);
-                sx = 0;
-                sy = (576 - dh) / 2;
-            }
-
-            let stream = canvas.captureStream(24);
-            let recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
-            let chunks = [];
-
-            recorder.ondataavailable = e => chunks.push(e.data);
-            recorder.onstop = () => {
-                let blob = new Blob(chunks, { type: 'video/webm' });
-                let url = URL.createObjectURL(blob);
-                resultDiv.innerHTML = `
-                    <video src="${url}" controls autoplay loop style="max-width:100%; border-radius:15px;"></video>
-                    <div style="margin-top:15px;">
-                        <button class="btn" style="background:#10b981;" onclick="downloadVideo('${url}')">💾 Download Video</button>
-                    </div>
-                `;
-                progress.style.width = '0%';
-            };
-
-            recorder.start();
-            let startTime = Date.now();
-            let p = prompt.toLowerCase();
-
-            function animate() {
-                let elapsed = (Date.now() - startTime) / 1000;
-                let prog = Math.min(elapsed / 6, 1);
-                if(prog >= 1) {
-                    recorder.stop();
-                    return;
-                }
-
-                ctx.fillStyle = 'black';
-                ctx.fillRect(0, 0, 1024, 576);
-
-                let scale = 1;
-                let x = sx, y = sy;
-
-                if(p.includes('zoom in')) {
-                    scale = 1 + prog * 0.25;
-                    x = (1024 - dw * scale) / 2;
-                    y = (576 - dh * scale) / 2;
-                }
-                else if(p.includes('zoom out')) {
-                    scale = 1 + (1 - prog) * 0.2;
-                    x = (1024 - dw * scale) / 2;
-                    y = (576 - dh * scale) / 2;
-                }
-                else if(p.includes('pan left')) {
-                    let maxPan = dw - 1024;
-                    x = sx - maxPan * prog;
-                }
-                else if(p.includes('pan right')) {
-                    let maxPan = dw - 1024;
-                    x = sx - maxPan * (1 - prog);
-                }
-                else if(p.includes('orbit')) {
-                    scale = 1 + Math.sin(prog * Math.PI) * 0.08;
-                    x = (1024 - dw * scale) / 2 + Math.sin(prog * Math.PI * 2) * 50;
-                    y = (576 - dh * scale) / 2;
-                }
-                else {
-                    scale = 1 + Math.sin(prog * Math.PI * 2) * 0.02;
-                    x = (1024 - dw * scale) / 2;
-                    y = (576 - dh * scale) / 2;
-                }
-
-                ctx.drawImage(img, x, y, dw * scale, dh * scale);
-                ctx.font = '14px Arial';
-                ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                ctx.fillText('Urdu Story Toons', 1024 - 140, 560);
-                ctx.fillText('©', 1024 - 40, 560);
-
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        function downloadVideo(url) {
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'video.webm';
-            a.click();
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Urdu Story Toons</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial;
-            background: linear-gradient(135deg, #0a0a2e, #1a1a3e);
-            margin: 0;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-        .box {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-        input, button {
-            padding: 12px;
-            margin: 5px;
-            border-radius: 25px;
-            border: none;
-        }
-        button {
-            background: #667eea;
-            color: white;
-            cursor: pointer;
-        }
-        .tool {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 15px 0;
-            cursor: pointer;
-        }
-        .tool:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #1a1a2e;
-            width: 90%;
-            max-width: 500px;
-            padding: 20px;
-            border-radius: 20px;
-        }
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 10px;
-        }
-        .close {
-            float: right;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        video, img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-        .preview {
-            margin: 10px 0;
-        }
-        .preview img {
-            max-height: 150px;
-        }
-        .progress {
-            height: 3px;
-            background: #333;
-            margin: 10px 0;
-        }
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: #667eea;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>🎬 Urdu Story Toons</h1>
-
-    <div class="box">
-        <input type="email" id="email" placeholder="Enter your email">
-        <button id="loginBtn">Sign In</button>
-        <span id="userSpan"></span>
-    </div>
-
-    <div class="tool" id="tool1">
-        <h2>🎙️ Text to Voice</h2>
-        <p>Convert text to speech</p>
-    </div>
-
-    <div class="tool" id="tool2">
-        <h2>🎨 Text to Image</h2>
-        <p>Generate HD images</p>
-    </div>
-
-    <div class="tool" id="tool3">
-        <h2>🎬 Image to Video</h2>
-        <p>Create 6-second videos</p>
-    </div>
-
-    <div style="margin: 30px 0;">
-        <a href="https://youtube.com/@urdustorytoons007" target="_blank" style="background:#ff0000; padding:10px 25px; border-radius:25px; color:white; text-decoration:none;">▶️ YouTube Channel</a>
-    </div>
-
-    <p style="color:#888;">© 2026 Urdu Story Toons | Free & Unlimited</p>
-
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <div id="modalBody"></div>
-        </div>
-    </div>
-
-    <script>
-        // ========== VARIABLES ==========
-        let logged = false;
-        let user = "";
-        let uploadedImage = null;
-
-        // ========== GET ELEMENTS ==========
-        const loginBtn = document.getElementById('loginBtn');
-        const emailInput = document.getElementById('email');
-        const userSpan = document.getElementById('userSpan');
-        const tool1 = document.getElementById('tool1');
-        const tool2 = document.getElementById('tool2');
-        const tool3 = document.getElementById('tool3');
-        const modal = document.getElementById('modal');
-        const closeModalBtn = document.getElementById('closeModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalBody = document.getElementById('modalBody');
-
-        // ========== CHECK SAVED LOGIN ==========
-        let saved = localStorage.getItem('ustUser');
-        if(saved) {
-            logged = true;
-            user = saved;
-            emailInput.style.display = 'none';
-            loginBtn.style.display = 'none';
-            userSpan.innerHTML = '✅ Welcome ' + user;
-        }
-
-        // ========== LOGIN FUNCTION ==========
-        function doLogin() {
-            let email = emailInput.value.trim();
-            if(email === "") {
-                alert("Enter email!");
-                return;
-            }
-            if(!email.includes('@')) {
-                alert("Valid email required!");
-                return;
-            }
-            logged = true;
-            user = email.split('@')[0];
-            localStorage.setItem('ustUser', user);
-            emailInput.style.display = 'none';
-            loginBtn.style.display = 'none';
-            userSpan.innerHTML = '✅ Welcome ' + user;
-            alert("Welcome " + user + "! All tools FREE!");
-        }
-
-        loginBtn.onclick = doLogin;
-
-        function checkLogin() {
-            if(!logged) {
-                alert("Please sign in first!");
-                return false;
-            }
-            return true;
-        }
-
-        function closeModalFn() {
-            modal.style.display = 'none';
-        }
-        closeModalBtn.onclick = closeModalFn;
-        window.onclick = function(e) {
-            if(e.target === modal) closeModalFn();
-        }
-
-        // ========== TEXT TO VOICE ==========
-        tool1.onclick = function() {
-            if(!checkLogin()) return;
-            modalTitle.innerHTML = '🎙️ Text to Voice';
-            modalBody.innerHTML = `
-                <textarea id="ttsText" rows="3" placeholder="Enter text..."></textarea>
-                <div class="progress"><div class="progress-fill" id="ttsP"></div></div>
-                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="genTTS()">Generate Voice</button>
-                <div id="ttsR" style="margin-top:15px;"></div>
-            `;
-            modal.style.display = 'flex';
-        };
-
-        function genTTS() {
-            let text = document.getElementById('ttsText').value;
-            if(!text) { alert("Enter text!"); return; }
-            let prog = document.getElementById('ttsP');
-            prog.style.width = '100%';
-            let speech = new SpeechSynthesisUtterance(text);
-            speechSynthesis.speak(speech);
-            document.getElementById('ttsR').innerHTML = '<p style="color:#10b981;">✅ Playing!</p>';
-            setTimeout(() => { prog.style.width = '0%'; }, 1000);
-        }
-
-        // ========== TEXT TO IMAGE ==========
-        tool2.onclick = function() {
-            if(!checkLogin()) return;
-            modalTitle.innerHTML = '🎨 Text to Image';
-            modalBody.innerHTML = `
-                <textarea id="imgPrompt" rows="3" placeholder="Describe image..."></textarea>
-                <div class="progress"><div class="progress-fill" id="imgP"></div></div>
-                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="genImage()">Generate Image</button>
-                <div id="imgR" style="margin-top:15px;"></div>
-            `;
-            modal.style.display = 'flex';
-        };
-
-        async function genImage() {
-            let prompt = document.getElementById('imgPrompt').value;
-            if(!prompt) { alert("Enter prompt!"); return; }
-            let prog = document.getElementById('imgP');
-            prog.style.width = '50%';
-            document.getElementById('imgR').innerHTML = '<p>⏳ Generating...</p>';
-            try {
-                let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt);
-                prog.style.width = '100%';
-                document.getElementById('imgR').innerHTML = '<img src="' + url + '"><br><button style="margin-top:10px; padding:8px 20px;" onclick="downloadImg(\'' + url + '\')">Download</button>';
-                setTimeout(() => { prog.style.width = '0%'; }, 500);
-            } catch(e) {
-                document.getElementById('imgR').innerHTML = '<p style="color:red;">Error!</p>';
-                prog.style.width = '0%';
-            }
-        }
-
-        function downloadImg(url) {
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'image.png';
-            a.click();
-        }
-
-        // ========== IMAGE TO VIDEO ==========
-        tool3.onclick = function() {
-            if(!checkLogin()) return;
-            modalTitle.innerHTML = '🎬 Image to Video';
-            modalBody.innerHTML = `
-                <input type="file" id="vidFile" accept="image/*" onchange="previewVid()">
-                <div id="previewDiv" class="preview"></div>
-                <textarea id="vidPrompt" rows="3" placeholder="zoom in / zoom out / pan left / pan right / orbit"></textarea>
-                <div class="progress"><div class="progress-fill" id="vidP"></div></div>
-                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="makeVideo()">Generate 6-Second Video</button>
-                <div id="vidR" style="margin-top:15px;"></div>
-            `;
-            modal.style.display = 'flex';
-        };
-
-        function previewVid() {
-            let file = document.getElementById('vidFile').files[0];
-            if(file) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    uploadedImage = e.target.result;
-                    document.getElementById('previewDiv').innerHTML = '<img src="' + uploadedImage + '"><p>✅ Ready!</p>';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        async function makeVideo() {
-            let prompt = document.getElementById('vidPrompt').value;
-            let prog = document.getElementById('vidP');
-            let resDiv = document.getElementById('vidR');
-
-            if(!uploadedImage) { alert("Upload image first!"); return; }
-
-            prog.style.width = '20%';
-            resDiv.innerHTML = '<p>⏳ Loading...</p>';
-
-            let img = new Image();
-            img.src = uploadedImage;
-            await new Promise(r => { img.onload = r; });
-
-            prog.style.width = '40%';
-            resDiv.innerHTML = '<p>🎬 Creating video...</p>';
-
-            let canvas = document.createElement('canvas');
-            canvas.width = 800;
-            canvas.height = 450;
-            let ctx = canvas.getContext('2d');
-
-            let dw, dh, sx, sy;
-            if(img.width/img.height > 800/450) {
-                dh = 450;
-                dw = img.width * (450 / img.height);
-                sx = (800 - dw) / 2;
-                sy = 0;
-            } else {
-                dw = 800;
-                dh = img.height * (800 / img.width);
-                sx = 0;
-                sy = (450 - dh) / 2;
-            }
-
-            let stream = canvas.captureStream(24);
-            let recorder = new MediaRecorder(stream);
-            let chunks = [];
-
-            recorder.ondataavailable = e => chunks.push(e.data);
-            recorder.onstop = () => {
-                let blob = new Blob(chunks, { type: 'video/webm' });
-                let url = URL.createObjectURL(blob);
-                resDiv.innerHTML = '<video src="' + url + '" controls autoplay loop></video><br><button style="margin-top:10px; padding:8px 20px; background:#10b981; color:white; border:none; border-radius:25px;" onclick="downloadVid(\'' + url + '\')">Download</button>';
-                prog.style.width = '0%';
-            };
-
-            recorder.start();
-            let start = Date.now();
-            let p = prompt.toLowerCase();
-
-            function animate() {
-                let elapsed = (Date.now() - start) / 1000;
-                let progVal = Math.min(elapsed / 6, 1);
-                if(progVal >= 1) {
-                    recorder.stop();
-                    return;
-                }
-
-                ctx.fillStyle = 'black';
-                ctx.fillRect(0, 0, 800, 450);
-
-                let scale = 1;
-                let x = sx, y = sy;
-
-                if(p.includes('zoom in')) {
-                    scale = 1 + progVal * 0.25;
-                    x = (800 - dw * scale) / 2;
-                    y = (450 - dh * scale) / 2;
-                }
-                else if(p.includes('pan left')) {
-                    let maxPan = dw - 800;
-                    x = sx - maxPan * progVal;
-                }
-                else if(p.includes('pan right')) {
-                    let maxPan = dw - 800;
-                    x = sx - maxPan * (1 - progVal);
-                }
-                else {
-                    scale = 1 + Math.sin(progVal * Math.PI * 2) * 0.02;
-                    x = (800 - dw * scale) / 2;
-                    y = (450 - dh * scale) / 2;
-                }
-
-                ctx.drawImage(img, x, y, dw * scale, dh * scale);
-                ctx.font = '12px Arial';
-                ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                ctx.fillText('Urdu Story Toons', 800 - 130, 440);
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        function downloadVid(url) {
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'video.webm';
-            a.click();
-        }
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html>
-<head>
-    <title>Urdu Story Toons</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial;
-            background: linear-gradient(135deg, #0a0a2e, #1a1a3e);
-            margin: 0;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-        .box {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-        input, button {
-            padding: 12px;
-            margin: 5px;
-            border-radius: 25px;
-            border: none;
-        }
-        button {
-            background: #667eea;
-            color: white;
-            cursor: pointer;
-        }
-        .tool {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 15px 0;
-            cursor: pointer;
-        }
-        .tool:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #1a1a2e;
-            width: 90%;
-            max-width: 500px;
-            padding: 20px;
-            border-radius: 20px;
-        }
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 10px;
-        }
-        .close {
-            float: right;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        video, img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-        .preview {
-            margin: 10px 0;
-        }
-        .preview img {
-            max-height: 150px;
-        }
-        .progress {
-            height: 3px;
-            background: #333;
-            margin: 10px 0;
-        }
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: #667eea;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>🎬 Urdu Story Toons</h1>
-
-    <div class="box">
-        <input type="email" id="email" placeholder="Enter your email">
-        <button id="loginBtn">Sign In</button>
-        <span id="userSpan"></span>
-    </div>
-
-    <div class="tool" id="tool1">
-        <h2>🎙️ Text to Voice</h2>
-        <p>Convert text to speech</p>
-    </div>
-
-    <div class="tool" id="tool2">
-        <h2>🎨 Text to Image</h2>
-        <p>Generate HD images</p>
-    </div>
-
-    <div class="tool" id="tool3">
-        <h2>🎬 Image to Video</h2>
-        <p>Create 6-second videos</p>
-    </div>
-
-    <div style="margin: 30px 0;">
-        <a href="https://youtube.com/@urdustorytoons007" target="_blank" style="background:#ff0000; padding:10px 25px; border-radius:25px; color:white; text-decoration:none;">▶️ YouTube Channel</a>
-    </div>
-
-    <p style="color:#888;">© 2026 Urdu Story Toons | Free & Unlimited</p>
-
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <div id="modalBody"></div>
-        </div>
-    </div>
-
-    <script>
-        // ========== VARIABLES ==========
-        let logged = false;
-        let user = "";
-        let uploadedImage = null;
-
-        // ========== GET ELEMENTS ==========
-        const loginBtn = document.getElementById('loginBtn');
-        const emailInput = document.getElementById('email');
-        const userSpan = document.getElementById('userSpan');
-        const tool1 = document.getElementById('tool1');
-        const tool2 = document.getElementById('tool2');
-        const tool3 = document.getElementById('tool3');
-        const modal = document.getElementById('modal');
-        const closeModalBtn = document.getElementById('closeModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalBody = document.getElementById('modalBody');
-
-        // ========== CHECK SAVED LOGIN ==========
-        let saved = localStorage.getItem('ustUser');
-        if(saved) {
-            logged = true;
-            user = saved;
-            emailInput.style.display = 'none';
-            loginBtn.style.display = 'none';
-            userSpan.innerHTML = '✅ Welcome ' + user;
-        }
-
-        // ========== LOGIN FUNCTION ==========
-        function doLogin() {
-            let email = emailInput.value.trim();
-            if(email === "") {
-                alert("Enter email!");
-                return;
-            }
-            if(!email.includes('@')) {
-                alert("Valid email required!");
-                return;
-            }
-            logged = true;
-            user = email.split('@')[0];
-            localStorage.setItem('ustUser', user);
-            emailInput.style.display = 'none';
-            loginBtn.style.display = 'none';
-            userSpan.innerHTML = '✅ Welcome ' + user;
-            alert("Welcome " + user + "! All tools FREE!");
-        }
-
-        loginBtn.onclick = doLogin;
-
-        function checkLogin() {
-            if(!logged) {
-                alert("Please sign in first!");
-                return false;
-            }
-            return true;
-        }
-
-        function closeModalFn() {
-            modal.style.display = 'none';
-        }
-        closeModalBtn.onclick = closeModalFn;
-        window.onclick = function(e) {
-            if(e.target === modal) closeModalFn();
-        }
-
-        // ========== TEXT TO VOICE ==========
-        tool1.onclick = function() {
-            if(!checkLogin()) return;
-            modalTitle.innerHTML = '🎙️ Text to Voice';
-            modalBody.innerHTML = `
-                <textarea id="ttsText" rows="3" placeholder="Enter text..."></textarea>
-                <div class="progress"><div class="progress-fill" id="ttsP"></div></div>
-                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="genTTS()">Generate Voice</button>
-                <div id="ttsR" style="margin-top:15px;"></div>
-            `;
-            modal.style.display = 'flex';
-        };
-
-        function genTTS() {
-            let text = document.getElementById('ttsText').value;
-            if(!text) { alert("Enter text!"); return; }
-            let prog = document.getElementById('ttsP');
-            prog.style.width = '100%';
-            let speech = new SpeechSynthesisUtterance(text);
-            speechSynthesis.speak(speech);
-            document.getElementById('ttsR').innerHTML = '<p style="color:#10b981;">✅ Playing!</p>';
-            setTimeout(() => { prog.style.width = '0%'; }, 1000);
-        }
-
-        // ========== TEXT TO IMAGE ==========
-        tool2.onclick = function() {
-            if(!checkLogin()) return;
-            modalTitle.innerHTML = '🎨 Text to Image';
-            modalBody.innerHTML = `
-                <textarea id="imgPrompt" rows="3" placeholder="Describe image..."></textarea>
-                <div class="progress"><div class="progress-fill" id="imgP"></div></div>
-                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="genImage()">Generate Image</button>
-                <div id="imgR" style="margin-top:15px;"></div>
-            `;
-            modal.style.display = 'flex';
-        };
-
-        async function genImage() {
-            let prompt = document.getElementById('imgPrompt').value;
-            if(!prompt) { alert("Enter prompt!"); return; }
-            let prog = document.getElementById('imgP');
-            prog.style.width = '50%';
-            document.getElementById('imgR').innerHTML = '<p>⏳ Generating...</p>';
-            try {
-                let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt);
-                prog.style.width = '100%';
-                document.getElementById('imgR').innerHTML = '<img src="' + url + '"><br><button style="margin-top:10px; padding:8px 20px;" onclick="downloadImg(\'' + url + '\')">Download</button>';
-                setTimeout(() => { prog.style.width = '0%'; }, 500);
-            } catch(e) {
-                document.getElementById('imgR').innerHTML = '<p style="color:red;">Error!</p>';
-                prog.style.width = '0%';
-            }
-        }
-
-        function downloadImg(url) {
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'image.png';
-            a.click();
-        }
-
-        // ========== IMAGE TO VIDEO ==========
-        tool3.onclick = function() {
-            if(!checkLogin()) return;
-            modalTitle.innerHTML = '🎬 Image to Video';
-            modalBody.innerHTML = `
-                <input type="file" id="vidFile" accept="image/*" onchange="previewVid()">
-                <div id="previewDiv" class="preview"></div>
-                <textarea id="vidPrompt" rows="3" placeholder="zoom in / zoom out / pan left / pan right / orbit"></textarea>
-                <div class="progress"><div class="progress-fill" id="vidP"></div></div>
-                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="makeVideo()">Generate 6-Second Video</button>
-                <div id="vidR" style="margin-top:15px;"></div>
-            `;
-            modal.style.display = 'flex';
-        };
-
-        function previewVid() {
-            let file = document.getElementById('vidFile').files[0];
-            if(file) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    uploadedImage = e.target.result;
-                    document.getElementById('previewDiv').innerHTML = '<img src="' + uploadedImage + '"><p>✅ Ready!</p>';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        async function makeVideo() {
-            let prompt = document.getElementById('vidPrompt').value;
-            let prog = document.getElementById('vidP');
-            let resDiv = document.getElementById('vidR');
-
-            if(!uploadedImage) { alert("Upload image first!"); return; }
-
-            prog.style.width = '20%';
-            resDiv.innerHTML = '<p>⏳ Loading...</p>';
-
-            let img = new Image();
-            img.src = uploadedImage;
-            await new Promise(r => { img.onload = r; });
-
-            prog.style.width = '40%';
-            resDiv.innerHTML = '<p>🎬 Creating video...</p>';
-
-            let canvas = document.createElement('canvas');
-            canvas.width = 800;
-            canvas.height = 450;
-            let ctx = canvas.getContext('2d');
-
-            let dw, dh, sx, sy;
-            if(img.width/img.height > 800/450) {
-                dh = 450;
-                dw = img.width * (450 / img.height);
-                sx = (800 - dw) / 2;
-                sy = 0;
-            } else {
-                dw = 800;
-                dh = img.height * (800 / img.width);
-                sx = 0;
-                sy = (450 - dh) / 2;
-            }
-
-            let stream = canvas.captureStream(24);
-            let recorder = new MediaRecorder(stream);
-            let chunks = [];
-
-            recorder.ondataavailable = e => chunks.push(e.data);
-            recorder.onstop = () => {
-                let blob = new Blob(chunks, { type: 'video/webm' });
-                let url = URL.createObjectURL(blob);
-                resDiv.innerHTML = '<video src="' + url + '" controls autoplay loop></video><br><button style="margin-top:10px; padding:8px 20px; background:#10b981; color:white; border:none; border-radius:25px;" onclick="downloadVid(\'' + url + '\')">Download</button>';
-                prog.style.width = '0%';
-            };
-
-            recorder.start();
-            let start = Date.now();
-            let p = prompt.toLowerCase();
-
-            function animate() {
-                let elapsed = (Date.now() - start) / 1000;
-                let progVal = Math.min(elapsed / 6, 1);
-                if(progVal >= 1) {
-                    recorder.stop();
-                    return;
-                }
-
-                ctx.fillStyle = 'black';
-                ctx.fillRect(0, 0, 800, 450);
-
-                let scale = 1;
-                let x = sx, y = sy;
-
-                if(p.includes('zoom in')) {
-                    scale = 1 + progVal * 0.25;
-                    x = (800 - dw * scale) / 2;
-                    y = (450 - dh * scale) / 2;
-                }
-                else if(p.includes('pan left')) {
-                    let maxPan = dw - 800;
-                    x = sx - maxPan * progVal;
-                }
-                else if(p.includes('pan right')) {
-                    let maxPan = dw - 800;
-                    x = sx - maxPan * (1 - progVal);
-                }
-                else {
-                    scale = 1 + Math.sin(progVal * Math.PI * 2) * 0.02;
-                    x = (800 - dw * scale) / 2;
-                    y = (450 - dh * scale) / 2;
-                }
-
-                ctx.drawImage(img, x, y, dw * scale, dh * scale);
-                ctx.font = '12px Arial';
-                ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                ctx.fillText('Urdu Story Toons', 800 - 130, 440);
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        function downloadVid(url) {
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'video.webm';
-            a.click();
-        }
-    </script>
-</body>
-    </html>
+            document.getElementById('modalTitle').innerHTML = '🎙️ Text to Voice (30 Voices)';
+            let voices = '<select id="voiceSelect" class="input-field">';
+            let female = ['Sarah','Emma','Olivia','Sophia','Isabella','Mi
