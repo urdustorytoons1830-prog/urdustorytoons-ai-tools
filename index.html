@@ -1,4 +1,375 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Urdu Story Toons</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #0a0a2e, #1a1a3e);
+            margin: 0;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        .box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        input, button {
+            padding: 12px;
+            margin: 5px;
+            border-radius: 25px;
+            border: none;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+        }
+        .tool {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        .tool:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #1a1a2e;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            border-radius: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+        }
+        .close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        video, img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .preview {
+            margin: 10px 0;
+        }
+        .preview img {
+            max-height: 150px;
+        }
+        .progress {
+            height: 3px;
+            background: #333;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #667eea;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎬 Urdu Story Toons</h1>
+
+    <div class="box">
+        <input type="email" id="email" placeholder="Enter your email">
+        <button onclick="doLogin()">Sign In</button>
+        <span id="userSpan"></span>
+    </div>
+
+    <div class="tool" onclick="openTTS()">
+        <h2>🎙️ Text to Voice</h2>
+        <p>Convert text to speech</p>
+    </div>
+
+    <div class="tool" onclick="openImage()">
+        <h2>🎨 Text to Image</h2>
+        <p>Generate HD images</p>
+    </div>
+
+    <div class="tool" onclick="openVideo()">
+        <h2>🎬 Image to Video</h2>
+        <p>Create 6-second videos</p>
+    </div>
+
+    <div style="margin: 30px 0;">
+        <a href="https://youtube.com/@urdustorytoons007" target="_blank" style="background:#ff0000; padding:10px 25px; border-radius:25px; color:white; text-decoration:none;">▶️ YouTube Channel</a>
+    </div>
+
+    <p style="color:#888;">© 2026 Urdu Story Toons | Free & Unlimited</p>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        let logged = false;
+        let user = "";
+        let uploadedImage = null;
+
+        // Load saved user
+        let saved = localStorage.getItem('ustUser');
+        if(saved) {
+            logged = true;
+            user = saved;
+            document.getElementById('email').style.display = 'none';
+            document.querySelector('.box button').style.display = 'none';
+            document.getElementById('userSpan').innerHTML = '✅ Welcome ' + user;
+        }
+
+        function doLogin() {
+            let email = document.getElementById('email').value.trim();
+            if(email === "") {
+                alert("Enter email!");
+                return;
+            }
+            if(!email.includes('@')) {
+                alert("Valid email required!");
+                return;
+            }
+            logged = true;
+            user = email.split('@')[0];
+            localStorage.setItem('ustUser', user);
+            document.getElementById('email').style.display = 'none';
+            document.querySelector('.box button').style.display = 'none';
+            document.getElementById('userSpan').innerHTML = '✅ Welcome ' + user;
+            alert("Welcome " + user + "! All tools FREE!");
+        }
+
+        function checkLogin() {
+            if(!logged) {
+                alert("Please sign in first!");
+                return false;
+            }
+            return true;
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // ========== TEXT TO VOICE ==========
+        function openTTS() {
+            if(!checkLogin()) return;
+            document.getElementById('modalTitle').innerHTML = '🎙️ Text to Voice';
+            document.getElementById('modalBody').innerHTML = `
+                <textarea id="ttsText" rows="3" placeholder="Enter text..."></textarea>
+                <div class="progress"><div class="progress-fill" id="ttsP"></div></div>
+                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="genTTS()">Generate Voice</button>
+                <div id="ttsR" style="margin-top:15px;"></div>
+            `;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function genTTS() {
+            let text = document.getElementById('ttsText').value;
+            if(!text) { alert("Enter text!"); return; }
+            let prog = document.getElementById('ttsP');
+            prog.style.width = '100%';
+            let speech = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(speech);
+            document.getElementById('ttsR').innerHTML = '<p style="color:#10b981;">✅ Playing!</p>';
+            setTimeout(() => { prog.style.width = '0%'; }, 1000);
+        }
+
+        // ========== TEXT TO IMAGE ==========
+        function openImage() {
+            if(!checkLogin()) return;
+            document.getElementById('modalTitle').innerHTML = '🎨 Text to Image';
+            document.getElementById('modalBody').innerHTML = `
+                <textarea id="imgPrompt" rows="3" placeholder="Describe image..."></textarea>
+                <div class="progress"><div class="progress-fill" id="imgP"></div></div>
+                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="genImage()">Generate Image</button>
+                <div id="imgR" style="margin-top:15px;"></div>
+            `;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        async function genImage() {
+            let prompt = document.getElementById('imgPrompt').value;
+            if(!prompt) { alert("Enter prompt!"); return; }
+            let prog = document.getElementById('imgP');
+            prog.style.width = '50%';
+            document.getElementById('imgR').innerHTML = '<p>⏳ Generating...</p>';
+            try {
+                let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt);
+                prog.style.width = '100%';
+                document.getElementById('imgR').innerHTML = '<img src="' + url + '"><br><button style="margin-top:10px; padding:8px 20px;" onclick="downloadImg(\'' + url + '\')">Download</button>';
+                setTimeout(() => { prog.style.width = '0%'; }, 500);
+            } catch(e) {
+                document.getElementById('imgR').innerHTML = '<p style="color:red;">Error!</p>';
+                prog.style.width = '0%';
+            }
+        }
+
+        function downloadImg(url) {
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'image.png';
+            a.click();
+        }
+
+        // ========== IMAGE TO VIDEO ==========
+        function openVideo() {
+            if(!checkLogin()) return;
+            document.getElementById('modalTitle').innerHTML = '🎬 Image to Video';
+            document.getElementById('modalBody').innerHTML = `
+                <input type="file" id="vidFile" accept="image/*" onchange="previewVid()">
+                <div id="previewDiv" class="preview"></div>
+                <textarea id="vidPrompt" rows="3" placeholder="zoom in / zoom out / pan left / pan right"></textarea>
+                <div class="progress"><div class="progress-fill" id="vidP"></div></div>
+                <button style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:25px;" onclick="makeVideo()">Generate 6-Second Video</button>
+                <div id="vidR" style="margin-top:15px;"></div>
+            `;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function previewVid() {
+            let file = document.getElementById('vidFile').files[0];
+            if(file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImage = e.target.result;
+                    document.getElementById('previewDiv').innerHTML = '<img src="' + uploadedImage + '"><p>✅ Ready!</p>';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function makeVideo() {
+            let prompt = document.getElementById('vidPrompt').value;
+            let prog = document.getElementById('vidP');
+            let resDiv = document.getElementById('vidR');
+
+            if(!uploadedImage) { alert("Upload image first!"); return; }
+
+            prog.style.width = '20%';
+            resDiv.innerHTML = '<p>⏳ Loading...</p>';
+
+            let img = new Image();
+            img.src = uploadedImage;
+            await new Promise(r => { img.onload = r; });
+
+            prog.style.width = '40%';
+            resDiv.innerHTML = '<p>🎬 Creating video...</p>';
+
+            let canvas = document.createElement('canvas');
+            canvas.width = 800;
+            canvas.height = 450;
+            let ctx = canvas.getContext('2d');
+
+            let dw, dh, sx, sy;
+            if(img.width/img.height > 800/450) {
+                dh = 450;
+                dw = img.width * (450 / img.height);
+                sx = (800 - dw) / 2;
+                sy = 0;
+            } else {
+                dw = 800;
+                dh = img.height * (800 / img.width);
+                sx = 0;
+                sy = (450 - dh) / 2;
+            }
+
+            let stream = canvas.captureStream(24);
+            let recorder = new MediaRecorder(stream);
+            let chunks = [];
+
+            recorder.ondataavailable = e => chunks.push(e.data);
+            recorder.onstop = () => {
+                let blob = new Blob(chunks, { type: 'video/webm' });
+                let url = URL.createObjectURL(blob);
+                resDiv.innerHTML = '<video src="' + url + '" controls autoplay loop></video><br><button style="margin-top:10px; padding:8px 20px; background:#10b981; color:white; border:none; border-radius:25px;" onclick="downloadVid(\'' + url + '\')">Download</button>';
+                prog.style.width = '0%';
+            };
+
+            recorder.start();
+            let start = Date.now();
+            let p = prompt.toLowerCase();
+
+            function animate() {
+                let elapsed = (Date.now() - start) / 1000;
+                let progVal = Math.min(elapsed / 6, 1);
+                if(progVal >= 1) {
+                    recorder.stop();
+                    return;
+                }
+
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, 800, 450);
+
+                let scale = 1;
+                let x = sx, y = sy;
+
+                if(p.includes('zoom in')) {
+                    scale = 1 + progVal * 0.25;
+                    x = (800 - dw * scale) / 2;
+                    y = (450 - dh * scale) / 2;
+                }
+                else if(p.includes('pan left')) {
+                    let maxPan = dw - 800;
+                    x = sx - maxPan * progVal;
+                }
+                else if(p.includes('pan right')) {
+                    let maxPan = dw - 800;
+                    x = sx - maxPan * (1 - progVal);
+                }
+                else {
+                    scale = 1 + Math.sin(progVal * Math.PI * 2) * 0.02;
+                    x = (800 - dw * scale) / 2;
+                    y = (450 - dh * scale) / 2;
+                }
+
+                ctx.drawImage(img, x, y, dw * scale, dh * scale);
+                ctx.font = '12px Arial';
+                ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                ctx.fillText('Urdu Story Toons', 800 - 130, 440);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function downloadVid(url) {
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'video.webm';
+            a.click();
+        }
+    </script>
+</body>
+</html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
