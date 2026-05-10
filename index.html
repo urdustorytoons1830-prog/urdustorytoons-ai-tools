@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Urdu Story Toons</title>
+    <title>Urdu Story Toons - Pro AI Studio</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -11,93 +11,103 @@
             box-sizing: border-box;
         }
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0a0a2e, #1a1a3e);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
             min-height: 100vh;
-            padding: 20px;
             color: white;
         }
-        .container {
-            max-width: 1000px;
-            margin: auto;
-        }
-        h1 {
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 20px;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        .login-box {
-            background: rgba(255,255,255,0.1);
+        .header h1 {
+            font-size: 28px;
+        }
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .login-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 25px;
             text-align: center;
             margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .login-box input {
+        .login-card input {
             padding: 12px 20px;
             border-radius: 30px;
             border: none;
-            width: 250px;
+            width: 280px;
             font-size: 16px;
+            background: rgba(255,255,255,0.9);
         }
-        .login-box button {
+        .login-card button {
             padding: 12px 25px;
             border-radius: 30px;
             border: none;
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             cursor: pointer;
             font-weight: bold;
-            font-size: 16px;
+            margin-left: 10px;
         }
-        .tools-grid {
+        .welcome-text {
+            background: #10b981;
+            padding: 8px 20px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        .tools {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
-            margin-bottom: 30px;
+            margin: 30px 0;
         }
-        .tool-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
+        .tool {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
             padding: 30px;
             text-align: center;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .tool-card:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-5px);
+        .tool:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.15);
+            border-color: #667eea;
         }
         .tool-icon {
-            font-size: 50px;
+            font-size: 55px;
             margin-bottom: 15px;
         }
-        .tool-card h3 {
-            font-size: 1.5rem;
+        .tool h3 {
+            font-size: 24px;
             margin-bottom: 10px;
         }
-        /* Size selector */
-        .size-row {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 15px 0;
-            flex-wrap: wrap;
+        .tool p {
+            color: #aaa;
+            font-size: 14px;
         }
-        .size-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid #667eea;
-            padding: 8px 15px;
-            border-radius: 25px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .size-btn.active {
+        .size-badge {
+            display: inline-block;
             background: #667eea;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-top: 12px;
         }
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -111,19 +121,22 @@
             align-items: center;
         }
         .modal-content {
-            background: #1a1a2e;
+            background: #1e1e2e;
             max-width: 600px;
             width: 90%;
-            border-radius: 25px;
+            border-radius: 30px;
             padding: 25px;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
+            border: 1px solid #667eea;
         }
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
         }
         .close {
             font-size: 28px;
@@ -132,15 +145,17 @@
             border: none;
             color: white;
         }
-        textarea, input {
+        textarea, input, select {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
-            border-radius: 12px;
+            border-radius: 15px;
             border: none;
             font-size: 14px;
+            background: #2a2a3e;
+            color: white;
         }
-        .btn {
+        button {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
@@ -151,21 +166,43 @@
             font-size: 16px;
             font-weight: bold;
         }
-        .result-area {
-            margin-top: 20px;
+        .size-row {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        .size-opt {
+            background: #2a2a3e;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .size-opt.active {
+            background: #667eea;
+        }
+        .preview {
             text-align: center;
+            margin: 10px 0;
         }
-        .result-area video, .result-area img {
-            max-width: 100%;
-            border-radius: 15px;
-        }
-        .preview-img {
+        .preview img {
             max-width: 100%;
             max-height: 150px;
             border-radius: 15px;
-            margin: 10px 0;
         }
-        .progress-bar {
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .result img, .result video {
+            max-width: 100%;
+            border-radius: 15px;
+        }
+        .progress {
             height: 4px;
             background: #333;
             border-radius: 2px;
@@ -174,73 +211,85 @@
         .progress-fill {
             width: 0%;
             height: 100%;
-            background: #667eea;
+            background: linear-gradient(90deg, #667eea, #764ba2);
             border-radius: 2px;
         }
-        .youtube-link {
+        .youtube-btn {
             display: inline-block;
             background: #ff0000;
-            color: white;
             padding: 12px 30px;
-            border-radius: 30px;
+            border-radius: 40px;
             text-decoration: none;
-            text-align: center;
+            color: white;
+            font-weight: bold;
+            margin: 20px 0;
         }
         footer {
             text-align: center;
+            padding: 25px;
             color: #888;
+            border-top: 1px solid #333;
             margin-top: 30px;
-            padding: 20px;
+        }
+        @media (max-width: 768px) {
+            .login-card input { width: 100%; margin-bottom: 10px; }
+            .login-card button { width: 100%; margin-left: 0; }
+            .header h1 { font-size: 22px; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>🎬 Urdu Story Toons AI Studio</h1>
+<div class="header">
+    <h1>🎬 Urdu Story Toons | Pro AI Studio</h1>
+    <p>Text to Voice • Text to Image • Image to Video | Multiple Sizes: 9:16, 16:9, 1:1</p>
+</div>
 
+<div class="container">
     <!-- Login Section -->
-    <div class="login-box" id="loginBox">
-        <input type="email" id="emailInput" placeholder="Enter your email">
-        <button id="signInBtn">🔐 Sign In (Free)</button>
-        <span id="welcomeMsg" style="margin-left: 10px; color: #10b981;"></span>
+    <div class="login-card">
+        <input type="email" id="emailId" placeholder="Enter your email">
+        <button id="loginButton">🔐 Sign In (Free)</button>
+        <span id="userShow" style="margin-left: 10px;"></span>
     </div>
 
     <!-- Tools -->
-    <div class="tools-grid">
-        <div class="tool-card" id="ttsCard">
+    <div class="tools">
+        <div class="tool" id="toolTTS">
             <div class="tool-icon">🎙️</div>
             <h3>Text to Voice</h3>
-            <p>30+ realistic voices</p>
+            <p>30+ realistic voices | Male & Female</p>
         </div>
-        <div class="tool-card" id="imageCard">
+        <div class="tool" id="toolImage">
             <div class="tool-icon">🎨</div>
             <h3>Text to Image</h3>
-            <p>4K HD with size options</p>
+            <p>4K HD | 3 Sizes: 1:1, 16:9, 9:16</p>
+            <div class="size-badge">📐 Instagram | YouTube | Shorts</div>
         </div>
-        <div class="tool-card" id="videoCard">
+        <div class="tool" id="toolVideo">
             <div class="tool-icon">🎬</div>
             <h3>Image to Video</h3>
-            <p>9:16, 16:9, 1:1 sizes</p>
+            <p>Real Motion | 3 Sizes | 6-Second Video</p>
+            <div class="size-badge">🎥 Zoom | Pan | Orbit</div>
         </div>
     </div>
 
     <!-- YouTube -->
     <div style="text-align: center;">
-        <a href="https://youtube.com/@urdustorytoons007" target="_blank" class="youtube-link">▶️ Subscribe on YouTube</a>
+        <a href="https://youtube.com/@urdustorytoons007" target="_blank" class="youtube-btn">▶️ Subscribe on YouTube</a>
     </div>
 
     <footer>
-        <p>© 2026 Urdu Story Toons | Sizes: 9:16 (Shorts) | 16:9 (YouTube) | 1:1 (Instagram)</p>
+        <p>© 2026 Urdu Story Toons | Free & Unlimited | 10 Videos/Day Free | Sizes: 9:16 (Shorts) • 16:9 (YouTube) • 1:1 (Instagram)</p>
     </footer>
 </div>
 
 <!-- Modal -->
-<div id="toolModal" class="modal">
+<div id="myModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 id="modalTitle">Tool</h2>
-            <button class="close" id="closeModalBtn">&times;</button>
+            <button class="close" id="closeModal">&times;</button>
         </div>
         <div id="modalBody"></div>
     </div>
@@ -248,31 +297,25 @@
 
 <script>
     // ========== LOGIN SYSTEM ==========
-    let loggedIn = false;
-    let userName = "";
+    let isLogged = false;
+    let username = "";
     
-    const emailInput = document.getElementById('emailInput');
-    const signInBtn = document.getElementById('signInBtn');
-    const welcomeMsg = document.getElementById('welcomeMsg');
-    const ttsCard = document.getElementById('ttsCard');
-    const imageCard = document.getElementById('imageCard');
-    const videoCard = document.getElementById('videoCard');
-    const modal = document.getElementById('toolModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
+    const emailField = document.getElementById('emailId');
+    const loginBtn = document.getElementById('loginButton');
+    const userSpan = document.getElementById('userShow');
     
-    // Check saved user
-    let savedUser = localStorage.getItem('ust_user_simple');
-    if(savedUser) {
-        loggedIn = true;
-        userName = savedUser;
-        emailInput.style.display = 'none';
-        signInBtn.style.display = 'none';
-        welcomeMsg.innerHTML = '✅ Welcome ' + userName;
+    // Check saved
+    let saved = localStorage.getItem('ust_user_pro');
+    if(saved) {
+        isLogged = true;
+        username = saved;
+        emailField.style.display = 'none';
+        loginBtn.style.display = 'none';
+        userSpan.innerHTML = '<span class="welcome-text">✅ Welcome ' + username + '</span>';
     }
     
-    // Sign in function
-    signInBtn.onclick = function() {
-        let email = emailInput.value.trim();
+    loginBtn.onclick = function() {
+        let email = emailField.value.trim();
         if(email === "") {
             alert("Please enter your email!");
             return;
@@ -281,221 +324,223 @@
             alert("Enter valid email!");
             return;
         }
-        loggedIn = true;
-        userName = email.split('@')[0];
-        localStorage.setItem('ust_user_simple', userName);
-        emailInput.style.display = 'none';
-        signInBtn.style.display = 'none';
-        welcomeMsg.innerHTML = '✅ Welcome ' + userName;
-        alert("Welcome " + userName + "! All tools FREE!");
+        isLogged = true;
+        username = email.split('@')[0];
+        localStorage.setItem('ust_user_pro', username);
+        emailField.style.display = 'none';
+        loginBtn.style.display = 'none';
+        userSpan.innerHTML = '<span class="welcome-text">✅ Welcome ' + username + '</span>';
+        alert("Welcome " + username + "! All tools are FREE!");
     };
     
     function checkLogin() {
-        if(!loggedIn) {
+        if(!isLogged) {
             alert("Please sign in first!");
             return false;
         }
         return true;
     }
     
-    function closeModalFn() {
+    // Modal functions
+    const modal = document.getElementById('myModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    
+    closeModalBtn.onclick = function() {
         modal.style.display = 'none';
-    }
-    closeModalBtn.onclick = closeModalFn;
+    };
     window.onclick = function(e) {
-        if(e.target === modal) closeModalFn();
+        if(e.target === modal) modal.style.display = 'none';
     };
     
     // ========== TEXT TO VOICE ==========
-    ttsCard.onclick = function() {
+    document.getElementById('toolTTS').onclick = function() {
         if(!checkLogin()) return;
-        document.getElementById('modalTitle').innerHTML = '🎙️ Text to Voice';
-        document.getElementById('modalBody').innerHTML = `
+        modalTitle.innerHTML = '🎙️ Text to Voice';
+        modalBody.innerHTML = `
             <textarea id="ttsText" rows="3" placeholder="Enter your text here..."></textarea>
-            <select id="voiceSelect" style="width:100%; padding:12px; margin:10px 0; border-radius:12px;">
-                <option>👩 Sarah (Female)</option>
-                <option>👩 Emma (Female)</option>
-                <option>👩 Olivia (Female)</option>
-                <option>👨 Michael (Male)</option>
-                <option>👨 David (Male)</option>
-                <option>👨 James (Male)</option>
+            <select id="ttsVoice">
+                <option>👩 Sarah (Female)</option><option>👩 Emma (Female)</option>
+                <option>👩 Olivia (Female)</option><option>👩 Sophia (Female)</option>
+                <option>👨 Michael (Male)</option><option>👨 David (Male)</option>
+                <option>👨 James (Male)</option><option>👨 John (Male)</option>
             </select>
-            <div class="progress-bar"><div class="progress-fill" id="ttsP"></div></div>
-            <button class="btn" onclick="generateTTS()">🔊 Generate Voice</button>
-            <div id="ttsResult" class="result-area"></div>
+            <div class="progress"><div class="progress-fill" id="ttsProg"></div></div>
+            <button onclick="doTTS()">🔊 Generate Voice</button>
+            <div id="ttsRes" class="result"></div>
         `;
         modal.style.display = 'flex';
     };
     
-    function generateTTS() {
+    function doTTS() {
         let text = document.getElementById('ttsText').value;
         if(!text.trim()) { alert("Enter text!"); return; }
-        let prog = document.getElementById('ttsP');
+        let prog = document.getElementById('ttsProg');
         prog.style.width = '100%';
-        let utterance = new SpeechSynthesisUtterance(text);
-        speechSynthesis.speak(utterance);
-        document.getElementById('ttsResult').innerHTML = '<p style="color:#10b981;">✅ Voice playing!</p>';
-        setTimeout(() => { prog.style.width = '0%'; }, 1000);
+        let speech = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(speech);
+        document.getElementById('ttsRes').innerHTML = '<p style="color:#10b981;">✅ Voice playing!</p>';
+        setTimeout(() => prog.style.width = '0%', 1000);
     }
     
-    // ========== TEXT TO IMAGE WITH SIZE ==========
-    let selectedImageSize = "1024x1024";
-    let imageSizeName = "1:1 (Instagram)";
+    // ========== TEXT TO IMAGE with SIZES ==========
+    let imgSizeW = 1024;
+    let imgSizeH = 1024;
+    let imgSizeName = "1:1 (Instagram)";
     
-    imageCard.onclick = function() {
+    document.getElementById('toolImage').onclick = function() {
         if(!checkLogin()) return;
-        document.getElementById('modalTitle').innerHTML = '🎨 Text to Image';
-        document.getElementById('modalBody').innerHTML = `
+        modalTitle.innerHTML = '🎨 Text to Image';
+        modalBody.innerHTML = `
             <div class="size-row">
-                <div class="size-btn" onclick="setImageSize('1024x1024','1:1 (Instagram)',this)"><i class="fas fa-square"></i> 1:1 Instagram</div>
-                <div class="size-btn" onclick="setImageSize('1792x1024','16:9 (YouTube)',this)"><i class="fas fa-tv"></i> 16:9 YouTube</div>
-                <div class="size-btn" onclick="setImageSize('1024x1792','9:16 (Shorts)',this)"><i class="fas fa-mobile-alt"></i> 9:16 Shorts</div>
+                <div class="size-opt" onclick="setImgSize(1024,1024,'1:1 (Instagram)',this)"><i class="fas fa-square"></i> 1:1 Instagram</div>
+                <div class="size-opt" onclick="setImgSize(1920,1080,'16:9 (YouTube)',this)"><i class="fas fa-tv"></i> 16:9 YouTube</div>
+                <div class="size-opt" onclick="setImgSize(1080,1920,'9:16 (Shorts)',this)"><i class="fas fa-mobile-alt"></i> 9:16 Shorts</div>
             </div>
-            <textarea id="imgPrompt" rows="3" placeholder="Describe the image... Example: warrior on horse, sunset, cinematic"></textarea>
-            <div class="progress-bar"><div class="progress-fill" id="imgP"></div></div>
-            <button class="btn" onclick="generateImage()">✨ Generate ${imageSizeName}</button>
-            <div id="imgResult" class="result-area"></div>
+            <textarea id="imgPrompt" rows="3" placeholder="Describe the image... Example: warrior on white horse, desert, cinematic lighting"></textarea>
+            <div class="progress"><div class="progress-fill" id="imgProg"></div></div>
+            <button onclick="doImage()">✨ Generate ${imgSizeName}</button>
+            <div id="imgRes" class="result"></div>
         `;
-        document.getElementById('modalBody').innerHTML += `<p style="font-size:12px; color:#888; margin-top:10px;">Selected: ${imageSizeName}</p>`;
         modal.style.display = 'flex';
     };
     
-    function setImageSize(size, name, el) {
-        selectedImageSize = size;
-        imageSizeName = name;
-        document.querySelectorAll('#modalBody .size-btn').forEach(btn => btn.classList.remove('active'));
+    function setImgSize(w, h, name, el) {
+        imgSizeW = w;
+        imgSizeH = h;
+        imgSizeName = name;
+        document.querySelectorAll('#modalBody .size-opt').forEach(btn => btn.classList.remove('active'));
         el.classList.add('active');
     }
     
-    async function generateImage() {
+    async function doImage() {
         let prompt = document.getElementById('imgPrompt').value;
         if(!prompt.trim()) { alert("Enter prompt!"); return; }
-        let prog = document.getElementById('imgP');
-        let res = document.getElementById('imgResult');
+        let prog = document.getElementById('imgProg');
+        let resDiv = document.getElementById('imgRes');
         prog.style.width = '50%';
-        res.innerHTML = '<p>⏳ Generating ' + imageSizeName + ' image...</p>';
+        resDiv.innerHTML = '<p>⏳ Generating ' + imgSizeName + ' image...</p>';
         try {
-            let wh = selectedImageSize.split('x');
-            let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=' + wh[0] + '&height=' + wh[1] + '&nologo=true';
+            let url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) + '?width=' + imgSizeW + '&height=' + imgSizeH + '&nologo=true';
             prog.style.width = '100%';
-            res.innerHTML = '<img src="' + url + '"><br><button onclick="downloadImage(\'' + url + '\')" style="margin-top:10px; padding:10px 20px; background:#10b981; border:none; border-radius:25px; color:white; cursor:pointer;">💾 Download</button>';
-            setTimeout(() => { prog.style.width = '0%'; }, 500);
+            resDiv.innerHTML = '<img src="' + url + '"><br><button onclick="downloadImg(\'' + url + '\')" style="margin-top:10px; background:#10b981;">💾 Download</button>';
+            setTimeout(() => prog.style.width = '0%', 500);
         } catch(e) {
-            res.innerHTML = '<p style="color:red;">Error! Try again.</p>';
+            resDiv.innerHTML = '<p style="color:red;">Error!</p>';
             prog.style.width = '0%';
         }
     }
     
-    function downloadImage(url) {
+    function downloadImg(url) {
         let a = document.createElement('a');
         a.href = url;
         a.download = 'image.png';
         a.click();
     }
     
-    // ========== IMAGE TO VIDEO WITH SIZE ==========
-    let selectedVideoWidth = 1080;
-    let selectedVideoHeight = 1920;
-    let videoSizeName = "9:16 (YouTube Shorts)";
-    let uploadedVideoImage = null;
+    // ========== IMAGE TO VIDEO ==========
+    let vidW = 1080;
+    let vidH = 1920;
+    let vidSizeName = "9:16 (YouTube Shorts)";
+    let uploadedImg = null;
     
-    videoCard.onclick = function() {
+    document.getElementById('toolVideo').onclick = function() {
         if(!checkLogin()) return;
-        document.getElementById('modalTitle').innerHTML = '🎬 Image to Video';
-        document.getElementById('modalBody').innerHTML = `
+        modalTitle.innerHTML = '🎬 Image to Video';
+        modalBody.innerHTML = `
             <div class="size-row">
-                <div class="size-btn" onclick="setVideoSize(1080,1920,'9:16 (YouTube Shorts)',this)"><i class="fas fa-mobile-alt"></i> 9:16 Shorts</div>
-                <div class="size-btn" onclick="setVideoSize(1920,1080,'16:9 (YouTube Video)',this)"><i class="fas fa-tv"></i> 16:9 YouTube</div>
-                <div class="size-btn" onclick="setVideoSize(1080,1080,'1:1 (Instagram)',this)"><i class="fas fa-square"></i> 1:1 Instagram</div>
+                <div class="size-opt" onclick="setVidSize(1080,1920,'9:16 (Shorts)',this)"><i class="fas fa-mobile-alt"></i> 9:16 Shorts</div>
+                <div class="size-opt" onclick="setVidSize(1920,1080,'16:9 (YouTube)',this)"><i class="fas fa-tv"></i> 16:9 YouTube</div>
+                <div class="size-opt" onclick="setVidSize(1080,1080,'1:1 (Instagram)',this)"><i class="fas fa-square"></i> 1:1 Instagram</div>
             </div>
-            <input type="file" id="vidFile" accept="image/*" onchange="previewVideoImage()">
-            <div id="previewDiv" style="text-align:center; margin:10px 0;"></div>
+            <input type="file" id="vidFile" accept="image/*" onchange="previewVidImg()">
+            <div id="vidPreview" class="preview"></div>
             <textarea id="vidPrompt" rows="3" placeholder="Motion: zoom in, zoom out, pan left, pan right, orbit"></textarea>
-            <div class="progress-bar"><div class="progress-fill" id="vidP"></div></div>
-            <button class="btn" onclick="generateVideo()">🎥 Generate ${videoSizeName} Video</button>
-            <div id="vidResult" class="result-area"></div>
-            <p style="font-size:12px; color:#888; margin-top:10px;">Selected: ${videoSizeName}</p>
+            <div class="progress"><div class="progress-fill" id="vidProg"></div></div>
+            <button onclick="doVideo()">🎥 Generate 6-Second Video (${vidSizeName})</button>
+            <div id="vidRes" class="result"></div>
         `;
         modal.style.display = 'flex';
     };
     
-    function setVideoSize(w, h, name, el) {
-        selectedVideoWidth = w;
-        selectedVideoHeight = h;
-        videoSizeName = name;
-        document.querySelectorAll('#modalBody .size-btn').forEach(btn => btn.classList.remove('active'));
+    function setVidSize(w, h, name, el) {
+        vidW = w;
+        vidH = h;
+        vidSizeName = name;
+        document.querySelectorAll('#modalBody .size-opt').forEach(btn => btn.classList.remove('active'));
         el.classList.add('active');
     }
     
-    function previewVideoImage() {
+    function previewVidImg() {
         let file = document.getElementById('vidFile').files[0];
         if(file) {
             let reader = new FileReader();
             reader.onload = function(e) {
-                uploadedVideoImage = e.target.result;
-                document.getElementById('previewDiv').innerHTML = '<img src="' + uploadedVideoImage + '" class="preview-img"><p style="color:#10b981;">✅ Image ready for ' + videoSizeName + '</p>';
+                uploadedImg = e.target.result;
+                document.getElementById('vidPreview').innerHTML = '<img src="' + uploadedImg + '"><p style="color:#10b981;">✅ Image ready for ' + vidSizeName + '</p>';
             };
             reader.readAsDataURL(file);
         }
     }
     
-    async function generateVideo() {
+    async function doVideo() {
         let prompt = document.getElementById('vidPrompt').value;
-        let prog = document.getElementById('vidP');
-        let resDiv = document.getElementById('vidResult');
+        let prog = document.getElementById('vidProg');
+        let resDiv = document.getElementById('vidRes');
         
-        if(!uploadedVideoImage) { alert("Upload image first!"); return; }
+        if(!uploadedImg) { alert("Upload image first!"); return; }
         
         prog.style.width = '20%';
-        resDiv.innerHTML = '<p>⏳ Loading image...</p>';
+        resDiv.innerHTML = '<p>⏳ Loading...</p>';
         
         let img = new Image();
-        img.src = uploadedVideoImage;
+        img.src = uploadedImg;
         await new Promise(r => { img.onload = r; });
         
         prog.style.width = '40%';
-        resDiv.innerHTML = '<p>🎬 Creating ' + videoSizeName + ' video...</p>';
+        resDiv.innerHTML = '<p>🎬 Creating ' + vidSizeName + ' video...</p>';
         
         let canvas = document.createElement('canvas');
-        canvas.width = selectedVideoWidth;
-        canvas.height = selectedVideoHeight;
+        canvas.width = vidW;
+        canvas.height = vidH;
         let ctx = canvas.getContext('2d');
         
-        // Fit image to canvas
+        // Fit image
         let dw, dh, sx, sy;
         let imgRatio = img.width / img.height;
-        let canRatio = selectedVideoWidth / selectedVideoHeight;
+        let canRatio = vidW / vidH;
         
         if(imgRatio > canRatio) {
-            dh = selectedVideoHeight;
-            dw = img.width * (selectedVideoHeight / img.height);
-            sx = (selectedVideoWidth - dw) / 2;
+            dh = vidH;
+            dw = img.width * (vidH / img.height);
+            sx = (vidW - dw) / 2;
             sy = 0;
         } else {
-            dw = selectedVideoWidth;
-            dh = img.height * (selectedVideoWidth / img.width);
+            dw = vidW;
+            dh = img.height * (vidW / img.width);
             sx = 0;
-            sy = (selectedVideoHeight - dh) / 2;
+            sy = (vidH - dh) / 2;
         }
         
         let stream = canvas.captureStream(24);
-        let recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+        let recorder = new MediaRecorder(stream);
         let chunks = [];
         
         recorder.ondataavailable = e => chunks.push(e.data);
         recorder.onstop = () => {
             let blob = new Blob(chunks, { type: 'video/webm' });
             let url = URL.createObjectURL(blob);
-            resDiv.innerHTML = '<video src="' + url + '" controls autoplay loop style="max-width:100%; border-radius:15px;"></video><br><button onclick="downloadVideo(\'' + url + '\')" style="margin-top:10px; padding:10px 20px; background:#10b981; border:none; border-radius:25px; color:white; cursor:pointer;">💾 Download Video (' + videoSizeName + ')</button>';
+            resDiv.innerHTML = '<video src="' + url + '" controls autoplay loop style="max-width:100%; border-radius:15px;"></video><br><button onclick="downloadVid(\'' + url + '\')" style="margin-top:10px; background:#10b981;">💾 Download Video (' + vidSizeName + ')</button>';
             prog.style.width = '0%';
         };
         
         recorder.start();
-        let startTime = Date.now();
+        let start = Date.now();
         let p = prompt.toLowerCase();
         
         function animate() {
-            let elapsed = (Date.now() - startTime) / 1000;
+            let elapsed = (Date.now() - start) / 1000;
             let progVal = Math.min(elapsed / 6, 1);
             if(progVal >= 1) {
                 recorder.stop();
@@ -503,41 +548,29 @@
             }
             
             ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, selectedVideoWidth, selectedVideoHeight);
+            ctx.fillRect(0, 0, vidW, vidH);
             
             let scale = 1;
             let x = sx, y = sy;
             
             if(p.includes('zoom in')) {
                 scale = 1 + progVal * 0.25;
-                x = (selectedVideoWidth - dw * scale) / 2;
-                y = (selectedVideoHeight - dh * scale) / 2;
+                x = (vidW - dw * scale) / 2;
+                y = (vidH - dh * scale) / 2;
             }
             else if(p.includes('zoom out')) {
                 scale = 1 + (1 - progVal) * 0.2;
-                x = (selectedVideoWidth - dw * scale) / 2;
-                y = (selectedVideoHeight - dh * scale) / 2;
+                x = (vidW - dw * scale) / 2;
+                y = (vidH - dh * scale) / 2;
             }
             else if(p.includes('pan left')) {
-                let maxPan = dw - selectedVideoWidth;
+                let maxPan = dw - vidW;
                 x = sx - maxPan * progVal;
             }
             else if(p.includes('pan right')) {
-                let maxPan = dw - selectedVideoWidth;
+                let maxPan = dw - vidW;
                 x = sx - maxPan * (1 - progVal);
             }
             else if(p.includes('orbit')) {
                 scale = 1 + Math.sin(progVal * Math.PI) * 0.08;
-                x = (selectedVideoWidth - dw * scale) / 2 + Math.sin(progVal * Math.PI * 2) * 40;
-                y = (selectedVideoHeight - dh * scale) / 2;
-            }
-            else {
-                scale = 1 + Math.sin(progVal * Math.PI * 2) * 0.02;
-                x = (selectedVideoWidth - dw * scale) / 2;
-                y = (selectedVideoHeight - dh * scale) / 2;
-            }
-            
-            ctx.drawImage(img, x, y, dw * scale, dh * scale);
-            ctx.font = '12px Arial';
-            ctx.fillStyle = 'rgba(255,255,255,0.5)';
-            ctx.fillText('Urdu Story Too
+                x = (vidW - dw * scale) / 2 + Math.si
